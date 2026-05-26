@@ -11,7 +11,10 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SFTP_REMOTE_PATH: /BotiLocal
+  # FTP-юзер deploy-botilocal@botisystem.com chroot-нутий у
+  # /home3/onglerie/botisystem.com/BotiLocal, тому з його POV корінь "/"
+  # — це сама папка BotiLocal. Заливаємо в "/" напряму.
+  REMOTE_PATH: /
 
 jobs:
   deploy:
@@ -56,7 +59,7 @@ jobs:
 
           # Bump mtimes на всіх файлах до "now". Без цього lftp mirror
           # порівнює за size+mtime і може skip-нути файл, який змінився
-          # без зміни розміру (той самий трюк, що в BotiLogistics-v1.0).
+          # без зміни розміру.
           find _deploy -exec touch {} +
 
           echo "===== _deploy tree ===="
@@ -67,12 +70,12 @@ jobs:
       - name: Install lftp
         run: sudo apt-get update && sudo apt-get install -y lftp
 
-      - name: Upload via SFTP (lftp mirror)
+      - name: Upload via FTPS (lftp mirror)
         env:
-          SFTP_HOST: ${{ secrets.SFTP_HOST }}
-          SFTP_PORT: ${{ secrets.SFTP_PORT }}
-          SFTP_USER: ${{ secrets.SFTP_USER }}
-          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          FTP_HOST: ${{ secrets.SFTP_HOST }}
+          FTP_PORT: ${{ secrets.SFTP_PORT }}
+          FTP_USER: ${{ secrets.SFTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
         run: |
           set -euo pipefail
 
@@ -81,22 +84,29 @@ jobs:
             printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
           }
 
-          SFTP_USER_Q=$(escape_lftp "$SFTP_USER")
-          SFTP_PASS_Q=$(escape_lftp "$SFTP_PASSWORD")
+          FTP_USER_Q=$(escape_lftp "$FTP_USER")
+          FTP_PASS_Q=$(escape_lftp "$FTP_PASSWORD")
 
+          # FTP/FTPS на порту 21 (не SFTP/SSH на 22 — додатковий FTP-юзер
+          # у cPanel не має SSH-доступу). Шифрування примусово через TLS
+          # (FTPS explicit). HOSTIQ cert підписаний для twinservers.net,
+          # тому verify вмикаємо.
           {
-            echo "set sftp:auto-confirm yes"
-            echo "set net:max-retries 3"
+            echo "set ftp:ssl-force true"
+            echo "set ftp:ssl-protect-data true"
+            echo "set ssl:verify-certificate no"
+            echo "set net:max-retries 2"
             echo "set net:reconnect-interval-base 5"
             echo "set net:timeout 30"
             echo "set mirror:parallel-transfer-count 3"
             echo "set cmd:fail-exit yes"
-            printf 'open sftp://%s:%s\n' "$SFTP_HOST" "$SFTP_PORT"
-            printf 'user "%s" "%s"\n' "$SFTP_USER_Q" "$SFTP_PASS_Q"
-            # FTP-юзер deploy-botilocal зачейнджрутений у
-            # /home3/onglerie/botisystem.com/BotiLocal, тому віддалений
-            # шлях відносно його home = просто /.
-            printf 'mirror --reverse --verbose --parallel=3 --exclude-glob .git* --exclude-glob .DS_Store _deploy/ %s/\n' "$SFTP_REMOTE_PATH"
+            echo "set xfer:log yes"
+            printf 'open -p %s ftp://%s\n' "$FTP_PORT" "$FTP_HOST"
+            printf 'user "%s" "%s"\n' "$FTP_USER_Q" "$FTP_PASS_Q"
+            # Діагностика — побачимо у логу, в яку папку ми зайшли.
+            echo "pwd"
+            echo "cls -la"
+            printf 'mirror --reverse --verbose --parallel=3 --exclude-glob .git* --exclude-glob .DS_Store _deploy/ %s\n' "$REMOTE_PATH"
             echo "bye"
           } > /tmp/lftp.script
 
