@@ -24,6 +24,7 @@
     "unavailable": "Unavailable",
     "search": "Search dishes…",
     "noResults": "No results",
+    "allergens": "Allergens",
     "tenantNotFound": "Restaurant not found"
   },
   "admin": {

@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '@/features/auth/ProtectedRoute';
 
 import MenuPage from '@/features/menu/pages/MenuPage';
-import ItemDetailPage from '@/features/menu/pages/ItemDetailPage';
 
 import LoginPage from '@/features/admin/pages/LoginPage';
 import DashboardPage from '@/features/admin/pages/DashboardPage';
@@ -18,9 +17,9 @@ export default function AppRouter() {
       {/* Кореневий редірект — поки що демо-тенант. Пізніше landing. */}
       <Route path="/" element={<Navigate to="/menu/paddys" replace />} />
 
-      {/* Публічне меню */}
+      {/* Публічне меню. Deep-link /item/:itemId відкриває модалку зверху того ж MenuPage. */}
       <Route path="/menu/:slug" element={<MenuPage />} />
-      <Route path="/menu/:slug/item/:itemId" element={<ItemDetailPage />} />
+      <Route path="/menu/:slug/item/:itemId" element={<MenuPage />} />
 
       {/* Адмін-панель */}
       <Route path="/admin/login" element={<LoginPage />} />

@@ -24,6 +24,7 @@
     "unavailable": "No disponible",
     "search": "Buscar plato…",
     "noResults": "Sin resultados",
+    "allergens": "Alérgenos",
     "tenantNotFound": "Restaurante no encontrado"
   },
   "admin": {

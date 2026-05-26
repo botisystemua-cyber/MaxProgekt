@@ -24,6 +24,7 @@
     "unavailable": "Закончилось",
     "search": "Найти блюдо…",
     "noResults": "Ничего не найдено",
+    "allergens": "Аллергены",
     "tenantNotFound": "Заведение не найдено"
   },
   "admin": {

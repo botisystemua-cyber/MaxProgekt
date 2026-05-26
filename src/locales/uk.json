@@ -24,6 +24,7 @@
     "unavailable": "Закінчилось",
     "search": "Знайти страву…",
     "noResults": "Нічого не знайдено",
+    "allergens": "Алергени",
     "tenantNotFound": "Заклад не знайдено"
   },
   "admin": {
