@@ -97,7 +97,7 @@ export function LanguageSwitcher({ available }: Props) {
       {open ? (
         <ul
           role="menu"
-          className="animate-pop-in absolute right-0 top-full z-40 mt-2 w-44 overflow-hidden rounded-2xl bg-white py-1 shadow-raised ring-1 ring-slate-900/5"
+          className="animate-pop-in absolute right-0 top-full z-[60] mt-2 w-44 overflow-hidden rounded-2xl bg-white py-1 shadow-raised ring-1 ring-slate-900/5"
         >
           {available.map((lang) => {
             const info = langs[lang];

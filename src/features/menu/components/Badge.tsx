@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
-  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
+  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
 }
 
 const variantClass: Record<NonNullable<Props['variant']>, string> = {
@@ -11,6 +11,7 @@ const variantClass: Record<NonNullable<Props['variant']>, string> = {
   success: 'bg-emerald-100 text-emerald-700',
   warning: 'bg-amber-100 text-amber-800',
   danger: 'bg-rose-100 text-rose-700',
+  info: 'bg-sky-100 text-sky-700',
 };
 
 export function Badge({ children, variant = 'default' }: Props) {
