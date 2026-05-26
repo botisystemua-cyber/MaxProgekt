@@ -14,7 +14,7 @@ import { SearchBar } from '../components/SearchBar';
 import { CategoryTabs } from '../components/CategoryTabs';
 import { MenuItemCard } from '../components/MenuItemCard';
 import { MenuItemModal } from '../components/MenuItemModal';
-import { DailySpecialBanner } from '../components/DailySpecialBanner';
+import { SpecialsTicker } from '../components/SpecialsTicker';
 import { RestaurantFooter } from '../components/RestaurantFooter';
 import { MenuSkeleton } from '../components/Skeleton';
 
@@ -92,11 +92,6 @@ export default function MenuPage() {
     )[0];
   }, [data]);
 
-  const specialItem = useMemo(() => {
-    if (!activeSpecial || !data) return undefined;
-    return data.items.find((i) => i.id === activeSpecial.menu_item_id);
-  }, [activeSpecial, data]);
-
   function handleOpenItem(item: MenuItem) {
     setOpenItem(item);
     if (slug) navigate(`/menu/${slug}/item/${item.id}`, { replace: false });
@@ -136,10 +131,6 @@ export default function MenuPage() {
     '--color-brand-secondary': tenant.secondary_color,
   } as React.CSSProperties;
 
-  // Знайдений special-страву показуємо у банері, але приховуємо її окрему картку
-  // у списку — інакше вона дублюється (банер + картка).
-  const specialItemId = activeSpecial?.menu_item_id;
-
   return (
     <div
       style={style}
@@ -149,7 +140,19 @@ export default function MenuPage() {
         <LanguageSwitcher available={tenant.available_languages} />
       </RestaurantHeader>
 
-      <div className="sticky top-0 z-30 -mt-4 bg-gradient-to-b from-slate-50 via-slate-50 to-slate-50/95 px-5 pb-3 pt-4 backdrop-blur-md">
+      {data && data.specials.length > 0 ? (
+        <SpecialsTicker
+          specials={data.specials}
+          items={data.items}
+          translations={data.itemTranslations}
+          language={language}
+          fallbackLanguage={fallbackLang}
+          currency={currency}
+          onItemClick={handleOpenItem}
+        />
+      ) : null}
+
+      <div className="sticky top-0 z-30 bg-gradient-to-b from-slate-50 via-slate-50 to-slate-50/95 px-5 pb-3 pt-4 backdrop-blur-md">
         <SearchBar value={search} onChange={setSearch} />
         {!search ? (
           <div className="mt-3.5">
@@ -165,21 +168,7 @@ export default function MenuPage() {
         ) : null}
       </div>
 
-      <section className="flex-1 px-5 pt-5">
-        {activeSpecial && specialItem && !search ? (
-          <div className="mb-5">
-            <DailySpecialBanner
-              special={activeSpecial}
-              item={specialItem}
-              translations={data?.itemTranslations ?? []}
-              language={language}
-              fallbackLanguage={fallbackLang}
-              currency={currency}
-              onClick={() => handleOpenItem(specialItem)}
-            />
-          </div>
-        ) : null}
-
+      <section className="flex-1 px-5 pt-3">
         {menuError ? (
           <p className="rounded-xl bg-rose-50 p-4 text-sm text-rose-700">
             {t('common.error')}: {menuError.message}
@@ -189,7 +178,6 @@ export default function MenuPage() {
         ) : (
           <ul className="space-y-3 pb-6">
             {filteredItems
-              .filter((i) => search || i.id !== specialItemId)
               .map((item) => (
                 <li key={item.id}>
                   <MenuItemCard

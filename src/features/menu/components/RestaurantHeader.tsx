@@ -12,7 +12,6 @@ export function RestaurantHeader({ tenant, children }: Props) {
     <header
       className="safe-top relative isolate overflow-hidden text-white"
       style={{
-        // Базовий бренд-фон + radial-glow зверху додають об'єму без cover.
         backgroundColor: tenant.secondary_color,
         backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 0%, ${tenant.primary_color}40, transparent 70%)`,
       }}
@@ -29,55 +28,46 @@ export function RestaurantHeader({ tenant, children }: Props) {
         </>
       ) : null}
 
-      <div className="relative px-5 pb-8 pt-5">
-        {children ? (
-          <div className="mb-5 flex items-center justify-end gap-2">{children}</div>
-        ) : null}
+      <div className="relative flex items-center gap-3 px-4 py-3">
+        {tenant.logo_url ? (
+          <img
+            src={tenant.logo_url}
+            alt={`${tenant.name} logo`}
+            className="h-11 w-11 shrink-0 rounded-xl bg-white/10 object-cover shadow-raised ring-1 ring-white/30"
+          />
+        ) : (
+          <div
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-lg font-bold text-white shadow-raised ring-1 ring-white/30"
+            style={{
+              background: `linear-gradient(135deg, ${tenant.primary_color}, ${tenant.primary_color}cc)`,
+            }}
+          >
+            {tenant.name.charAt(0)}
+          </div>
+        )}
 
-        <div className="flex items-start gap-4">
-          {tenant.logo_url ? (
-            <img
-              src={tenant.logo_url}
-              alt={`${tenant.name} logo`}
-              className="h-16 w-16 shrink-0 rounded-2xl bg-white/10 object-cover shadow-raised ring-1 ring-white/30"
-            />
-          ) : (
-            <div
-              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-2xl font-bold text-white shadow-raised ring-1 ring-white/30"
-              style={{
-                background: `linear-gradient(135deg, ${tenant.primary_color}, ${tenant.primary_color}cc)`,
-              }}
-            >
-              {tenant.name.charAt(0)}
-            </div>
-          )}
-
-          <div className="min-w-0 flex-1 pt-1">
-            <h1 className="text-2xl font-bold leading-tight tracking-tight">{tenant.name}</h1>
-            {tenant.tagline ? (
-              <p className="mt-1 text-sm text-white/75">{tenant.tagline}</p>
-            ) : null}
+        <div className="min-w-0 flex-1">
+          <h1 className="truncate text-base font-bold leading-tight tracking-tight">
+            {tenant.name}
+          </h1>
+          <div className="mt-0.5 flex items-center gap-2 text-[11px] text-white/70">
+            {tenant.tagline ? <span className="truncate">{tenant.tagline}</span> : null}
             {tenant.rating !== null ? (
-              <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-xs font-semibold backdrop-blur ring-1 ring-white/15">
-                <span className="text-amber-300">★</span>
-                <span>{tenant.rating.toFixed(1)}</span>
-                {tenant.reviews > 0 ? (
-                  <span className="text-white/60">({tenant.reviews.toLocaleString()})</span>
-                ) : null}
-              </div>
+              <>
+                <span aria-hidden className="opacity-40">·</span>
+                <span className="flex shrink-0 items-center gap-0.5">
+                  <span className="text-amber-300">★</span>
+                  <span className="font-semibold tabular-nums text-white">
+                    {tenant.rating.toFixed(1)}
+                  </span>
+                </span>
+              </>
             ) : null}
           </div>
         </div>
 
-        {tenant.description ? (
-          <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-white/85">
-            {tenant.description}
-          </p>
-        ) : null}
+        {children ? <div className="shrink-0">{children}</div> : null}
       </div>
-
-      {/* Декоративна нижня хвиля для м'якого переходу до контенту */}
-      <div className="relative h-4 bg-gradient-to-b from-transparent to-slate-50" />
     </header>
   );
 }

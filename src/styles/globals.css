@@ -86,3 +86,22 @@
     animation: none !important;
   }
 }
+
+/* --------------------------------------------------------------------
+ * Бігучий рядок з акціями / блюдом дня (SpecialsTicker). Контент
+ * дублюється у JSX, тому translateX(-50%) дає безшовну петлю.
+ * Пауза на hover — даємо встигнути прочитати акцію.
+ * -------------------------------------------------------------------- */
+.ticker-track {
+  animation: ticker-scroll 36s linear infinite;
+}
+.ticker-strip:hover .ticker-track {
+  animation-play-state: paused;
+}
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
