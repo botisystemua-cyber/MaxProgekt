@@ -6,6 +6,7 @@ import type {
   MenuItemTranslation,
 } from '@/shared/types/database';
 import { translateMenuItem } from '../utils/translate';
+import { useCartStore } from '@/shared/stores/cartStore';
 import { Badge } from './Badge';
 
 interface Props {
@@ -38,12 +39,48 @@ export function MenuItemCard({
       : basePrice);
   const hasDiscount = finalPrice < basePrice;
 
+  const qty = useCartStore((s) => s.lines[item.id]?.qty ?? 0);
+  const addToCart = useCartStore((s) => s.add);
+  const increment = useCartStore((s) => s.increment);
+  const decrement = useCartStore((s) => s.decrement);
+
+  function handleAdd(e: React.MouseEvent) {
+    e.stopPropagation();
+    addToCart({
+      id: item.id,
+      name,
+      price: finalPrice,
+      currency,
+      imageUrl: item.image_url,
+    });
+  }
+
+  function handleInc(e: React.MouseEvent) {
+    e.stopPropagation();
+    increment(item.id);
+  }
+
+  function handleDec(e: React.MouseEvent) {
+    e.stopPropagation();
+    decrement(item.id);
+  }
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={!item.is_available}
-      className="group relative flex w-full items-stretch gap-4 overflow-hidden rounded-3xl bg-white p-3.5 text-left shadow-soft ring-1 ring-slate-200/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-raised active:scale-[0.98] disabled:opacity-50"
+    <article
+      onClick={item.is_available ? onClick : undefined}
+      onKeyDown={(e) => {
+        if (!item.is_available) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role="button"
+      tabIndex={item.is_available ? 0 : -1}
+      aria-disabled={!item.is_available}
+      className={`group relative flex w-full cursor-pointer items-stretch gap-4 overflow-hidden rounded-3xl bg-white p-3.5 text-left shadow-soft ring-1 ring-slate-200/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-raised focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary active:scale-[0.98] ${
+        !item.is_available ? 'opacity-50' : ''
+      }`}
     >
       <div className="relative shrink-0">
         {item.image_url ? (
@@ -69,9 +106,7 @@ export function MenuItemCard({
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="line-clamp-1 text-base font-bold text-slate-900">{name}</h3>
-        </div>
+        <h3 className="line-clamp-1 text-base font-bold text-slate-900">{name}</h3>
 
         {description ? (
           <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-slate-500">
@@ -102,11 +137,50 @@ export function MenuItemCard({
                 hasDiscount ? 'text-rose-600' : 'text-slate-900'
               }`}
             >
-              {finalPrice.toFixed(2)} <span className="text-xs font-semibold text-slate-400">{currency}</span>
+              {finalPrice.toFixed(2)}{' '}
+              <span className="text-xs font-semibold text-slate-400">{currency}</span>
             </span>
           </div>
         </div>
       </div>
-    </button>
+
+      {/* Quick-add контроли — над карткою, не triггерять onClick */}
+      {item.is_available ? (
+        <div className="absolute bottom-3 right-3">
+          {qty > 0 ? (
+            <div className="flex items-center gap-1 rounded-full bg-white p-1 shadow-raised ring-1 ring-slate-200">
+              <button
+                type="button"
+                onClick={handleDec}
+                aria-label="−"
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-slate-700 active:scale-90"
+              >
+                −
+              </button>
+              <span className="min-w-[16px] text-center text-sm font-bold tabular-nums">
+                {qty}
+              </span>
+              <button
+                type="button"
+                onClick={handleInc}
+                aria-label="+"
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-primary text-white active:scale-90"
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAdd}
+              aria-label={t('cart.add')}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-primary text-xl font-bold text-white shadow-raised ring-1 ring-black/5 transition-all hover:scale-110 active:scale-95"
+            >
+              +
+            </button>
+          )}
+        </div>
+      ) : null}
+    </article>
   );
 }

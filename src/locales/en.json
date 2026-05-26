@@ -27,6 +27,18 @@
     "allergens": "Allergens",
     "tenantNotFound": "Restaurant not found"
   },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "emptyHint": "Add dishes from the menu",
+    "add": "Add",
+    "total": "Total",
+    "clear": "Clear",
+    "showServer": "Call server",
+    "serverInstructions": "Show this screen to your server",
+    "items_one": "{{count}} dish",
+    "items_other": "{{count}} dishes"
+  },
   "admin": {
     "login": "Sign in",
     "email": "Email",

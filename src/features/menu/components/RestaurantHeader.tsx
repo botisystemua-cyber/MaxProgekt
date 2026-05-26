@@ -10,22 +10,24 @@ export function RestaurantHeader({ tenant, children }: Props) {
 
   return (
     <header
-      className="safe-top relative isolate overflow-hidden text-white"
+      className="safe-top relative isolate text-white"
       style={{
         backgroundColor: tenant.secondary_color,
         backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 0%, ${tenant.primary_color}40, transparent 70%)`,
       }}
     >
+      {/* Cover image у власному overflow-hidden контейнері, щоб не обрізати
+          dropdown LanguageSwitcher який вилазить нижче header. */}
       {cover ? (
-        <>
+        <div className="absolute inset-0 -z-10 overflow-hidden">
           <img
             src={cover}
             alt=""
-            className="absolute inset-0 -z-10 h-full w-full object-cover opacity-50"
+            className="h-full w-full object-cover opacity-50"
             loading="eager"
           />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-black/30 to-black/80" />
-        </>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/80" />
+        </div>
       ) : null}
 
       <div className="relative flex items-center gap-3 px-4 py-3">

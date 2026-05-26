@@ -27,6 +27,18 @@
     "allergens": "Allergene",
     "tenantNotFound": "Restaurant nicht gefunden"
   },
+  "cart": {
+    "title": "Warenkorb",
+    "empty": "Ihr Warenkorb ist leer",
+    "emptyHint": "Fügen Sie Gerichte aus der Speisekarte hinzu",
+    "add": "Hinzufügen",
+    "total": "Gesamt",
+    "clear": "Leeren",
+    "showServer": "Kellner rufen",
+    "serverInstructions": "Zeigen Sie diesen Bildschirm Ihrem Kellner",
+    "items_one": "{{count}} Gericht",
+    "items_other": "{{count}} Gerichte"
+  },
   "admin": {
     "login": "Anmelden",
     "email": "E-Mail",

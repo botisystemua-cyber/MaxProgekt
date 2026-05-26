@@ -27,6 +27,18 @@
     "allergens": "Alérgenos",
     "tenantNotFound": "Restaurante no encontrado"
   },
+  "cart": {
+    "title": "Cesta",
+    "empty": "Tu cesta está vacía",
+    "emptyHint": "Añade platos del menú",
+    "add": "Añadir",
+    "total": "Total",
+    "clear": "Vaciar",
+    "showServer": "Llamar al camarero",
+    "serverInstructions": "Muestra esta pantalla al camarero",
+    "items_one": "{{count}} plato",
+    "items_other": "{{count}} platos"
+  },
   "admin": {
     "login": "Iniciar sesión",
     "email": "Correo",

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useTenant } from '../hooks/useTenant';
 import { useMenu } from '../hooks/useMenu';
 import { useAppStore } from '@/shared/stores/appStore';
+import { useCartStore } from '@/shared/stores/cartStore';
 import { translateMenuItem } from '../utils/translate';
 import type { Language, MenuItem } from '@/shared/types/database';
 
@@ -15,7 +16,8 @@ import { CategoryTabs } from '../components/CategoryTabs';
 import { MenuItemCard } from '../components/MenuItemCard';
 import { MenuItemModal } from '../components/MenuItemModal';
 import { SpecialsTicker } from '../components/SpecialsTicker';
-import { RestaurantFooter } from '../components/RestaurantFooter';
+import { CartFAB } from '../components/CartFAB';
+import { CartDrawer } from '../components/CartDrawer';
 import { MenuSkeleton } from '../components/Skeleton';
 
 export default function MenuPage() {
@@ -32,6 +34,14 @@ export default function MenuPage() {
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [openItem, setOpenItem] = useState<MenuItem | null>(null);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  // Прив'язуємо cart store до тенанта — якщо браузер бачив інший заклад,
+  // кошик скидається (логіка в setTenant).
+  const setCartTenant = useCartStore((s) => s.setTenant);
+  useEffect(() => {
+    if (tenant) setCartTenant(tenant.id);
+  }, [tenant, setCartTenant]);
 
   // При першому рендері тенанта — підлаштовуємо мову інтерфейсу:
   // якщо збережена мова не підтримується тенантом, беремо його default.
@@ -176,28 +186,32 @@ export default function MenuPage() {
         ) : filteredItems.length === 0 ? (
           <p className="py-10 text-center text-slate-500">{t('menu.noResults')}</p>
         ) : (
-          <ul className="space-y-3 pb-6">
-            {filteredItems
-              .map((item) => (
-                <li key={item.id}>
-                  <MenuItemCard
-                    item={item}
-                    translations={data?.itemTranslations ?? []}
-                    language={language}
-                    fallbackLanguage={fallbackLang}
-                    currency={currency}
-                    special={
-                      activeSpecial?.menu_item_id === item.id ? activeSpecial : undefined
-                    }
-                    onClick={() => handleOpenItem(item)}
-                  />
-                </li>
-              ))}
+          <ul className="space-y-3 pb-32">
+            {filteredItems.map((item) => (
+              <li key={item.id}>
+                <MenuItemCard
+                  item={item}
+                  translations={data?.itemTranslations ?? []}
+                  language={language}
+                  fallbackLanguage={fallbackLang}
+                  currency={currency}
+                  special={
+                    activeSpecial?.menu_item_id === item.id ? activeSpecial : undefined
+                  }
+                  onClick={() => handleOpenItem(item)}
+                />
+              </li>
+            ))}
           </ul>
         )}
       </section>
 
-      <RestaurantFooter tenant={tenant} />
+      <p className="pb-4 pt-2 text-center text-[10px] font-medium text-slate-400">
+        Powered by <span className="font-bold text-slate-600">BotiLocal</span>
+      </p>
+
+      <CartFAB currency={currency} onClick={() => setCartOpen(true)} />
+      <CartDrawer open={cartOpen} currency={currency} onClose={() => setCartOpen(false)} />
 
       {openItem ? (
         <MenuItemModal

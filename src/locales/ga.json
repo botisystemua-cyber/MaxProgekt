@@ -27,6 +27,18 @@
     "allergens": "Ailléirgíní",
     "tenantNotFound": "Bialann gan aimsiú"
   },
+  "cart": {
+    "title": "Ciseán",
+    "empty": "Tá do chiseán folamh",
+    "emptyHint": "Cuir miasa leis ón mbiachlár",
+    "add": "Cuir leis",
+    "total": "Iomlán",
+    "clear": "Folmhaigh",
+    "showServer": "Glaoigh ar an bhfreastalaí",
+    "serverInstructions": "Taispeáin an scáileán seo don fhreastalaí",
+    "items_one": "{{count}} mhias",
+    "items_other": "{{count}} miasa"
+  },
   "admin": {
     "login": "Logáil isteach",
     "email": "Ríomhphost",

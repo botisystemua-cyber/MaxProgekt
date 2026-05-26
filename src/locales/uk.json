@@ -27,6 +27,19 @@
     "allergens": "Алергени",
     "tenantNotFound": "Заклад не знайдено"
   },
+  "cart": {
+    "title": "Кошик",
+    "empty": "Кошик порожній",
+    "emptyHint": "Додайте страви з меню",
+    "add": "Додати",
+    "total": "Разом",
+    "clear": "Очистити",
+    "showServer": "Покликати офіціанта",
+    "serverInstructions": "Покажіть цей екран офіціанту",
+    "items_one": "{{count}} страва",
+    "items_few": "{{count}} страви",
+    "items_other": "{{count}} страв"
+  },
   "admin": {
     "login": "Увійти",
     "email": "Email",
