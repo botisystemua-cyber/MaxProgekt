@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, type FormEvent } from 'react';
+import type { Session } from '@supabase/supabase-js';
+import { supabase } from './lib/supabase';
 import {
   fetchItems, fetchBanner, subscribeToMenu,
   updateItem, setBanner, clearBanner, resetAllOverrides,
 } from './lib/menu';
 import type { MenuItem, Banner, BannerPreset, Category } from './types';
-
-const ADMIN_PIN = '1234';
 
 const CAT_ICONS: Record<Category, string> = { starters: '🥗', mains: '🍖', desserts: '🍮', drinks: '🍺' };
 const CAT_LABELS: Record<Category, string> = { starters: 'Стартери', mains: 'Головне', desserts: 'Десерти', drinks: 'Напої' };
@@ -17,26 +17,28 @@ const BANNER_PRESETS: BannerPreset[] = [
   { text: 'Свіжа риба сьогодні! 🐟',     subtext: 'Доставка з ринку щоранку',         emoji: '🐟', color: 'linear-gradient(135deg, #0ea5e9, #0284c7)' },
 ];
 
-// ----- PIN SCREEN -----
-function PinScreen({ onSuccess }: { onSuccess: () => void }) {
-  const [pin, setPin] = useState('');
-  const [error, setError] = useState(false);
+// ----- LOGIN SCREEN -----
+// Раніше був PIN 1234 (лише на клієнті — будь-хто з anon-ключем писав у БД).
+// Тепер — Supabase Auth + RLS policy `to authenticated` вимагає JWT.
+// Створи адміна в Dashboard → Authentication → Users → Add user (auto-confirm email).
+function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleDigit = (d: string) => {
-    if (pin.length >= 4) return;
-    const next = pin + d;
-    setPin(next);
-    if (next.length === 4) {
-      if (next === ADMIN_PIN) {
-        setTimeout(onSuccess, 200);
-      } else {
-        setError(true);
-        setTimeout(() => { setPin(''); setError(false); }, 900);
-      }
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    if (authError) {
+      setError(authError.message);
+      setLoading(false);
+      // onAuthStateChange не викличеться якщо вхід не вдався, тому loading=false.
     }
+    // При успіху onAuthStateChange у App перемкне екран — loading лишить розмонтується.
   };
-
-  const handleDel = () => setPin(p => p.slice(0, -1));
 
   return (
     <div style={{
@@ -51,50 +53,63 @@ function PinScreen({ onSuccess }: { onSuccess: () => void }) {
         <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>BotiRestaurant · Меню</div>
       </div>
 
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '40px' }}>
-        {[0, 1, 2, 3].map(i => (
-          <div key={i} style={{
-            width: '20px', height: '20px', borderRadius: '50%',
-            background: error ? '#ef4444' : pin.length > i ? '#3b82f6' : 'rgba(255,255,255,0.1)',
-            border: `2px solid ${error ? '#ef4444' : pin.length > i ? '#3b82f6' : 'rgba(255,255,255,0.15)'}`,
-            transition: 'all 0.15s',
-          }} />
-        ))}
-      </div>
+      <form onSubmit={submit} style={{ width: '100%', maxWidth: '320px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <input
+          type="email"
+          required
+          autoComplete="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder="Email"
+          style={{
+            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '10px', padding: '14px 16px', color: '#f1f5f9',
+            fontSize: '15px', fontFamily: 'inherit', outline: 'none',
+          }}
+        />
+        <input
+          type="password"
+          required
+          autoComplete="current-password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          placeholder="Пароль"
+          style={{
+            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '10px', padding: '14px 16px', color: '#f1f5f9',
+            fontSize: '15px', fontFamily: 'inherit', outline: 'none',
+          }}
+        />
+        <button
+          type="submit"
+          disabled={loading || !email || !password}
+          style={{
+            background: loading || !email || !password ? 'rgba(255,255,255,0.08)' : '#3b82f6',
+            color: loading || !email || !password ? '#64748b' : 'white',
+            border: 'none', borderRadius: '10px', padding: '14px',
+            fontSize: '15px', fontWeight: 700,
+            cursor: loading || !email || !password ? 'default' : 'pointer',
+            fontFamily: 'inherit',
+          }}
+        >{loading ? 'Вхід…' : 'Увійти'}</button>
+        {error && (
+          <div style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', color: '#f87171', borderRadius: '10px', padding: '10px 14px', fontSize: '13px', textAlign: 'center' }}>
+            {error}
+          </div>
+        )}
+      </form>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', width: '240px' }}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(d => (
-          <button key={d} onClick={() => handleDigit(String(d))} style={{
-            height: '68px', borderRadius: '16px',
-            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
-            color: '#f1f5f9', fontSize: '22px', fontWeight: 700,
-            cursor: 'pointer', fontFamily: 'inherit',
-            transition: 'background 0.1s',
-          }}>{d}</button>
-        ))}
-        <div />
-        <button onClick={() => handleDigit('0')} style={{
-          height: '68px', borderRadius: '16px',
-          background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
-          color: '#f1f5f9', fontSize: '22px', fontWeight: 700,
-          cursor: 'pointer', fontFamily: 'inherit',
-        }}>0</button>
-        <button onClick={handleDel} style={{
-          height: '68px', borderRadius: '16px',
-          background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
-          color: '#94a3b8', fontSize: '22px',
-          cursor: 'pointer', fontFamily: 'inherit',
-        }}>⌫</button>
+      <div style={{ marginTop: '24px', fontSize: '11px', color: '#475569', textAlign: 'center', maxWidth: '320px', lineHeight: 1.5 }}>
+        Адмін-юзер створюється в Supabase Dashboard →<br />Authentication → Users → Add user
       </div>
-
-      <div style={{ marginTop: '24px', fontSize: '12px', color: '#475569' }}>Демо PIN: 1234</div>
     </div>
   );
 }
 
 // ----- MAIN ADMIN -----
 export default function App() {
-  const [authed, setAuthed] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [sessionLoaded, setSessionLoaded] = useState(false);
   const [tab, setTab] = useState<'items' | 'banner' | 'settings'>('items');
   const [items, setItems] = useState<MenuItem[]>([]);
   const [banner, setBannerState] = useState<Banner | null>(null);
@@ -108,6 +123,19 @@ export default function App() {
   });
   const [showCustomBanner, setShowCustomBanner] = useState(false);
 
+  // Auth: звичайний Supabase-patterm — getSession один раз + onAuthStateChange для
+  // live-оновлень (логін в іншій вкладці, токен оновився, вихід, тощо).
+  useEffect(() => {
+    void supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setSessionLoaded(true);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sess) => {
+      setSession(sess);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   const reload = useCallback(async () => {
     const [i, b] = await Promise.all([fetchItems(), fetchBanner()]);
     setItems(i);
@@ -115,15 +143,14 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!authed) return;
+    if (!session) return;
     void reload();
     const unsubscribe = subscribeToMenu(() => { void reload(); });
     return unsubscribe;
-  }, [authed, reload]);
+  }, [session, reload]);
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
 
-  // Helper для безпечних мутацій — показує toast при помилці замість throw.
   const tryDo = async (fn: () => Promise<void>, okMsg: string) => {
     try {
       await fn();
@@ -158,7 +185,13 @@ export default function App() {
   const resetAll = () =>
     tryDo(() => resetAllOverrides(), 'Всі зміни скинуто ✓');
 
-  if (!authed) return <PinScreen onSuccess={() => setAuthed(true)} />;
+  const signOut = () =>
+    tryDo(async () => { await supabase.auth.signOut(); }, 'Вихід ✓');
+
+  if (!sessionLoaded) {
+    return <div style={{ padding: 24, textAlign: 'center', color: '#64748b' }}>…</div>;
+  }
+  if (!session) return <LoginScreen />;
 
   const popularCount = items.filter(i => i.popular).length;
   const discountCount = items.filter(i => i.discount > 0).length;
@@ -183,12 +216,15 @@ export default function App() {
           <div>
             <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Адмін-панель</div>
             <div style={{ fontSize: '20px', fontWeight: 800 }}>BotiRestaurant</div>
+            {session.user.email && (
+              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{session.user.email}</div>
+            )}
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
             <a href="../menu-client/" style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '10px', padding: '8px 12px', fontSize: '12px', fontWeight: 600, color: 'white', textDecoration: 'none' }}>
               👁 Меню
             </a>
-            <button onClick={() => setAuthed(false)} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: '10px', padding: '8px 12px', fontSize: '12px', color: '#94a3b8', cursor: 'pointer', fontFamily: 'inherit' }}>
+            <button onClick={signOut} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: '10px', padding: '8px 12px', fontSize: '12px', color: '#94a3b8', cursor: 'pointer', fontFamily: 'inherit' }}>
               🔒
             </button>
           </div>
