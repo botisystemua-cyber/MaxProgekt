@@ -27,6 +27,19 @@
     "allergens": "Аллергены",
     "tenantNotFound": "Заведение не найдено"
   },
+  "cart": {
+    "title": "Корзина",
+    "empty": "Корзина пуста",
+    "emptyHint": "Добавьте блюда из меню",
+    "add": "Добавить",
+    "total": "Итого",
+    "clear": "Очистить",
+    "showServer": "Позвать официанта",
+    "serverInstructions": "Покажите этот экран официанту",
+    "items_one": "{{count}} блюдо",
+    "items_few": "{{count}} блюда",
+    "items_other": "{{count}} блюд"
+  },
   "admin": {
     "login": "Войти",
     "email": "Email",

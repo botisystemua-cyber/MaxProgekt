@@ -7,6 +7,7 @@ import type {
   MenuItemTranslation,
 } from '@/shared/types/database';
 import { translateMenuItem } from '../utils/translate';
+import { useCartStore } from '@/shared/stores/cartStore';
 import { Badge } from './Badge';
 
 interface Props {
@@ -51,6 +52,21 @@ export function MenuItemModal({
       ? +(basePrice * (1 - item.discount_percent / 100)).toFixed(2)
       : basePrice);
   const hasDiscount = finalPrice < basePrice;
+
+  const qty = useCartStore((s) => s.lines[item.id]?.qty ?? 0);
+  const addToCart = useCartStore((s) => s.add);
+  const increment = useCartStore((s) => s.increment);
+  const decrement = useCartStore((s) => s.decrement);
+
+  function handleAdd() {
+    addToCart({
+      id: item.id,
+      name,
+      price: finalPrice,
+      currency,
+      imageUrl: item.image_url,
+    });
+  }
 
   return (
     <div
@@ -157,6 +173,46 @@ export function MenuItemModal({
                   <Badge key={a}>{a}</Badge>
                 ))}
               </div>
+            </div>
+          ) : null}
+
+          {item.is_available ? (
+            <div className="mt-8">
+              {qty > 0 ? (
+                <div className="flex items-stretch gap-3">
+                  <div className="flex flex-1 items-center justify-between rounded-2xl bg-slate-50 p-1.5 ring-1 ring-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => decrement(item.id)}
+                      aria-label="−"
+                      className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-lg font-bold text-slate-700 shadow-soft active:scale-95"
+                    >
+                      −
+                    </button>
+                    <span className="text-lg font-bold tabular-nums">{qty}</span>
+                    <button
+                      type="button"
+                      onClick={() => increment(item.id)}
+                      aria-label="+"
+                      className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-primary text-lg font-bold text-white shadow-soft active:scale-95"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="flex items-center rounded-2xl bg-brand-primary/10 px-4 text-sm font-bold tabular-nums text-brand-primary">
+                    {(finalPrice * qty).toFixed(2)} {currency}
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleAdd}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-primary py-4 text-base font-bold text-white shadow-raised transition-all hover:-translate-y-0.5 active:scale-[0.98]"
+                >
+                  <span className="text-xl">＋</span>
+                  <span>{t('cart.add')} · {finalPrice.toFixed(2)} {currency}</span>
+                </button>
+              )}
             </div>
           ) : null}
         </div>

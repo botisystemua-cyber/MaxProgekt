@@ -27,6 +27,19 @@
     "allergens": "Alergeny",
     "tenantNotFound": "Restauracja nie znaleziona"
   },
+  "cart": {
+    "title": "Koszyk",
+    "empty": "Twój koszyk jest pusty",
+    "emptyHint": "Dodaj dania z menu",
+    "add": "Dodaj",
+    "total": "Razem",
+    "clear": "Wyczyść",
+    "showServer": "Wezwij kelnera",
+    "serverInstructions": "Pokaż ten ekran kelnerowi",
+    "items_one": "{{count}} danie",
+    "items_few": "{{count}} dania",
+    "items_other": "{{count}} dań"
+  },
   "admin": {
     "login": "Zaloguj się",
     "email": "Email",
