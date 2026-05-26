@@ -109,6 +109,8 @@ export function MenuItemCard({
           </p>
         ) : null}
         <div className="mt-auto flex flex-wrap items-center gap-1 pt-1.5">
+          {item.tags.includes('fish') ? <Badge variant="info">🐟</Badge> : null}
+          {item.tags.includes('meat') ? <Badge variant="info">🥩</Badge> : null}
           {item.is_spicy ? <Badge variant="danger">🌶️</Badge> : null}
           {item.is_vegan ? (
             <Badge variant="success">🌱</Badge>

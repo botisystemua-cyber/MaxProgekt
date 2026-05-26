@@ -9,17 +9,20 @@ export function RestaurantHeader({ tenant, children }: Props) {
   const cover = tenant.cover_image_url;
 
   return (
+    // Свідомо БЕЗ `isolate` — інакше LanguageSwitcher dropdown стає в'язнем
+    // власного stacking-контексту і ticker (наступний sibling, теж isolate)
+    // паїнтиться поверх нього. Без isolate dropdown z-[60] стається у root.
     <header
-      className="safe-top relative isolate text-white"
+      className="safe-top relative text-white"
       style={{
         backgroundColor: tenant.secondary_color,
         backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 0%, ${tenant.primary_color}40, transparent 70%)`,
       }}
     >
-      {/* Cover image у власному overflow-hidden контейнері, щоб не обрізати
-          dropdown LanguageSwitcher який вилазить нижче header. */}
+      {/* Cover у власному overflow-hidden контейнері, у DOM-порядку ПЕРЕД
+          контентом, без -z-10 — paint-order робить решту. */}
       {cover ? (
-        <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
           <img
             src={cover}
             alt=""
