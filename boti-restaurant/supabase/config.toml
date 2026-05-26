@@ -1,0 +1,4 @@
+# Supabase CLI config. Проект прив'язаний до Dashboard project BotiLocal.
+# Цей файл читає GitHub ↔ Supabase integration, щоб знати який проєкт
+# оновлювати. При пуші в main, все з supabase/migrations/ авто-застосовується.
+project_id = "delhfvhcdtbfikxkzpjr"
