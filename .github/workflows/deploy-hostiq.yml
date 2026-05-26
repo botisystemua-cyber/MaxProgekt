@@ -1,11 +1,9 @@
 name: Deploy to HOSTIQ
 
-# Авто-деплой на merge у main вимкнено, доки додаток ще збирається.
-# Коли все буде готово — розкоментувати блок push нижче.
 on:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -13,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SFTP_REMOTE_PATH: /home3/onglerie/botisystem.com/BotiLocal
+  SFTP_REMOTE_PATH: /BotiLocal
 
 jobs:
   deploy:
@@ -23,6 +21,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Assemble deploy folder
+        env:
+          SUPABASE_URL: ${{ secrets.RESTAURANT_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.RESTAURANT_SUPABASE_ANON_KEY }}
         run: |
           set -euo pipefail
 
@@ -45,14 +46,22 @@ jobs:
             --exclude 'README.md' \
             ./ _deploy/
 
+          # Генеруємо config.js з GitHub Secrets — клієнтський конфіг
+          # для Supabase JS. ANON key за дизайном public (RLS захищає
+          # дані), але краще не коммітити в репо.
+          cat > _deploy/config.js <<JSEOF
+          window.SUPABASE_URL = "${SUPABASE_URL}";
+          window.SUPABASE_ANON_KEY = "${SUPABASE_ANON_KEY}";
+          JSEOF
+
           # Bump mtimes на всіх файлах до "now". Без цього lftp mirror
           # порівнює за size+mtime і може skip-нути файл, який змінився
           # без зміни розміру (той самий трюк, що в BotiLogistics-v1.0).
           find _deploy -exec touch {} +
 
-          echo "===== _deploy tree ====="
+          echo "===== _deploy tree ===="
           find _deploy -maxdepth 2 | sort
-          echo "===== Total size ====="
+          echo "===== Total size ===="
           du -sh _deploy
 
       - name: Install lftp
@@ -84,6 +93,9 @@ jobs:
             echo "set cmd:fail-exit yes"
             printf 'open sftp://%s:%s\n' "$SFTP_HOST" "$SFTP_PORT"
             printf 'user "%s" "%s"\n' "$SFTP_USER_Q" "$SFTP_PASS_Q"
+            # FTP-юзер deploy-botilocal зачейнджрутений у
+            # /home3/onglerie/botisystem.com/BotiLocal, тому віддалений
+            # шлях відносно його home = просто /.
             printf 'mirror --reverse --verbose --parallel=3 --exclude-glob .git* --exclude-glob .DS_Store _deploy/ %s/\n' "$SFTP_REMOTE_PATH"
             echo "bye"
           } > /tmp/lftp.script
@@ -96,4 +108,4 @@ jobs:
         if: success()
         run: |
           echo "Deployed to https://botisystem.com/BotiLocal/"
-          echo "Target path: ${{ env.SFTP_REMOTE_PATH }}"
+          echo "Smoke test: https://botisystem.com/BotiLocal/smoke.html"

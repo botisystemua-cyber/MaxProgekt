@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smoke Test — BotiLocal</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(160deg, #f8f7f4, #e2e8f0);
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wrap { width: 100%; max-width: 560px; }
+    h1 { color: #1a2744; margin: 0 0 16px; font-size: 22px; }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 8px 32px rgba(26,39,68,0.1);
+    }
+    .status { font-size: 14px; color: #64748b; margin-bottom: 12px; }
+    .ok { color: #22c55e; font-weight: 700; }
+    .fail { color: #ef4444; font-weight: 700; }
+    .message {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a2744;
+      margin: 16px 0 8px;
+      line-height: 1.4;
+    }
+    .ts { color: #94a3b8; font-size: 12px; }
+    pre {
+      background: #fef2f2;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      overflow-x: auto;
+      margin: 12px 0 0;
+    }
+    .chain {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .chip {
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🔌 Smoke Test — BotiLocal</h1>
+    <div class="card">
+      <div id="status" class="status">Підключення до Supabase…</div>
+      <div id="message"></div>
+      <div id="ts" class="ts"></div>
+      <div class="chain">
+        <span class="chip">✓ HOSTIQ</span>
+        <span class="chip" id="chip-supabase">… Supabase</span>
+        <span class="chip">✓ GitHub Actions</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script>
+    const status = document.getElementById('status');
+    const message = document.getElementById('message');
+    const ts = document.getElementById('ts');
+    const chip = document.getElementById('chip-supabase');
+
+    (async () => {
+      try {
+        if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+          throw new Error('config.js не згенерований — перевір GitHub Actions');
+        }
+        const client = supabase.createClient(
+          window.SUPABASE_URL,
+          window.SUPABASE_ANON_KEY
+        );
+        const { data, error } = await client
+          .from('smoke_test')
+          .select('message, created_at')
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (error) throw error;
+        if (!data || !data.length) throw new Error('Таблиця smoke_test порожня');
+
+        status.innerHTML = '<span class="ok">✅ Весь ланцюжок працює</span>';
+        message.className = 'message';
+        message.textContent = data[0].message;
+        ts.textContent = 'Створено: ' + new Date(data[0].created_at).toLocaleString('uk');
+        chip.textContent = '✓ Supabase';
+        chip.style.background = '#dcfce7';
+        chip.style.color = '#15803d';
+      } catch (e) {
+        status.innerHTML = '<span class="fail">❌ Не вдалося</span>';
+        const pre = document.createElement('pre');
+        pre.textContent = e.message || String(e);
+        message.appendChild(pre);
+        chip.textContent = '✗ Supabase';
+        chip.style.background = '#fee2e2';
+        chip.style.color = '#991b1b';
+      }
+    })();
+  </script>
+</body>
+</html>
