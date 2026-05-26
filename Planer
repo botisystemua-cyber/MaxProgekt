@@ -1,0 +1,409 @@
+import { useState } from "react";
+
+const WEEK_PLAN = [
+  {
+    day: "Понеділок",
+    dayNum: "27 трав",
+    clients: [
+      {
+        name: "Paddy's Point Irish Bar",
+        phone: "966 73 05 27",
+        zone: "La Zenia",
+        reviews: 3787,
+        rating: "4.6",
+        digital: "Відсутня",
+        type: "Ірландський паб",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "3800 відгуків, але клієнти не можуть знайти меню онлайн. QR-меню + лендінг = +30% нових клієнтів з Google.",
+        tip: "Англомовні власники. Зайди особисто в обід, покажи демо на телефоні.",
+      },
+      {
+        name: "The Bridge",
+        phone: "663 64 58 99",
+        zone: "—",
+        reviews: 1751,
+        rating: "4.2",
+        digital: "Відсутня",
+        type: "Паб",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "1750 відгуків і нуль онлайн-присутності. Люди шукають вас в Google і не знаходять меню чи години роботи.",
+        tip: "Зателефонуй після обіду. Запропонуй безкоштовний аудит.",
+      },
+    ],
+  },
+  {
+    day: "Вівторок",
+    dayNum: "28 трав",
+    clients: [
+      {
+        name: "Cafeteria Concierto",
+        phone: "657 37 37 36",
+        zone: "—",
+        reviews: 1498,
+        rating: "4.5",
+        digital: "Відсутня",
+        type: "Паб-ресторан",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "1500 відгуків, рейтинг 4.5 — а сайту, соцмереж, навіть QR-меню немає. Кожен день втрачаєте туристів.",
+        tip: "Іспаномовний бізнес. Говори іспанською або візьми Marco для інтро.",
+      },
+      {
+        name: "Restaurante Las Villas",
+        phone: "965 32 00 05",
+        zone: "—",
+        reviews: 1107,
+        rating: "4.2",
+        digital: "Відсутня",
+        type: "Ресторан",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "1100 відгуків — ваші клієнти вас люблять, але нові вас не бачать. Базова сторінка + Google = нові бронювання.",
+        tip: "Зателефонуй зранку до відкриття.",
+      },
+    ],
+  },
+  {
+    day: "Середа",
+    dayNum: "29 трав",
+    clients: [
+      {
+        name: "RESTAURANTE DA MARIO",
+        phone: "966 39 25 99",
+        zone: "Playa Flamenca",
+        reviews: 1029,
+        rating: "4.5",
+        digital: "Відсутня",
+        type: "Сімейний ресторан",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "Сімейний ресторан з 1000+ відгуків у туристичній зоні — без сайту. Іноземні туристи вас шукають, але не знаходять.",
+        tip: "Playa Flamenca — зайди особисто. Покажи як виглядатиме їх QR-меню.",
+      },
+      {
+        name: "Bar Restaurante Manolo",
+        phone: "965 30 20 93",
+        zone: "—",
+        reviews: 1494,
+        rating: "4.4",
+        digital: "Низька",
+        type: "Ресторан",
+        product: "WhatsApp бот + цифрове меню",
+        price: "150-250€/міс",
+        pitch: "Є сайт, але без чатбота і соцмереж. WhatsApp бот для бронювань зекономить 2 год/день на дзвінках.",
+        tip: "Вже є сайт — легше апсейлити. Покажи WhatsApp бот демо.",
+      },
+    ],
+  },
+  {
+    day: "Четвер",
+    dayNum: "30 трав",
+    clients: [
+      {
+        name: "La Terracica",
+        phone: "965 06 30 69",
+        zone: "—",
+        reviews: 964,
+        rating: "4.6",
+        digital: "Відсутня",
+        type: "Ресторан",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "Рейтинг 4.6 при 960 відгуків — один з найкращих у зоні. Але туристи не можуть забронювати онлайн.",
+        tip: "Висока якість кухні — запропонуй також Instagram-стратегію як апсейл.",
+      },
+      {
+        name: "Royal Oak Pub",
+        phone: "687 10 68 71",
+        zone: "Dehesa de Campoamor",
+        reviews: 778,
+        rating: "4.2",
+        digital: "Відсутня",
+        type: "Сімейний ресторан",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "Англомовний паб у Campoamor, 780 відгуків, тільки Facebook. Повний пакет digital за 100€ — без ризику.",
+        tip: "Англомовні. Зайди ввечері, коли бар активний. Поговори з власником за пивом.",
+      },
+    ],
+  },
+  {
+    day: "П'ятниця",
+    dayNum: "31 трав",
+    clients: [
+      {
+        name: "The Lucky Lion",
+        phone: "865 94 31 00",
+        zone: "—",
+        reviews: 550,
+        rating: "4.5",
+        digital: "Відсутня",
+        type: "Ірландський паб",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "Ірландський паб з хорошим рейтингом і нульовою присутністю. Ваші конкуренти вже мають сайти — час наздоганяти.",
+        tip: "Якщо вже закрив Paddy's — згадай їх як референс. Ірландські паби спілкуються між собою.",
+      },
+      {
+        name: "Bar Juani",
+        phone: "744 61 57 76",
+        zone: "—",
+        reviews: 503,
+        rating: "4.6",
+        digital: "Відсутня",
+        type: "Бар-ресторан",
+        product: "Цифрове меню + Google Business",
+        price: "100-150€/міс",
+        pitch: "Рейтинг 4.6 — ваші клієнти в захваті. Давайте покажемо це новим відвідувачам через Google та QR-меню.",
+        tip: "Локальний бар — можливо іспаномовний. Простий підхід, без складних слів.",
+      },
+    ],
+  },
+];
+
+const STATUS_OPTIONS = [
+  { value: "pending", label: "⏳ Чекає", color: "#64748b", bg: "rgba(100,116,139,0.1)" },
+  { value: "called", label: "📞 Зателефонував", color: "#60a5fa", bg: "rgba(96,165,250,0.1)" },
+  { value: "meeting", label: "🤝 Зустріч", color: "#fbbf24", bg: "rgba(251,191,36,0.1)" },
+  { value: "proposal", label: "📄 Пропозиція", color: "#c084fc", bg: "rgba(192,132,252,0.1)" },
+  { value: "won", label: "✅ Закрито", color: "#34d399", bg: "rgba(52,211,153,0.1)" },
+  { value: "lost", label: "❌ Відмова", color: "#f87171", bg: "rgba(248,113,113,0.1)" },
+];
+
+export default function WeeklyPlan() {
+  const [statuses, setStatuses] = useState({});
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const getStatus = (name) => statuses[name] || "pending";
+  const statusObj = (name) => STATUS_OPTIONS.find(s => s.value === getStatus(name));
+
+  const setStatus = (name, value) => {
+    setStatuses(prev => ({ ...prev, [name]: value }));
+    setOpenDropdown(null);
+  };
+
+  const totalClients = WEEK_PLAN.reduce((a, d) => a + d.clients.length, 0);
+  const contacted = Object.values(statuses).filter(s => s !== "pending").length;
+  const won = Object.values(statuses).filter(s => s === "won").length;
+
+  return (
+    <div style={{
+      fontFamily: "'DM Sans', system-ui, sans-serif",
+      background: "#0a0d17",
+      color: "#e2e8f0",
+      minHeight: "100vh",
+      padding: "20px",
+    }}>
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+      {/* Header */}
+      <div style={{ marginBottom: "24px" }}>
+        <h1 style={{ fontSize: "20px", fontWeight: 800, margin: "0 0 4px 0", letterSpacing: "-0.02em" }}>
+          🗓️ План на тиждень — 10 клієнтів
+        </h1>
+        <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>
+          27-31 травня · 2 клієнти/день · Натисни на статус щоб оновити
+        </p>
+      </div>
+
+      {/* Progress bar */}
+      <div style={{
+        background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: "14px", padding: "16px 20px", marginBottom: "20px",
+      }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", flexWrap: "wrap", gap: "8px" }}>
+          <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
+            <span style={{ color: "#94a3b8" }}>Контактовано: <b style={{ color: "#60a5fa" }}>{contacted}/{totalClients}</b></span>
+            <span style={{ color: "#94a3b8" }}>Закрито: <b style={{ color: "#34d399" }}>{won}</b></span>
+          </div>
+          <span style={{ fontSize: "13px", color: "#64748b" }}>{Math.round((contacted / totalClients) * 100)}%</span>
+        </div>
+        <div style={{ height: "8px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", overflow: "hidden" }}>
+          <div style={{
+            height: "100%",
+            width: `${(contacted / totalClients) * 100}%`,
+            background: "linear-gradient(90deg, #3b82f6, #8b5cf6)",
+            borderRadius: "4px",
+            transition: "width 0.5s ease",
+          }} />
+        </div>
+      </div>
+
+      {/* Days */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        {WEEK_PLAN.map((day, di) => (
+          <div key={di}>
+            {/* Day header */}
+            <div style={{
+              display: "flex", alignItems: "center", gap: "10px",
+              marginBottom: "10px", paddingLeft: "4px",
+            }}>
+              <div style={{
+                width: "36px", height: "36px", borderRadius: "10px",
+                background: "linear-gradient(135deg, #3b82f6, #6366f1)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "14px", fontWeight: 800, color: "white", flexShrink: 0,
+              }}>
+                {day.dayNum.split(" ")[0]}
+              </div>
+              <div>
+                <div style={{ fontSize: "15px", fontWeight: 700 }}>{day.day}</div>
+                <div style={{ fontSize: "11px", color: "#64748b" }}>{day.dayNum}</div>
+              </div>
+            </div>
+
+            {/* Client cards */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginLeft: "4px" }}>
+              {day.clients.map((client, ci) => {
+                const st = statusObj(client.name);
+                const isOpen = openDropdown === client.name;
+
+                return (
+                  <div key={ci} style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: `1px solid ${getStatus(client.name) === "won" ? "rgba(52,211,153,0.2)" : "rgba(255,255,255,0.06)"}`,
+                    borderRadius: "14px",
+                    padding: "18px",
+                    position: "relative",
+                  }}>
+                    {/* Top row */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "8px", flexWrap: "wrap" }}>
+                      <div style={{ flex: 1, minWidth: "180px" }}>
+                        <div style={{ fontSize: "15px", fontWeight: 700, color: "#f1f5f9", marginBottom: "4px" }}>
+                          {client.name}
+                        </div>
+                        <div style={{ display: "flex", gap: "5px", flexWrap: "wrap", fontSize: "11px" }}>
+                          <span style={{ background: "rgba(255,255,255,0.06)", padding: "2px 8px", borderRadius: "4px", color: "#94a3b8" }}>{client.type}</span>
+                          <span style={{ background: "rgba(251,191,36,0.1)", padding: "2px 8px", borderRadius: "4px", color: "#fbbf24" }}>⭐ {client.rating} · {client.reviews}</span>
+                          {client.zone !== "—" && (
+                            <span style={{ background: "rgba(96,165,250,0.1)", padding: "2px 8px", borderRadius: "4px", color: "#60a5fa" }}>{client.zone}</span>
+                          )}
+                          <span style={{ background: "rgba(52,211,153,0.1)", padding: "2px 8px", borderRadius: "4px", color: "#6ee7b7" }}>{client.price}</span>
+                        </div>
+                      </div>
+
+                      {/* Status button */}
+                      <div style={{ position: "relative" }}>
+                        <button
+                          onClick={() => setOpenDropdown(isOpen ? null : client.name)}
+                          style={{
+                            background: st.bg,
+                            color: st.color,
+                            border: `1px solid ${st.color}30`,
+                            borderRadius: "8px",
+                            padding: "6px 12px",
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {st.label} ▾
+                        </button>
+                        {isOpen && (
+                          <div style={{
+                            position: "absolute", right: 0, top: "100%", marginTop: "4px",
+                            background: "#1a1f33", border: "1px solid rgba(255,255,255,0.1)",
+                            borderRadius: "10px", padding: "4px", zIndex: 50,
+                            boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                            minWidth: "160px",
+                          }}>
+                            {STATUS_OPTIONS.map(opt => (
+                              <button key={opt.value} onClick={() => setStatus(client.name, opt.value)} style={{
+                                display: "block", width: "100%", textAlign: "left",
+                                background: getStatus(client.name) === opt.value ? opt.bg : "transparent",
+                                color: opt.color, border: "none", padding: "8px 12px",
+                                borderRadius: "6px", fontSize: "12px", fontWeight: 500,
+                                cursor: "pointer",
+                              }}>
+                                {opt.label}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Phone */}
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: "6px",
+                      marginTop: "12px", fontSize: "14px",
+                    }}>
+                      <span>📞</span>
+                      <a href={`tel:${client.phone}`} style={{
+                        color: "#60a5fa", textDecoration: "none", fontWeight: 600,
+                        letterSpacing: "0.04em",
+                      }}>
+                        {client.phone}
+                      </a>
+                    </div>
+
+                    {/* Product */}
+                    <div style={{
+                      marginTop: "10px", padding: "10px 14px", borderRadius: "8px",
+                      background: "rgba(99,102,241,0.06)", fontSize: "13px",
+                    }}>
+                      <span style={{ color: "#818cf8", fontWeight: 600 }}>Продукт:</span>{" "}
+                      <span style={{ color: "#c7d2fe" }}>{client.product}</span>
+                    </div>
+
+                    {/* Pitch */}
+                    <div style={{
+                      marginTop: "8px", padding: "10px 14px", borderRadius: "8px",
+                      background: "rgba(251,191,36,0.04)",
+                      borderLeft: "3px solid rgba(251,191,36,0.3)",
+                      fontSize: "13px", color: "#94a3b8", lineHeight: 1.5,
+                    }}>
+                      💬 <b style={{ color: "#fbbf24" }}>Пітч:</b> {client.pitch}
+                    </div>
+
+                    {/* Tip */}
+                    <div style={{
+                      marginTop: "6px", fontSize: "12px", color: "#64748b",
+                      paddingLeft: "14px",
+                    }}>
+                      💡 {client.tip}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Summary */}
+      <div style={{
+        marginTop: "24px", padding: "20px",
+        background: "rgba(52,211,153,0.04)", border: "1px solid rgba(52,211,153,0.1)",
+        borderRadius: "14px",
+      }}>
+        <h3 style={{ fontSize: "15px", fontWeight: 700, margin: "0 0 10px 0", color: "#6ee7b7" }}>
+          📌 Стратегія тижня
+        </h3>
+        <div style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.7 }}>
+          <p style={{ margin: "0 0 8px 0" }}>
+            <b style={{ color: "#e2e8f0" }}>Фокус:</b> ресторани та паби без digital — їм найпростіше показати цінність QR-меню на місці.
+          </p>
+          <p style={{ margin: "0 0 8px 0" }}>
+            <b style={{ color: "#e2e8f0" }}>Підхід:</b> 2 клієнти/день. Зранку — дзвінок. В обід — візит до одного з них з демо на телефоні.
+          </p>
+          <p style={{ margin: "0 0 8px 0" }}>
+            <b style={{ color: "#e2e8f0" }}>Ціль тижня:</b> 10 контактів → 3-4 зустрічі → 1-2 підписані клієнти.
+          </p>
+          <p style={{ margin: 0 }}>
+            <b style={{ color: "#e2e8f0" }}>Паралельно:</b> зустріч з Marco (партнер SEO) — домовитись про реферальну програму.
+          </p>
+        </div>
+      </div>
+
+      <div style={{
+        marginTop: "16px", fontSize: "11px", color: "#475569", textAlign: "center", padding: "8px",
+      }}>
+        Тиждень 27-31 травня 2026 · Orihuela Costa
+      </div>
+    </div>
+  );
+}
