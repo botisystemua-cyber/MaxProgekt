@@ -11,8 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
     <title>BotiLocal · Digital Menu</title>
-    <!-- Runtime config (Supabase URL / anon key) інжектиться CI на etапі deploy. -->
-    <script src="./config.js"></script>
+    <!-- Runtime config (Supabase URL / anon key) інжектиться CI на etапі deploy.
+         Абсолютний шлях обов'язковий — деплой під /BotiLocal/, а SPA-роути
+         типу /menu/paddys іншому б ламали резолв. -->
+    <script src="/BotiLocal/config.js"></script>
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased">
     <div id="root"></div>
