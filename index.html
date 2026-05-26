@@ -1,11 +1,17 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" translate="no">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#FF6B35" />
     <meta name="description" content="BotiLocal — digital menu для ресторанів і барів. Скануй QR, дивись меню, замовляй." />
+    <!-- Власний language switcher — Google Translate НЕ повинен втручатись:
+         він ламав бренд-назви ("Велика Британія" замість "UK"), назви страв
+         ("Як звати людину?" замість "Nachos & Cheese Dip"), і коди мов
+         у dropdown ("IC" замість "ES"). Подвійна страховка:
+         <meta name="google" content="notranslate"> + <html translate="no">. -->
+    <meta name="google" content="notranslate" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
