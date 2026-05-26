@@ -1,0 +1,43 @@
+{
+  "common": {
+    "loading": "Завантаження…",
+    "error": "Щось пішло не так",
+    "retry": "Спробувати знову",
+    "search": "Пошук",
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "add": "Додати",
+    "back": "Назад",
+    "language": "Мова"
+  },
+  "menu": {
+    "title": "Меню",
+    "dailySpecial": "Блюдо дня",
+    "promo": "Акція",
+    "new": "Новинка",
+    "spicy": "Гостре",
+    "vegetarian": "Вегетаріанське",
+    "vegan": "Веганське",
+    "glutenFree": "Без глютену",
+    "unavailable": "Закінчилось",
+    "search": "Знайти страву…",
+    "noResults": "Нічого не знайдено",
+    "allergens": "Алергени",
+    "tenantNotFound": "Заклад не знайдено"
+  },
+  "admin": {
+    "login": "Увійти",
+    "email": "Email",
+    "password": "Пароль",
+    "dashboard": "Огляд",
+    "menuManage": "Меню",
+    "specials": "Акції",
+    "settings": "Налаштування",
+    "team": "Команда",
+    "logout": "Вийти",
+    "newItem": "Нова страва",
+    "qrCode": "QR-код"
+  }
+}

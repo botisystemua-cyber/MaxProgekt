@@ -1,0 +1,43 @@
+{
+  "common": {
+    "loading": "Загрузка…",
+    "error": "Что-то пошло не так",
+    "retry": "Повторить",
+    "search": "Поиск",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Изменить",
+    "add": "Добавить",
+    "back": "Назад",
+    "language": "Язык"
+  },
+  "menu": {
+    "title": "Меню",
+    "dailySpecial": "Блюдо дня",
+    "promo": "Акция",
+    "new": "Новинка",
+    "spicy": "Острое",
+    "vegetarian": "Вегетарианское",
+    "vegan": "Веганское",
+    "glutenFree": "Без глютена",
+    "unavailable": "Закончилось",
+    "search": "Найти блюдо…",
+    "noResults": "Ничего не найдено",
+    "allergens": "Аллергены",
+    "tenantNotFound": "Заведение не найдено"
+  },
+  "admin": {
+    "login": "Войти",
+    "email": "Email",
+    "password": "Пароль",
+    "dashboard": "Обзор",
+    "menuManage": "Меню",
+    "specials": "Акции",
+    "settings": "Настройки",
+    "team": "Команда",
+    "logout": "Выйти",
+    "newItem": "Новое блюдо",
+    "qrCode": "QR-код"
+  }
+}

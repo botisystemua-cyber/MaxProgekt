@@ -1,0 +1,43 @@
+{
+  "common": {
+    "loading": "Cargando…",
+    "error": "Algo salió mal",
+    "retry": "Reintentar",
+    "search": "Buscar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Añadir",
+    "back": "Atrás",
+    "language": "Idioma"
+  },
+  "menu": {
+    "title": "Menú",
+    "dailySpecial": "Plato del día",
+    "promo": "Promoción",
+    "new": "Nuevo",
+    "spicy": "Picante",
+    "vegetarian": "Vegetariano",
+    "vegan": "Vegano",
+    "glutenFree": "Sin gluten",
+    "unavailable": "No disponible",
+    "search": "Buscar plato…",
+    "noResults": "Sin resultados",
+    "allergens": "Alérgenos",
+    "tenantNotFound": "Restaurante no encontrado"
+  },
+  "admin": {
+    "login": "Iniciar sesión",
+    "email": "Correo",
+    "password": "Contraseña",
+    "dashboard": "Inicio",
+    "menuManage": "Menú",
+    "specials": "Promociones",
+    "settings": "Ajustes",
+    "team": "Equipo",
+    "logout": "Cerrar sesión",
+    "newItem": "Nuevo plato",
+    "qrCode": "Código QR"
+  }
+}

@@ -23,6 +23,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (Vite)
+        run: npm run build
+
       - name: Assemble deploy folder
         env:
           SUPABASE_URL: ${{ secrets.RESTAURANT_SUPABASE_URL }}
@@ -30,32 +42,32 @@ jobs:
         run: |
           set -euo pipefail
 
-          mkdir -p _deploy
+          # Заливаємо тільки збірку (Vite кладе все необхідне в dist/).
+          rm -rf _deploy
+          cp -R dist _deploy
 
-          # Поки що — копіюємо проект як є, без build-step.
-          # Коли визначимось зі стратегією для JSX (Vite build vs CDN
-          # inline) — тут з'явиться npm ci && npm run build, і
-          # копіюватиметься dist/.
-          rsync -a \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude '.gitignore' \
-            --exclude 'supabase' \
-            --exclude 'node_modules' \
-            --exclude '.DS_Store' \
-            --exclude '*.csv' \
-            --exclude '*.xlsx' \
-            --exclude 'CLAUDE.md' \
-            --exclude 'README.md' \
-            ./ _deploy/
-
-          # Генеруємо config.js з GitHub Secrets — клієнтський конфіг
-          # для Supabase JS. ANON key за дизайном public (RLS захищає
-          # дані), але краще не коммітити в репо.
+          # Генеруємо config.js з GitHub Secrets — клієнтський конфіг для
+          # Supabase JS. ANON key за дизайном public (RLS захищає дані),
+          # але краще не коммітити в репо. index.html підвантажує його як
+          # <script src="./config.js"> ДО main.tsx.
           cat > _deploy/config.js <<JSEOF
           window.SUPABASE_URL = "${SUPABASE_URL}";
           window.SUPABASE_ANON_KEY = "${SUPABASE_ANON_KEY}";
           JSEOF
+
+          # SPA fallback: HOSTIQ — звичайний Apache; будь-який unknown path
+          # під /BotiLocal/ має повертати index.html, щоб React Router
+          # обробив /menu/:slug, /admin/* тощо.
+          cat > _deploy/.htaccess <<'HTEOF'
+          <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteBase /BotiLocal/
+            RewriteRule ^index\.html$ - [L]
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteRule . /BotiLocal/index.html [L]
+          </IfModule>
+          HTEOF
 
           # Bump mtimes на всіх файлах до "now". Без цього lftp mirror
           # порівнює за size+mtime і може skip-нути файл, який змінився
@@ -118,4 +130,4 @@ jobs:
         if: success()
         run: |
           echo "Deployed to https://botisystem.com/BotiLocal/"
-          echo "Smoke test: https://botisystem.com/BotiLocal/smoke.html"
+          echo "Demo menu: https://botisystem.com/BotiLocal/menu/paddys"
