@@ -11,6 +11,20 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
+// Розпис емодзі → CSS-анімація (див. globals.css). Падаємо на 'bounce'
+// за замовчуванням, щоб кожен таб мав хоч якусь "особистість".
+function emojiAnimation(emoji: string | null): string {
+  if (!emoji) return 'anim-bounce';
+  // Перевіряємо по входженню — emoji може бути variation selector тощо.
+  const e = emoji;
+  if (/🍺|🍻|🥤|🍹|🥂|🍾/.test(e)) return 'anim-shake';      // напої — fizz
+  if (/🍷|🍝|🌮|🥖|🍣/.test(e))    return 'anim-tilt';       // нахил
+  if (/☕|🍵|🍜|🥣|🌯|🍲/.test(e)) return 'anim-steam';      // пар
+  if (/🍮|🍰|🍩|🍪|🧁|🍦|🍧|🍫/.test(e)) return 'anim-pop'; // десерти — пухкі
+  if (/🌶️|🥗|🥬|🌿|🥒|🍅/.test(e)) return 'anim-wiggle';   // салат — жвавий
+  return 'anim-bounce';                                       // м'ясо/бургер/піца за замовчуванням
+}
+
 export function CategoryTabs({
   categories,
   translations,
@@ -22,8 +36,7 @@ export function CategoryTabs({
   const containerRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<HTMLButtonElement>(null);
 
-  // Скролимо активний таб у видиму зону при зміні (особливо корисно
-  // коли активна категорія міняється від скролу контенту).
+  // Скрол активного табу у видиму зону при зміні.
   useEffect(() => {
     if (activeRef.current && containerRef.current) {
       activeRef.current.scrollIntoView({
@@ -42,20 +55,30 @@ export function CategoryTabs({
       {categories.map((cat) => {
         const { name } = translateCategory(cat, translations, language, fallbackLanguage);
         const isActive = cat.id === activeId;
+        const anim = emojiAnimation(cat.icon);
+
         return (
           <button
             key={cat.id}
             ref={isActive ? activeRef : undefined}
             type="button"
             onClick={() => onSelect(cat.id)}
+            data-active={isActive}
             className={
-              'flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all active:scale-95 ' +
+              'category-chip flex min-h-[44px] shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-[15px] font-medium whitespace-nowrap transition-all duration-200 ' +
               (isActive
-                ? 'bg-brand-primary text-white shadow-raised'
-                : 'bg-white text-slate-700 shadow-soft ring-1 ring-slate-200/60 hover:-translate-y-0.5 hover:shadow-raised')
+                ? 'border-transparent bg-brand-primary text-white shadow-raised'
+                : 'border-[#e4ddd3] bg-[#fffaf3] text-[#2b2520] shadow-soft hover:-translate-y-0.5 hover:border-transparent hover:bg-brand-primary hover:text-white')
             }
           >
-            {cat.icon ? <span aria-hidden className="text-base">{cat.icon}</span> : null}
+            {cat.icon ? (
+              <span
+                aria-hidden
+                className={`category-emoji ${anim} inline-block text-xl leading-none`}
+              >
+                {cat.icon}
+              </span>
+            ) : null}
             <span>{name}</span>
           </button>
         );
