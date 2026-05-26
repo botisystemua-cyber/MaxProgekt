@@ -7,7 +7,7 @@
 // і замінити цей файл re-export-ом. Поки що тримаємо вручну для простоти.
 // =====================================================================
 
-export type Language = 'es' | 'en' | 'uk' | 'ru';
+export type Language = 'es' | 'en' | 'uk' | 'ru' | 'pl' | 'ga' | 'de';
 export type Role = 'owner' | 'admin' | 'waiter';
 export type SpecialType = 'daily' | 'promo' | 'happy_hour';
 export type SubscriptionPlan = 'basic' | 'pro' | 'premium';

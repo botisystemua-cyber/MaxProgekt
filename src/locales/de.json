@@ -1,0 +1,43 @@
+{
+  "common": {
+    "loading": "Wird geladen…",
+    "error": "Etwas ist schiefgegangen",
+    "retry": "Erneut versuchen",
+    "search": "Suchen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "add": "Hinzufügen",
+    "back": "Zurück",
+    "language": "Sprache"
+  },
+  "menu": {
+    "title": "Speisekarte",
+    "dailySpecial": "Tagesgericht",
+    "promo": "Aktion",
+    "new": "Neu",
+    "spicy": "Scharf",
+    "vegetarian": "Vegetarisch",
+    "vegan": "Vegan",
+    "glutenFree": "Glutenfrei",
+    "unavailable": "Nicht verfügbar",
+    "search": "Gericht suchen…",
+    "noResults": "Keine Ergebnisse",
+    "allergens": "Allergene",
+    "tenantNotFound": "Restaurant nicht gefunden"
+  },
+  "admin": {
+    "login": "Anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "dashboard": "Dashboard",
+    "menuManage": "Speisekarte",
+    "specials": "Aktionen",
+    "settings": "Einstellungen",
+    "team": "Team",
+    "logout": "Abmelden",
+    "newItem": "Neues Gericht",
+    "qrCode": "QR-Code"
+  }
+}

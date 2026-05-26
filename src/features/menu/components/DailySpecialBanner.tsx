@@ -66,27 +66,38 @@ export function DailySpecialBanner({
     <button
       type="button"
       onClick={onClick}
-      className="relative flex w-full items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 p-4 text-left text-white shadow-lg"
+      className="group relative flex w-full items-center gap-4 overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 via-rose-500 to-pink-600 p-5 text-left text-white shadow-raised transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
     >
-      <div className="text-3xl">{labelInfo.emoji}</div>
-      <div className="min-w-0 flex-1">
-        <div className="text-[11px] font-bold uppercase tracking-wider text-white/80">
+      {/* Декоративні кола для об'єму */}
+      <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/15 blur-2xl" />
+      <div className="pointer-events-none absolute -bottom-16 -left-8 h-32 w-32 rounded-full bg-yellow-300/20 blur-2xl" />
+
+      <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-3xl shadow-raised ring-1 ring-white/30 backdrop-blur">
+        {labelInfo.emoji}
+      </div>
+
+      <div className="relative min-w-0 flex-1">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-white/85">
           {t(labelInfo.key)}
         </div>
-        <div className="truncate text-lg font-bold">{name}</div>
-        <div className="text-sm">
-          <span className="font-semibold">
-            {finalPrice.toFixed(2)} {currency}
+        <div className="mt-0.5 truncate text-xl font-extrabold leading-tight">{name}</div>
+        <div className="mt-1.5 flex items-baseline gap-2">
+          <span className="text-2xl font-extrabold tabular-nums">
+            {finalPrice.toFixed(2)}
+            <span className="ml-1 text-sm font-semibold text-white/80">{currency}</span>
           </span>
           {special.special_price !== null && special.special_price < item.price ? (
-            <span className="ml-2 text-white/60 line-through">
-              {item.price.toFixed(2)} {currency}
+            <span className="text-sm text-white/70 line-through">
+              {item.price.toFixed(2)}
             </span>
           ) : null}
         </div>
       </div>
+
       {countdown ? (
-        <div className="rounded-lg bg-black/20 px-2 py-1 text-xs font-mono">{countdown}</div>
+        <div className="relative shrink-0 rounded-xl bg-black/30 px-2.5 py-1.5 font-mono text-xs font-bold shadow-inner-soft ring-1 ring-white/10 backdrop-blur">
+          {countdown}
+        </div>
       ) : null}
     </button>
   );

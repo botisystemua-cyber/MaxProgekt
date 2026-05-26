@@ -37,7 +37,7 @@ export function CategoryTabs({
   return (
     <nav
       ref={containerRef}
-      className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-2 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {categories.map((cat) => {
         const { name } = translateCategory(cat, translations, language, fallbackLanguage);
@@ -48,13 +48,14 @@ export function CategoryTabs({
             ref={isActive ? activeRef : undefined}
             type="button"
             onClick={() => onSelect(cat.id)}
-            className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-medium transition-colors ${
-              isActive
-                ? 'border-transparent bg-brand-primary text-white'
-                : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
-            }`}
+            className={
+              'flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all active:scale-95 ' +
+              (isActive
+                ? 'bg-brand-primary text-white shadow-raised'
+                : 'bg-white text-slate-700 shadow-soft ring-1 ring-slate-200/60 hover:-translate-y-0.5 hover:shadow-raised')
+            }
           >
-            {cat.icon ? <span aria-hidden>{cat.icon}</span> : null}
+            {cat.icon ? <span aria-hidden className="text-base">{cat.icon}</span> : null}
             <span>{name}</span>
           </button>
         );

@@ -141,15 +141,18 @@ export default function MenuPage() {
   const specialItemId = activeSpecial?.menu_item_id;
 
   return (
-    <div style={style} className="mx-auto flex min-h-full max-w-3xl flex-col bg-slate-50">
+    <div
+      style={style}
+      className="mx-auto flex min-h-full max-w-3xl flex-col bg-gradient-to-b from-slate-50 via-slate-50 to-slate-100/60"
+    >
       <RestaurantHeader tenant={tenant}>
         <LanguageSwitcher available={tenant.available_languages} />
       </RestaurantHeader>
 
-      <div className="sticky top-0 z-30 -mb-2 bg-slate-50 px-5 pb-3 pt-4 shadow-sm">
+      <div className="sticky top-0 z-30 -mt-4 bg-gradient-to-b from-slate-50 via-slate-50 to-slate-50/95 px-5 pb-3 pt-4 backdrop-blur-md">
         <SearchBar value={search} onChange={setSearch} />
         {!search ? (
-          <div className="mt-3">
+          <div className="mt-3.5">
             <CategoryTabs
               categories={data?.categories ?? []}
               translations={data?.categoryTranslations ?? []}
