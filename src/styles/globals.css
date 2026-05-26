@@ -21,3 +21,68 @@
     padding-top: max(env(safe-area-inset-top), 0.5rem);
   }
 }
+
+/* --------------------------------------------------------------------
+ * Анімовані емодзі у category-chips. Кожен emoji отримує свою
+ * "особистість" — bounce / wiggle / tilt / pop / shake / steam — і
+ * "оживає" при hover чи на активному табі.
+ * Розпис анімацій → див. emojiAnimation() у CategoryTabs.tsx.
+ * -------------------------------------------------------------------- */
+.category-chip:hover .anim-bounce,
+.category-chip[data-active='true'] .anim-bounce {
+  animation: emoji-bounce 0.65s ease infinite;
+}
+.category-chip:hover .anim-wiggle,
+.category-chip[data-active='true'] .anim-wiggle {
+  animation: emoji-wiggle 0.55s ease infinite;
+}
+.category-chip:hover .anim-tilt,
+.category-chip[data-active='true'] .anim-tilt {
+  animation: emoji-tilt 0.8s ease-in-out infinite;
+}
+.category-chip:hover .anim-pop,
+.category-chip[data-active='true'] .anim-pop {
+  animation: emoji-pop 0.7s ease infinite;
+}
+.category-chip:hover .anim-shake,
+.category-chip[data-active='true'] .anim-shake {
+  animation: emoji-shake 0.45s ease infinite;
+}
+.category-chip:hover .anim-steam,
+.category-chip[data-active='true'] .anim-steam {
+  animation: emoji-steam 1s ease-in-out infinite;
+}
+
+@keyframes emoji-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  45%      { transform: translateY(-5px) scale(1.08); }
+}
+@keyframes emoji-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-9deg); }
+  75%      { transform: rotate(9deg); }
+}
+@keyframes emoji-tilt {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  50%      { transform: rotate(8deg) translateY(-3px); }
+}
+@keyframes emoji-pop {
+  0%, 100% { transform: scale(1); }
+  45%      { transform: scale(1.22); }
+}
+@keyframes emoji-shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25%      { transform: translateX(-2px) rotate(-4deg); }
+  75%      { transform: translateX(2px) rotate(4deg); }
+}
+@keyframes emoji-steam {
+  0%, 100% { transform: translateY(0) scale(1); filter: brightness(1); }
+  50%      { transform: translateY(-4px) scale(1.06); filter: brightness(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-chip:hover .category-emoji,
+  .category-chip[data-active='true'] .category-emoji {
+    animation: none !important;
+  }
+}
