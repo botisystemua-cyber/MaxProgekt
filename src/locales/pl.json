@@ -1,0 +1,43 @@
+{
+  "common": {
+    "loading": "Ładowanie…",
+    "error": "Coś poszło nie tak",
+    "retry": "Spróbuj ponownie",
+    "search": "Szukaj",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "add": "Dodaj",
+    "back": "Wstecz",
+    "language": "Język"
+  },
+  "menu": {
+    "title": "Menu",
+    "dailySpecial": "Danie dnia",
+    "promo": "Promocja",
+    "new": "Nowość",
+    "spicy": "Pikantne",
+    "vegetarian": "Wegetariańskie",
+    "vegan": "Wegańskie",
+    "glutenFree": "Bezglutenowe",
+    "unavailable": "Niedostępne",
+    "search": "Szukaj dania…",
+    "noResults": "Brak wyników",
+    "allergens": "Alergeny",
+    "tenantNotFound": "Restauracja nie znaleziona"
+  },
+  "admin": {
+    "login": "Zaloguj się",
+    "email": "Email",
+    "password": "Hasło",
+    "dashboard": "Panel",
+    "menuManage": "Menu",
+    "specials": "Promocje",
+    "settings": "Ustawienia",
+    "team": "Zespół",
+    "logout": "Wyloguj",
+    "newItem": "Nowa pozycja",
+    "qrCode": "Kod QR"
+  }
+}

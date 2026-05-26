@@ -1,0 +1,43 @@
+{
+  "common": {
+    "loading": "Á luchtú…",
+    "error": "Tharla earráid",
+    "retry": "Bain triail eile as",
+    "search": "Cuardach",
+    "save": "Sábháil",
+    "cancel": "Cealaigh",
+    "delete": "Scrios",
+    "edit": "Cuir in eagar",
+    "add": "Cuir leis",
+    "back": "Ar ais",
+    "language": "Teanga"
+  },
+  "menu": {
+    "title": "Biachlár",
+    "dailySpecial": "Béile an Lae",
+    "promo": "Tairiscint",
+    "new": "Nua",
+    "spicy": "Spíosrach",
+    "vegetarian": "Glasraitheoir",
+    "vegan": "Veigeánach",
+    "glutenFree": "Saor ó ghlútan",
+    "unavailable": "Níl ar fáil",
+    "search": "Cuardaigh mias…",
+    "noResults": "Gan torthaí",
+    "allergens": "Ailléirgíní",
+    "tenantNotFound": "Bialann gan aimsiú"
+  },
+  "admin": {
+    "login": "Logáil isteach",
+    "email": "Ríomhphost",
+    "password": "Pasfhocal",
+    "dashboard": "Painéal",
+    "menuManage": "Biachlár",
+    "specials": "Tairiscintí",
+    "settings": "Socruithe",
+    "team": "Foireann",
+    "logout": "Logáil amach",
+    "newItem": "Mias nua",
+    "qrCode": "Cód QR"
+  }
+}

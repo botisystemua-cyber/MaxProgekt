@@ -6,6 +6,9 @@ import es from '@/locales/es.json';
 import en from '@/locales/en.json';
 import uk from '@/locales/uk.json';
 import ru from '@/locales/ru.json';
+import pl from '@/locales/pl.json';
+import ga from '@/locales/ga.json';
+import de from '@/locales/de.json';
 
 void i18n
   .use(LanguageDetector)
@@ -16,9 +19,12 @@ void i18n
       en: { translation: en },
       uk: { translation: uk },
       ru: { translation: ru },
+      pl: { translation: pl },
+      ga: { translation: ga },
+      de: { translation: de },
     },
     fallbackLng: 'es',
-    supportedLngs: ['es', 'en', 'uk', 'ru'],
+    supportedLngs: ['es', 'en', 'uk', 'ru', 'pl', 'ga', 'de'],
     interpolation: { escapeValue: false },
     detection: {
       order: ['localStorage', 'navigator'],
