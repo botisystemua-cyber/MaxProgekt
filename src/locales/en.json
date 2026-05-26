@@ -1,0 +1,42 @@
+{
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "search": "Search",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "back": "Back",
+    "language": "Language"
+  },
+  "menu": {
+    "title": "Menu",
+    "dailySpecial": "Dish of the day",
+    "promo": "Promo",
+    "new": "New",
+    "spicy": "Spicy",
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "glutenFree": "Gluten-free",
+    "unavailable": "Unavailable",
+    "search": "Search dishes…",
+    "noResults": "No results",
+    "tenantNotFound": "Restaurant not found"
+  },
+  "admin": {
+    "login": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "dashboard": "Dashboard",
+    "menuManage": "Menu",
+    "specials": "Specials",
+    "settings": "Settings",
+    "team": "Team",
+    "logout": "Sign out",
+    "newItem": "New item",
+    "qrCode": "QR code"
+  }
+}

@@ -1,26 +1,34 @@
 -- =====================================================================
--- Seed: Paddy's Point Irish Bar (відповідає DEFAULT_ITEMS у QRMenu.html)
+-- Seed: Paddy's Point Irish Bar — demo tenant для BotiLocal
 -- =====================================================================
 
-with new_restaurant as (
-  insert into public.restaurants
-    (slug, name, tagline, address, phone, hours, wifi, rating, reviews)
+with new_tenant as (
+  insert into public.tenants
+    (slug, name, tagline, description, address, phone, hours, wifi,
+     rating, reviews, primary_color, secondary_color, default_language,
+     available_languages, is_active)
   values
     ('paddys',
      'Paddy''s Point Irish Bar',
      'Irish Pub & Kitchen · La Zenia',
+     'Authentic Irish pub з домашньою кухнею, живою музикою та найкращим Guinness на узбережжі.',
      'Av. de las Naciones, La Zenia, Orihuela Costa',
      '+34 966 73 05 27',
      '11:00 – 01:00',
      'PaddysPoint2024',
      4.6,
-     3787)
+     3787,
+     '#1B6B3A',  -- Irish green
+     '#1A1A2E',
+     'es',
+     '["es","en","uk","ru"]'::jsonb,
+     true)
   returning id
 ),
 new_categories as (
-  insert into public.categories (restaurant_id, slug, label, icon, sort_order)
-  select r.id, c.slug, c.label, c.icon, c.sort_order
-  from new_restaurant r
+  insert into public.categories (tenant_id, slug, label, icon, sort_order)
+  select t.id, c.slug, c.label, c.icon, c.sort_order
+  from new_tenant t
   cross join (values
     ('starters', 'Стартери', '🥗', 1),
     ('mains',    'Головне',  '🍖', 2),
@@ -49,10 +57,10 @@ items (sort_order, cat_slug, name, description, price, is_vegetarian, tags) as (
     (16, 'drinks',   'Soft Drinks',             'Coca-Cola, Sprite, Fanta, Tonic, OJ',                        2.5,          true,  array[]::text[]),
     (17, 'drinks',   'Irish Coffee',            'Jameson whiskey, hot coffee, brown sugar, cream',            6.0,          true,  array['dairy'])
 )
-insert into public.products
-  (restaurant_id, category_id, name, description, price, is_vegetarian, tags, sort_order)
+insert into public.menu_items
+  (tenant_id, category_id, name, description, price, is_vegetarian, tags, sort_order)
 select
-  r.id,
+  t.id,
   c.id,
   i.name,
   i.description,
@@ -60,6 +68,6 @@ select
   i.is_vegetarian,
   i.tags,
   i.sort_order
-from new_restaurant r
+from new_tenant t
 cross join items i
 join new_categories c on c.slug = i.cat_slug;
