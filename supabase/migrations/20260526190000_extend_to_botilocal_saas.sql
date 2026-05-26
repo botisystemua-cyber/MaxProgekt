@@ -19,6 +19,18 @@
 drop table if exists public.smoke_test;
 
 -- ---------------------------------------------------------------------
+-- 0.5 Старі RLS-політики (з init-міграції) — дропаємо перед будь-якими
+-- структурними змінами. Інакше "visible products are readable by anyone"
+-- блокує DROP COLUMN is_hidden (postgres 2BP01 dependent_objects_still_exist).
+--
+-- Імена референсимо за СТАРИМИ назвами таблиць (renames ще не виконані).
+-- ---------------------------------------------------------------------
+drop policy if exists "restaurants are readable by anyone"      on public.restaurants;
+drop policy if exists "categories are readable by anyone"       on public.categories;
+drop policy if exists "visible products are readable by anyone" on public.products;
+drop policy if exists "active banners are readable by anyone"   on public.banners;
+
+-- ---------------------------------------------------------------------
 -- 1. restaurants → tenants
 -- ---------------------------------------------------------------------
 alter table public.restaurants rename to tenants;
@@ -162,15 +174,9 @@ create index if not exists daily_specials_tenant_active_idx
   on public.daily_specials (tenant_id, is_active, ends_at);
 
 -- ---------------------------------------------------------------------
--- 9. RLS
+-- 9. RLS — нові політики (старі дропнуті у блоці 0.5 на самому початку,
+-- щоб не блокувати DROP COLUMN is_hidden у блоці 3).
 -- ---------------------------------------------------------------------
-
--- Скидаємо старі політики (назви містили слово "products" / стара логіка).
-drop policy if exists "restaurants are readable by anyone"      on public.tenants;
-drop policy if exists "categories are readable by anyone"       on public.categories;
-drop policy if exists "visible products are readable by anyone" on public.menu_items;
-drop policy if exists "active banners are readable by anyone"   on public.banners;
-
 alter table public.tenants                enable row level security;
 alter table public.categories             enable row level security;
 alter table public.menu_items             enable row level security;
