@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
+import { MenuShareCard } from '../components/MenuShareCard';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { supabase } from '@/shared/lib/supabase';
 import type { Language, Tenant } from '@/shared/types/database';
@@ -78,6 +79,8 @@ export default function SettingsPage() {
     <AdminShell>
       <form onSubmit={handleSave} className="mx-auto max-w-3xl space-y-5 p-4">
         <h1 className="text-xl font-bold">{t('admin.settings')}</h1>
+
+        <MenuShareCard tenant={tenant} variant="full" />
 
         {error ? (
           <div className="rounded-xl bg-rose-900/40 p-3 text-sm text-rose-200">{error}</div>

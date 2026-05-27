@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
+import { MenuShareCard } from '../components/MenuShareCard';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { useAdminMenu } from '../hooks/useAdminMenu';
 
@@ -26,36 +27,10 @@ export default function DashboardPage() {
   const availableCount = items.filter((i) => i.is_available).length;
   const hiddenCount = items.length - availableCount;
 
-  const menuUrl = tenant ? `${window.location.origin}${import.meta.env.BASE_URL}menu/${tenant.slug}` : '';
-
   return (
     <AdminShell>
       <div className="mx-auto max-w-3xl space-y-4 p-4">
-        {tenant ? (
-          <div className="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-900/60 p-4 ring-1 ring-slate-800">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-              Public menu
-            </div>
-            <div className="mt-1 truncate text-sm font-mono text-slate-200">{menuUrl}</div>
-            <div className="mt-3 flex gap-2">
-              <a
-                href={menuUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex-1 rounded-lg bg-brand-primary py-2 text-center text-sm font-semibold text-white"
-              >
-                Open
-              </a>
-              <button
-                type="button"
-                onClick={() => void navigator.clipboard.writeText(menuUrl)}
-                className="flex-1 rounded-lg bg-slate-800 py-2 text-center text-sm font-semibold"
-              >
-                Copy link
-              </button>
-            </div>
-          </div>
-        ) : null}
+        {tenant ? <MenuShareCard tenant={tenant} variant="compact" /> : null}
 
         {loading ? (
           <div className="grid grid-cols-2 gap-3">

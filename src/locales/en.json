@@ -51,6 +51,10 @@
     "logout": "Sign out",
     "newItem": "New item",
     "qrCode": "QR code",
-    "platform": "Platform"
+    "platform": "Platform",
+    "shareTitle": "Your menu",
+    "copyLink": "Copy",
+    "openMenu": "Open",
+    "share": "Share"
   }
 }
