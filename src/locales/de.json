@@ -50,6 +50,7 @@
     "team": "Team",
     "logout": "Abmelden",
     "newItem": "Neues Gericht",
-    "qrCode": "QR-Code"
+    "qrCode": "QR-Code",
+    "platform": "Plattform"
   }
 }

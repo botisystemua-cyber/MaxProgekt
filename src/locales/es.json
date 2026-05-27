@@ -50,6 +50,7 @@
     "team": "Equipo",
     "logout": "Cerrar sesión",
     "newItem": "Nuevo plato",
-    "qrCode": "Código QR"
+    "qrCode": "Código QR",
+    "platform": "Plataforma"
   }
 }
