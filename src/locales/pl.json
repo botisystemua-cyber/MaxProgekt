@@ -52,6 +52,10 @@
     "logout": "Wyloguj",
     "newItem": "Nowa pozycja",
     "qrCode": "Kod QR",
-    "platform": "Platforma"
+    "platform": "Platforma",
+    "shareTitle": "Twoje menu",
+    "copyLink": "Kopiuj",
+    "openMenu": "Otwórz",
+    "share": "Udostępnij"
   }
 }

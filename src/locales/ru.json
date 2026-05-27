@@ -52,6 +52,10 @@
     "logout": "Выйти",
     "newItem": "Новое блюдо",
     "qrCode": "QR-код",
-    "platform": "Платформа"
+    "platform": "Платформа",
+    "shareTitle": "Ваше меню",
+    "copyLink": "Копировать",
+    "openMenu": "Открыть",
+    "share": "Поделиться"
   }
 }

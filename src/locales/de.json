@@ -51,6 +51,10 @@
     "logout": "Abmelden",
     "newItem": "Neues Gericht",
     "qrCode": "QR-Code",
-    "platform": "Plattform"
+    "platform": "Plattform",
+    "shareTitle": "Ihre Speisekarte",
+    "copyLink": "Kopieren",
+    "openMenu": "Öffnen",
+    "share": "Teilen"
   }
 }

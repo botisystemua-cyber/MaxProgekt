@@ -52,6 +52,10 @@
     "logout": "Вийти",
     "newItem": "Нова страва",
     "qrCode": "QR-код",
-    "platform": "Платформа"
+    "platform": "Платформа",
+    "shareTitle": "Ваше меню",
+    "copyLink": "Копіювати",
+    "openMenu": "Відкрити",
+    "share": "Поділитися"
   }
 }

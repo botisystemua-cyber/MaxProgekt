@@ -51,6 +51,10 @@
     "logout": "Logáil amach",
     "newItem": "Mias nua",
     "qrCode": "Cód QR",
-    "platform": "Ardán"
+    "platform": "Ardán",
+    "shareTitle": "Do bhiachlár",
+    "copyLink": "Cóipeáil",
+    "openMenu": "Oscail",
+    "share": "Roinn"
   }
 }

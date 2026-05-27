@@ -51,6 +51,10 @@
     "logout": "Cerrar sesión",
     "newItem": "Nuevo plato",
     "qrCode": "Código QR",
-    "platform": "Plataforma"
+    "platform": "Plataforma",
+    "shareTitle": "Tu menú",
+    "copyLink": "Copiar",
+    "openMenu": "Abrir",
+    "share": "Compartir"
   }
 }
