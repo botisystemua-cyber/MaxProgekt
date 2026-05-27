@@ -51,6 +51,7 @@
     "team": "Zespół",
     "logout": "Wyloguj",
     "newItem": "Nowa pozycja",
-    "qrCode": "Kod QR"
+    "qrCode": "Kod QR",
+    "platform": "Platforma"
   }
 }

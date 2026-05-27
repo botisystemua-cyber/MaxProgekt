@@ -8,7 +8,7 @@
 // =====================================================================
 
 export type Language = 'es' | 'en' | 'uk' | 'ru' | 'pl' | 'ga' | 'de';
-export type Role = 'owner' | 'admin' | 'waiter';
+export type Role = 'owner' | 'admin' | 'waiter' | 'superadmin';
 export type SpecialType = 'daily' | 'promo' | 'happy_hour';
 export type SubscriptionPlan = 'basic' | 'pro' | 'premium';
 
@@ -96,7 +96,8 @@ export interface MenuItemTranslation {
 
 export interface AppUser {
   id: string;
-  tenant_id: string;
+  // null коли роль = 'superadmin' (платформний користувач без прив'язки до закладу)
+  tenant_id: string | null;
   role: Role;
   full_name: string | null;
   avatar_url: string | null;

@@ -7,13 +7,15 @@ interface Tab {
   to: string;
   labelKey: string;
   icon: string;
+  superadminOnly?: boolean;
 }
 
-const tabs: Tab[] = [
+const allTabs: Tab[] = [
   { to: '/admin/dashboard', labelKey: 'admin.dashboard', icon: '📊' },
   { to: '/admin/menu', labelKey: 'admin.menuManage', icon: '🍽️' },
-  { to: '/admin/specials', labelKey: 'admin.specials', icon: '🔥' },
+  { to: '/admin/team', labelKey: 'admin.team', icon: '👥' },
   { to: '/admin/settings', labelKey: 'admin.settings', icon: '⚙️' },
+  { to: '/admin/platform', labelKey: 'admin.platform', icon: '🌐', superadminOnly: true },
 ];
 
 export function AdminShell({ children }: { children?: React.ReactNode }) {
@@ -71,8 +73,14 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
       <main className="flex-1 overflow-y-auto pb-24">{children ?? <Outlet />}</main>
 
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-50 border-t border-slate-800 bg-slate-900/95 backdrop-blur">
-        <ul className="mx-auto grid max-w-3xl grid-cols-4">
-          {tabs.map((tab) => (
+        <ul
+          className={`mx-auto grid max-w-3xl ${
+            currentUser?.role === 'superadmin' ? 'grid-cols-5' : 'grid-cols-4'
+          }`}
+        >
+          {allTabs
+            .filter((tab) => !tab.superadminOnly || currentUser?.role === 'superadmin')
+            .map((tab) => (
             <li key={tab.to}>
               <NavLink
                 to={tab.to}

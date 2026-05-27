@@ -51,6 +51,7 @@
     "team": "Команда",
     "logout": "Выйти",
     "newItem": "Новое блюдо",
-    "qrCode": "QR-код"
+    "qrCode": "QR-код",
+    "platform": "Платформа"
   }
 }

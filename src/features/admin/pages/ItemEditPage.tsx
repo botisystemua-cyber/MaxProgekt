@@ -5,6 +5,7 @@ import { AdminShell } from '../components/AdminShell';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { useAdminMenu } from '../hooks/useAdminMenu';
 import { supabase } from '@/shared/lib/supabase';
+import { uploadMenuItemImage } from '../utils/imageUpload';
 import type { Language, MenuItem, MenuItemTranslation } from '@/shared/types/database';
 
 interface TranslationField {
@@ -49,6 +50,7 @@ export default function ItemEditPage() {
   const [translations, setTranslations] = useState<TranslationsState>({});
   const [trLang, setTrLang] = useState<Language>('es');
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const available = tenant?.available_languages ?? (['es'] as Language[]);
@@ -171,6 +173,22 @@ export default function ItemEditPage() {
       setError((e as Error).message);
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ''; // reset щоб можна було вибрати той самий файл ще раз
+    if (!file || !tenant) return;
+    setUploading(true);
+    setError(null);
+    try {
+      const url = await uploadMenuItemImage(file, tenant.slug, id);
+      patch('image_url', url);
+    } catch (err) {
+      setError(`Upload failed: ${(err as Error).message}`);
+    } finally {
+      setUploading(false);
     }
   }
 
@@ -301,10 +319,63 @@ export default function ItemEditPage() {
           </label>
         </fieldset>
 
-        {/* IMAGE URL */}
-        <fieldset className="rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
+        {/* IMAGE: upload або URL */}
+        <fieldset className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
+          <legend className="text-xs font-bold uppercase tracking-widest text-slate-400">
+            Photo
+          </legend>
+
+          {form.image_url ? (
+            <div className="flex items-center gap-3">
+              <img
+                src={form.image_url}
+                alt=""
+                className="h-28 w-28 rounded-xl object-cover ring-1 ring-slate-800"
+              />
+              <button
+                type="button"
+                onClick={() => patch('image_url', null)}
+                className="rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-300"
+              >
+                {t('common.delete')}
+              </button>
+            </div>
+          ) : null}
+
+          <div className="grid grid-cols-2 gap-2">
+            <label
+              className={`flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand-primary px-3 py-2.5 text-sm font-semibold text-white transition-opacity ${
+                uploading ? 'opacity-60' : ''
+              }`}
+            >
+              📷 {uploading ? t('common.loading') : 'Camera'}
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handleFile}
+                disabled={uploading}
+                className="hidden"
+              />
+            </label>
+            <label
+              className={`flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-800 px-3 py-2.5 text-sm font-semibold text-slate-100 transition-opacity ${
+                uploading ? 'opacity-60' : ''
+              }`}
+            >
+              🖼 Upload
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFile}
+                disabled={uploading}
+                className="hidden"
+              />
+            </label>
+          </div>
+
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Image URL</span>
+            <span className="mb-1 block text-xs text-slate-400">…or paste URL</span>
             <input
               type="url"
               value={form.image_url ?? ''}
@@ -313,13 +384,10 @@ export default function ItemEditPage() {
               className="w-full rounded-lg bg-slate-800 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-primary"
             />
           </label>
-          {form.image_url ? (
-            <img
-              src={form.image_url}
-              alt=""
-              className="mt-3 h-32 w-32 rounded-xl object-cover ring-1 ring-slate-800"
-            />
-          ) : null}
+
+          <p className="text-[10px] text-slate-500">
+            Photo is auto-composed on a 1024×1024 white canvas (8% padding) and saved as WebP.
+          </p>
         </fieldset>
 
         {/* BADGES */}

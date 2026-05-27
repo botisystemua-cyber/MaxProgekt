@@ -50,6 +50,7 @@
     "team": "Team",
     "logout": "Sign out",
     "newItem": "New item",
-    "qrCode": "QR code"
+    "qrCode": "QR code",
+    "platform": "Platform"
   }
 }

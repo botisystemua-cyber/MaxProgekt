@@ -10,6 +10,7 @@ import ItemEditPage from '@/features/admin/pages/ItemEditPage';
 import SpecialsPage from '@/features/admin/pages/SpecialsPage';
 import SettingsPage from '@/features/admin/pages/SettingsPage';
 import TeamPage from '@/features/admin/pages/TeamPage';
+import PlatformPage from '@/features/admin/pages/PlatformPage';
 
 export default function AppRouter() {
   return (
@@ -32,6 +33,7 @@ export default function AppRouter() {
         <Route path="/admin/specials" element={<SpecialsPage />} />
         <Route path="/admin/settings" element={<SettingsPage />} />
         <Route path="/admin/team" element={<TeamPage />} />
+        <Route path="/admin/platform" element={<PlatformPage />} />
       </Route>
 
       {/* 404 */}
