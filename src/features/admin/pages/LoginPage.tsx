@@ -8,6 +8,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -34,6 +35,7 @@ export default function LoginPage() {
           <input
             type="email"
             required
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-lg bg-slate-800 px-3 py-2 outline-none ring-brand-primary focus:ring-2"
@@ -42,13 +44,45 @@ export default function LoginPage() {
 
         <label className="mb-5 block">
           <span className="mb-1 block text-xs text-slate-400">{t('admin.password')}</span>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg bg-slate-800 px-3 py-2 outline-none ring-brand-primary focus:ring-2"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg bg-slate-800 px-3 py-2 pr-11 outline-none ring-brand-primary focus:ring-2"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              tabIndex={-1}
+              className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 transition-colors hover:text-slate-100"
+            >
+              {showPassword ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path
+                    d="M3 3l18 18M10.6 6.1A9.9 9.9 0 0 1 12 6c5 0 9.3 3.1 11 6-.6 1.1-1.5 2.2-2.6 3.2M6.6 6.6C4.4 8.1 2.8 10 2 12c1.7 2.9 6 6 10 6 1.8 0 3.5-.6 5-1.5M9.9 9.9a3 3 0 0 0 4.2 4.2"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path
+                    d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.7" />
+                </svg>
+              )}
+            </button>
+          </div>
         </label>
 
         {error ? <p className="mb-4 text-sm text-rose-400">{error}</p> : null}
