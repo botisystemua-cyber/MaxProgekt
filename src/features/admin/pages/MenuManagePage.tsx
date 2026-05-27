@@ -57,7 +57,7 @@ export default function MenuManagePage() {
           <p className="text-sm text-slate-400">{t('common.loading')}</p>
         ) : grouped.length === 0 ? (
           <p className="rounded-xl bg-slate-900 p-4 text-sm text-slate-400 ring-1 ring-slate-800">
-            No categories yet.
+            {t('admin.menuManagePage.noCategories')}
           </p>
         ) : (
           grouped.map(({ cat, items }) => {
@@ -76,7 +76,7 @@ export default function MenuManagePage() {
                 </h2>
                 {items.length === 0 ? (
                   <p className="rounded-xl bg-slate-900/60 p-3 text-xs text-slate-500 ring-1 ring-slate-800">
-                    Empty
+                    {t('admin.menuManagePage.empty')}
                   </p>
                 ) : (
                   <ul className="space-y-2">

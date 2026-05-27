@@ -20,7 +20,15 @@ export default function PlatformPage() {
   }
 
   async function handleDelete(tenantPlatform: PlatformTenant) {
-    if (!confirm(`Delete ${tenantPlatform.name} (${tenantPlatform.slug}) and ALL its data?`)) return;
+    if (
+      !confirm(
+        t('admin.platform.deleteConfirm', {
+          name: tenantPlatform.name,
+          slug: tenantPlatform.slug,
+        }),
+      )
+    )
+      return;
     const { error: err } = await supabase.rpc('delete_tenant_admin', {
       p_tenant_id: tenantPlatform.id,
     });
@@ -33,9 +41,9 @@ export default function PlatformPage() {
       <div className="mx-auto max-w-3xl space-y-5 p-4">
         <header className="flex items-center justify-between">
           <h1 className="text-xl font-bold">
-            🌐 Platform
+            🌐 {t('admin.platform.title')}
             <span className="ml-2 text-xs font-normal text-slate-400">
-              {tenants.length} {tenants.length === 1 ? 'tenant' : 'tenants'}
+              {t('admin.platform.tenants', { count: tenants.length })}
             </span>
           </h1>
           <button
@@ -43,7 +51,7 @@ export default function PlatformPage() {
             onClick={() => setShowCreate((v) => !v)}
             className="rounded-lg bg-brand-primary px-3 py-1.5 text-sm font-semibold text-white"
           >
-            {showCreate ? t('common.cancel') : '＋ New tenant'}
+            {showCreate ? t('common.cancel') : `＋ ${t('admin.platform.newTenant')}`}
           </button>
         </header>
 
@@ -84,12 +92,12 @@ export default function PlatformPage() {
                         <span className="truncate">owner: {tn.owner_email}</span>
                       ) : (
                         <span className="rounded bg-amber-900/40 px-1.5 py-0.5 text-amber-300">
-                          no owner
+                          {t('admin.platform.noOwner')}
                         </span>
                       )}
                       {!tn.is_active ? (
                         <span className="rounded bg-rose-900/40 px-1.5 py-0.5 text-rose-300">
-                          inactive
+                          {t('admin.platform.inactive')}
                         </span>
                       ) : null}
                     </div>
@@ -129,6 +137,7 @@ function CreateTenantForm({
   onCreated: () => void;
   onError: (msg: string) => void;
 }) {
+  const { t } = useTranslation();
   const [slug, setSlug] = useState('');
   const [name, setName] = useState('');
   const [lang, setLang] = useState<(typeof ALL_LANGS)[number]>('es');
@@ -159,11 +168,11 @@ function CreateTenantForm({
       className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800"
     >
       <div className="text-xs font-bold uppercase tracking-widest text-slate-400">
-        New tenant
+        {t('admin.platform.newTenant')}
       </div>
       <div className="grid grid-cols-2 gap-2">
         <label className="block">
-          <span className="mb-1 block text-[10px] text-slate-400">slug (URL)</span>
+          <span className="mb-1 block text-[10px] text-slate-400">{t('admin.platform.slug')}</span>
           <input
             required
             value={slug}
@@ -174,7 +183,7 @@ function CreateTenantForm({
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-[10px] text-slate-400">name</span>
+          <span className="mb-1 block text-[10px] text-slate-400">{t('admin.settings.name')}</span>
           <input
             required
             value={name}
@@ -184,7 +193,7 @@ function CreateTenantForm({
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-[10px] text-slate-400">default language</span>
+          <span className="mb-1 block text-[10px] text-slate-400">{t('admin.platform.defaultLang')}</span>
           <select
             value={lang}
             onChange={(e) => setLang(e.target.value as (typeof ALL_LANGS)[number])}
@@ -198,7 +207,7 @@ function CreateTenantForm({
           </select>
         </label>
         <label className="block">
-          <span className="mb-1 block text-[10px] text-slate-400">currency</span>
+          <span className="mb-1 block text-[10px] text-slate-400">{t('admin.settings.currency')}</span>
           <input
             value={currency}
             onChange={(e) => setCurrency(e.target.value.toUpperCase())}
@@ -207,7 +216,7 @@ function CreateTenantForm({
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-[10px] text-slate-400">primary</span>
+          <span className="mb-1 block text-[10px] text-slate-400">{t('admin.settings.primaryColor')}</span>
           <input
             type="color"
             value={primary}
@@ -216,7 +225,7 @@ function CreateTenantForm({
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-[10px] text-slate-400">secondary</span>
+          <span className="mb-1 block text-[10px] text-slate-400">{t('admin.settings.secondaryColor')}</span>
           <input
             type="color"
             value={secondary}
@@ -230,11 +239,10 @@ function CreateTenantForm({
         disabled={saving}
         className="w-full rounded-lg bg-brand-primary py-2 font-semibold text-white disabled:opacity-50"
       >
-        {saving ? 'Creating…' : 'Create tenant'}
+        {saving ? t('admin.platform.creating') : t('admin.platform.create')}
       </button>
       <p className="text-[10px] leading-relaxed text-slate-500">
-        Створить тенант + 4 базові категорії (starters/mains/desserts/drinks). Owner призначте
-        окремо нижче — він має бути попередньо зареєстрований на /admin/login.
+        {t('admin.platform.createHint')}
       </p>
     </form>
   );
@@ -249,6 +257,7 @@ function ProvisionOwner({
   onDone: () => void;
   onError: (msg: string) => void;
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [saving, setSaving] = useState(false);
@@ -263,7 +272,7 @@ function ProvisionOwner({
     setSaving(false);
     if (error) {
       if (error.message.includes('not_registered')) {
-        onError(`${email} не зареєстрований. Хай зайде на /admin/login — потім спробуйте ще.`);
+        onError(t('admin.platform.ownerNotRegistered', { email }));
       } else {
         onError(error.message);
       }
@@ -292,7 +301,7 @@ function ProvisionOwner({
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="owner@email"
+        placeholder={t('admin.platform.ownerEmailPlaceholder')}
         className="w-32 rounded bg-slate-800 px-1.5 py-1 text-[10px] outline-none"
       />
       <div className="flex gap-1">
@@ -302,7 +311,7 @@ function ProvisionOwner({
           disabled={saving}
           className="flex-1 rounded bg-brand-primary px-1.5 py-1 text-[10px] font-bold text-white disabled:opacity-50"
         >
-          {saving ? '…' : 'Set'}
+          {saving ? '…' : t('admin.platform.ownerSet')}
         </button>
         <button
           type="button"

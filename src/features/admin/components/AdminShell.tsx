@@ -30,11 +30,9 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
     return (
       <div className="flex min-h-full flex-col items-center justify-center gap-3 bg-slate-950 p-6 text-center text-slate-100">
         <div className="text-5xl">🔐</div>
-        <h1 className="text-xl font-bold">Account not linked</h1>
+        <h1 className="text-xl font-bold">{t('admin.shell.notLinked')}</h1>
         <p className="max-w-sm text-sm text-slate-300">
-          Your auth account <span className="font-mono text-slate-100">{user.email}</span> is not
-          yet linked to any restaurant. Owner needs to add you to <code>public.users</code> with
-          role/tenant.
+          {t('admin.shell.notLinkedDesc', { email: user.email ?? '' })}
         </p>
         <button
           onClick={() => void signOut()}
@@ -51,7 +49,7 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
       <header className="safe-top flex items-center justify-between gap-3 border-b border-slate-800 bg-slate-900/60 px-4 py-3 backdrop-blur">
         <div className="min-w-0">
           <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-            BotiLocal · Admin
+            {t('admin.shell.brand')}
           </div>
           <div className="truncate text-sm font-semibold">
             {tenant?.name ?? '—'}{' '}
