@@ -87,17 +87,17 @@ export default function SettingsPage() {
         ) : null}
         {savedAt ? (
           <div className="rounded-xl bg-emerald-900/40 p-3 text-sm text-emerald-200">
-            Saved · {savedAt.toLocaleTimeString()}
+            {t('admin.settings.savedAt', { time: savedAt.toLocaleTimeString() })}
           </div>
         ) : null}
 
         {/* BRAND */}
         <fieldset className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <legend className="text-xs font-bold uppercase tracking-widest text-slate-400">
-            Brand
+            {t('admin.settings.brand')}
           </legend>
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Name</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.name')}</span>
             <input
               type="text"
               value={form.name ?? ''}
@@ -107,7 +107,7 @@ export default function SettingsPage() {
             />
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Tagline</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.tagline')}</span>
             <input
               type="text"
               value={form.tagline ?? ''}
@@ -116,7 +116,7 @@ export default function SettingsPage() {
             />
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Description</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.description')}</span>
             <textarea
               value={form.description ?? ''}
               onChange={(e) => patch('description', e.target.value)}
@@ -127,7 +127,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="mb-1 block text-xs text-slate-400">Primary color</span>
+              <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.primaryColor')}</span>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
@@ -144,7 +144,7 @@ export default function SettingsPage() {
               </div>
             </label>
             <label className="block">
-              <span className="mb-1 block text-xs text-slate-400">Secondary color</span>
+              <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.secondaryColor')}</span>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
@@ -163,7 +163,7 @@ export default function SettingsPage() {
           </div>
 
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Logo URL</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.logoUrl')}</span>
             <input
               type="url"
               value={form.logo_url ?? ''}
@@ -172,7 +172,7 @@ export default function SettingsPage() {
             />
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Cover image URL</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.coverUrl')}</span>
             <input
               type="url"
               value={form.cover_image_url ?? ''}
@@ -185,10 +185,10 @@ export default function SettingsPage() {
         {/* LANGUAGES */}
         <fieldset className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <legend className="text-xs font-bold uppercase tracking-widest text-slate-400">
-            Languages
+            {t('admin.settings.languages')}
           </legend>
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Default</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.default')}</span>
             <select
               value={form.default_language ?? 'es'}
               onChange={(e) => patch('default_language', e.target.value as Language)}
@@ -202,7 +202,7 @@ export default function SettingsPage() {
             </select>
           </label>
           <div>
-            <div className="mb-1 text-xs text-slate-400">Available</div>
+            <div className="mb-1 text-xs text-slate-400">{t('admin.settings.available')}</div>
             <div className="flex flex-wrap gap-1.5">
               {ALL_LANGS.map((lang) => {
                 const on = (form.available_languages ?? []).includes(lang);
@@ -226,10 +226,10 @@ export default function SettingsPage() {
         {/* CONTACT */}
         <fieldset className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <legend className="text-xs font-bold uppercase tracking-widest text-slate-400">
-            Contact
+            {t('admin.settings.contact')}
           </legend>
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Address</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.address')}</span>
             <input
               type="text"
               value={form.address ?? ''}
@@ -239,7 +239,7 @@ export default function SettingsPage() {
           </label>
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="mb-1 block text-xs text-slate-400">Phone</span>
+              <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.phone')}</span>
               <input
                 type="tel"
                 value={form.phone ?? ''}
@@ -248,7 +248,7 @@ export default function SettingsPage() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-xs text-slate-400">Hours</span>
+              <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.hours')}</span>
               <input
                 type="text"
                 value={form.hours ?? ''}
@@ -257,7 +257,7 @@ export default function SettingsPage() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-xs text-slate-400">WiFi password</span>
+              <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.wifi')}</span>
               <input
                 type="text"
                 value={form.wifi ?? ''}
@@ -266,7 +266,7 @@ export default function SettingsPage() {
               />
             </label>
             <label className="block">
-              <span className="mb-1 block text-xs text-slate-400">Currency</span>
+              <span className="mb-1 block text-xs text-slate-400">{t('admin.settings.currency')}</span>
               <input
                 type="text"
                 maxLength={3}

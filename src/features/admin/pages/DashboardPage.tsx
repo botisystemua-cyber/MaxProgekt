@@ -40,17 +40,17 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            <StatCard icon="🍽️" label="items" value={items.length} />
-            <StatCard icon="📂" label="categories" value={categories.length} />
-            <StatCard icon="✅" label="available" value={availableCount} />
-            <StatCard icon="🙈" label="hidden" value={hiddenCount} />
+            <StatCard icon="🍽️" label={t('admin.stats.items')} value={items.length} />
+            <StatCard icon="📂" label={t('admin.stats.categories')} value={categories.length} />
+            <StatCard icon="✅" label={t('admin.stats.available')} value={availableCount} />
+            <StatCard icon="🙈" label={t('admin.stats.hidden')} value={hiddenCount} />
           </div>
         )}
 
         {activeSpecials.length > 0 ? (
           <div className="rounded-2xl bg-gradient-to-r from-orange-600 to-rose-600 p-4 text-white">
             <div className="text-[10px] font-bold uppercase tracking-widest text-white/80">
-              🔥 active promotions
+              🔥 {t('admin.stats.activePromotions')}
             </div>
             <div className="mt-1 text-lg font-bold">{activeSpecials.length}</div>
           </div>

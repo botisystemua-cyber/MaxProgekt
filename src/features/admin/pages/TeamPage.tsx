@@ -35,11 +35,8 @@ export default function TeamPage() {
     });
     setAdding(false);
     if (err) {
-      // ловимо not_registered зі зрозумілим повідомленням
       if (err.message.includes('not_registered')) {
-        setActionError(
-          `${email} не зареєстрований у Supabase. Працівник має спочатку зайти на /admin/login і створити аккаунт, потім додайте ще раз.`,
-        );
+        setActionError(t('admin.team.notRegistered', { email }));
       } else {
         setActionError(err.message);
       }
@@ -51,7 +48,7 @@ export default function TeamPage() {
   }
 
   async function handleRemove(m: TeamMember) {
-    if (!confirm(`Remove ${m.email}?`)) return;
+    if (!confirm(t('admin.team.removeConfirm', { email: m.email }))) return;
     const { error: err } = await supabase.rpc('remove_team_member', { p_user_id: m.id });
     if (err) setActionError(err.message);
     await reload();
@@ -77,7 +74,7 @@ export default function TeamPage() {
             className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800"
           >
             <div className="text-xs font-bold uppercase tracking-widest text-slate-400">
-              Add team member
+              {t('admin.team.addMember')}
             </div>
             <input
               type="email"
@@ -92,8 +89,8 @@ export default function TeamPage() {
               onChange={(e) => setRole(e.target.value as Role)}
               className="w-full rounded-lg bg-slate-800 px-3 py-2 text-sm outline-none"
             >
-              <option value="waiter">Waiter · toggle availability only</option>
-              <option value="admin">Admin · edit menu + specials</option>
+              <option value="waiter">{t('admin.team.roleWaiter')}</option>
+              <option value="admin">{t('admin.team.roleAdmin')}</option>
             </select>
             <button
               type="submit"
@@ -102,10 +99,7 @@ export default function TeamPage() {
             >
               {adding ? t('common.loading') : `＋ ${t('common.add')}`}
             </button>
-            <p className="text-[10px] leading-relaxed text-slate-500">
-              Працівник має спочатку зайти на <code>/admin/login</code> і створити аккаунт зі
-              своїм email + паролем. Потім ви додаєте його тут — він отримає доступ до меню.
-            </p>
+            <p className="text-[10px] leading-relaxed text-slate-500">{t('admin.team.hint')}</p>
           </form>
         ) : null}
 
@@ -132,7 +126,7 @@ export default function TeamPage() {
                       <span className="truncate text-sm font-semibold">{m.email}</span>
                       {isMe ? (
                         <span className="rounded bg-slate-700 px-1.5 py-0.5 text-[9px] font-bold uppercase">
-                          you
+                          {t('admin.team.you')}
                         </span>
                       ) : null}
                     </div>

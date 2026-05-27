@@ -194,7 +194,7 @@ export default function ItemEditPage() {
 
   async function handleDelete() {
     if (!id || isNew) return;
-    if (!confirm('Delete this item permanently?')) return;
+    if (!confirm(t('admin.item.deleteConfirm'))) return;
     setSaving(true);
     const { error: err } = await supabase.from('menu_items').delete().eq('id', id);
     setSaving(false);
@@ -213,7 +213,7 @@ export default function ItemEditPage() {
           ← {t('common.back')}
         </Link>
         <h1 className="text-xl font-bold">
-          {isNew ? t('admin.newItem') : `Edit · ${form.name || ''}`}
+          {isNew ? t('admin.newItem') : `${t('admin.item.editTitle')} · ${form.name || ''}`}
         </h1>
 
         {error ? (
@@ -225,7 +225,7 @@ export default function ItemEditPage() {
         {/* TRANSLATIONS */}
         <fieldset className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <legend className="text-xs font-bold uppercase tracking-widest text-slate-400">
-            Name & description
+            {t('admin.item.namesAndDescriptions')}
           </legend>
 
           <div className="flex flex-wrap gap-1.5">
@@ -252,7 +252,9 @@ export default function ItemEditPage() {
           </div>
 
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Name [{trLang}]</span>
+            <span className="mb-1 block text-xs text-slate-400">
+              {t('admin.item.name')} [{trLang}]
+            </span>
             <input
               type="text"
               value={currentTr.name}
@@ -262,7 +264,9 @@ export default function ItemEditPage() {
           </label>
 
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Description [{trLang}]</span>
+            <span className="mb-1 block text-xs text-slate-400">
+              {t('admin.item.description')} [{trLang}]
+            </span>
             <textarea
               value={currentTr.description}
               onChange={(e) => patchTr(trLang, 'description', e.target.value)}
@@ -275,7 +279,7 @@ export default function ItemEditPage() {
         {/* CATEGORY + PRICE + DISCOUNT */}
         <fieldset className="grid grid-cols-2 gap-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <label className="col-span-2 block">
-            <span className="mb-1 block text-xs text-slate-400">Category</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.item.category')}</span>
             <select
               value={form.category_id ?? ''}
               onChange={(e) => patch('category_id', e.target.value)}
@@ -294,7 +298,7 @@ export default function ItemEditPage() {
           </label>
 
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Price</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.item.price')}</span>
             <input
               type="number"
               step="0.01"
@@ -307,7 +311,7 @@ export default function ItemEditPage() {
           </label>
 
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">Discount %</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.item.discount')}</span>
             <input
               type="number"
               min="0"
@@ -322,7 +326,7 @@ export default function ItemEditPage() {
         {/* IMAGE: upload або URL */}
         <fieldset className="space-y-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <legend className="text-xs font-bold uppercase tracking-widest text-slate-400">
-            Photo
+            {t('admin.item.photo')}
           </legend>
 
           {form.image_url ? (
@@ -348,7 +352,7 @@ export default function ItemEditPage() {
                 uploading ? 'opacity-60' : ''
               }`}
             >
-              📷 {uploading ? t('common.loading') : 'Camera'}
+              📷 {uploading ? t('common.loading') : t('admin.item.camera')}
               <input
                 type="file"
                 accept="image/*"
@@ -363,7 +367,7 @@ export default function ItemEditPage() {
                 uploading ? 'opacity-60' : ''
               }`}
             >
-              🖼 Upload
+              🖼 {t('admin.item.upload')}
               <input
                 type="file"
                 accept="image/*"
@@ -375,7 +379,7 @@ export default function ItemEditPage() {
           </div>
 
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">…or paste URL</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.item.orPasteUrl')}</span>
             <input
               type="url"
               value={form.image_url ?? ''}
@@ -385,23 +389,21 @@ export default function ItemEditPage() {
             />
           </label>
 
-          <p className="text-[10px] text-slate-500">
-            Photo is auto-composed on a 1024×1024 white canvas (8% padding) and saved as WebP.
-          </p>
+          <p className="text-[10px] text-slate-500">{t('admin.item.photoHint')}</p>
         </fieldset>
 
         {/* BADGES */}
         <fieldset className="grid grid-cols-2 gap-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <legend className="col-span-2 text-xs font-bold uppercase tracking-widest text-slate-400">
-            Flags
+            {t('admin.item.flags')}
           </legend>
           {[
-            ['is_available', '✅ Available'],
-            ['is_new', '✨ New'],
-            ['is_spicy', '🌶️ Spicy'],
-            ['is_vegetarian', '🥗 Vegetarian'],
-            ['is_vegan', '🌱 Vegan'],
-            ['is_gluten_free', 'GF Gluten-free'],
+            ['is_available', `✅ ${t('admin.item.flagAvailable')}`],
+            ['is_new', `✨ ${t('admin.item.flagNew')}`],
+            ['is_spicy', `🌶️ ${t('admin.item.flagSpicy')}`],
+            ['is_vegetarian', `🥗 ${t('admin.item.flagVegetarian')}`],
+            ['is_vegan', `🌱 ${t('admin.item.flagVegan')}`],
+            ['is_gluten_free', `GF ${t('admin.item.flagGlutenFree')}`],
           ].map(([key, label]) => (
             <label key={key} className="flex items-center gap-2 text-sm">
               <input
@@ -418,7 +420,7 @@ export default function ItemEditPage() {
         {/* META */}
         <fieldset className="grid grid-cols-2 gap-3 rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">kcal</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.item.kcal')}</span>
             <input
               type="number"
               min="0"
@@ -430,7 +432,7 @@ export default function ItemEditPage() {
             />
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs text-slate-400">prep · min</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.item.prep')}</span>
             <input
               type="number"
               min="0"
@@ -445,7 +447,7 @@ export default function ItemEditPage() {
             />
           </label>
           <label className="col-span-2 block">
-            <span className="mb-1 block text-xs text-slate-400">Tags (comma-separated)</span>
+            <span className="mb-1 block text-xs text-slate-400">{t('admin.item.tags')}</span>
             <input
               type="text"
               value={(form.tags ?? []).join(', ')}
@@ -458,7 +460,7 @@ export default function ItemEditPage() {
                     .filter(Boolean) as never,
                 )
               }
-              placeholder="gluten, dairy, fish, meat, nuts…"
+              placeholder={t('admin.item.tagsPlaceholder')}
               className="w-full rounded-lg bg-slate-800 px-3 py-2 text-sm outline-none"
             />
           </label>
