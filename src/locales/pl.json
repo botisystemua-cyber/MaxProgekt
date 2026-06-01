@@ -85,15 +85,23 @@
         "passwordValue": "to, którego użył przy rejestracji",
         "copyUrl": "Skopiuj link",
         "copyAll": "Skopiuj wszystko",
-        "message": "Zostałeś dodany do zespołu BotiLocal. Zaloguj się na {{url}}, login: {{email}}.",
+        "message": "Zaloguj się na {{url}}, login: {{email}}, hasło: {{password}}",
         "hint": "Jeśli członek jeszcze się nie zarejestrował — najpierw musi ustawić hasło przez „Zapomniałem hasła” na stronie logowania.",
         "passwordViaMagicLink": "przez magic-link w wiadomości",
-        "magicLinkSent": "Wysłano link pierwszego logowania na {{email}}. Trzeba w niego kliknąć, aby ustawić hasło."
+        "magicLinkSent": "Wysłano link pierwszego logowania na {{email}}. Trzeba w niego kliknąć, aby ustawić hasło.",
+        "passwordKeptExisting": "bez zmian (użytkownik już istniał)",
+        "savePasswordWarning": "Zapisz hasło teraz — nie zostanie ponownie wyświetlone.",
+        "copyPassword": "Hasło",
+        "messageExisting": "Zostałeś dodany do zespołu. Zaloguj się na {{url}}, login: {{email}} (użyj istniejącego hasła)."
       },
       "roleOwner": "Właściciel · pełna kontrola (poza platformą)",
       "forbidden": "Tylko właściciel lub superadmin może zarządzać zespołem.",
       "invitePending": "Zaproszenie wysłane na {{email}}. Spróbuj dodać ponownie za minutę — gdy uczestnik otworzy wiadomość.",
-      "inviteFailed": "Nie udało się wysłać zaproszenia"
+      "inviteFailed": "Nie udało się wysłać zaproszenia",
+      "passwordPlaceholder": "Hasło (min. 6 znaków)",
+      "generatePassword": "Wygeneruj losowe hasło",
+      "passwordTooShort": "Hasło musi mieć co najmniej 6 znaków",
+      "invalidEmail": "Nieprawidłowy email"
     },
     "logout": "Wyloguj",
     "dashboardTab": "Główna",

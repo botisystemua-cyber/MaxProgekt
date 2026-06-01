@@ -84,15 +84,23 @@
         "passwordValue": "an ceann a chláraigh siad leis",
         "copyUrl": "Cóipeáil nasc",
         "copyAll": "Cóipeáil gach rud",
-        "message": "Tá tú curtha le foireann BotiLocal. Logáil isteach ag {{url}}, logáil: {{email}}.",
+        "message": "Logáil isteach ag {{url}}, logáil: {{email}}, pasfhocal: {{password}}",
         "hint": "Mura bhfuil an comhalta cláraithe go fóill — caithfidh sé pasfhocal a chruthú tríd „Athshocraigh pasfhocal“.",
         "passwordViaMagicLink": "tríd an nasc draíochta sa ríomhphost",
-        "magicLinkSent": "Seoladh nasc don chéad logáil isteach chuig {{email}}. Caithfidh siad cliceáil air chun pasfhocal a shocrú."
+        "magicLinkSent": "Seoladh nasc don chéad logáil isteach chuig {{email}}. Caithfidh siad cliceáil air chun pasfhocal a shocrú.",
+        "passwordKeptExisting": "gan athrú (úsáideoir ann cheana)",
+        "savePasswordWarning": "Sábháil an pasfhocal anois — ní thaispeánfar arís é.",
+        "copyPassword": "Pasfhocal",
+        "messageExisting": "Tá tú curtha leis an bhfoireann. Logáil isteach ag {{url}}, logáil: {{email}} (úsáid do phasfhocal reatha)."
       },
       "roleOwner": "Úinéir · smacht iomlán (seachas ardán)",
       "forbidden": "Ní féidir ach leis an úinéir nó leis an ardriarthóir an fhoireann a bhainistiú.",
       "invitePending": "Cuireadh seolta chuig {{email}}. Bain triail eile as i gceann nóiméad — chomh luath agus a osclóidh siad an ríomhphost.",
-      "inviteFailed": "Theip ar an cuireadh a sheoladh"
+      "inviteFailed": "Theip ar an cuireadh a sheoladh",
+      "passwordPlaceholder": "Pasfhocal (íosmhéid 6 charachtar)",
+      "generatePassword": "Gin pasfhocal randamach",
+      "passwordTooShort": "Caithfidh an pasfhocal 6 charachtar ar a laghad a bheith ann",
+      "invalidEmail": "Ríomhphost neamhbhailí"
     },
     "logout": "Logáil amach",
     "dashboardTab": "Baile",

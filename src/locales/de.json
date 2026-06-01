@@ -84,15 +84,23 @@
         "passwordValue": "das, mit dem es sich registriert hat",
         "copyUrl": "Link kopieren",
         "copyAll": "Alles kopieren",
-        "message": "Du wurdest dem BotiLocal-Team hinzugefügt. Melde dich an unter {{url}}, Login: {{email}}.",
+        "message": "Melde dich an unter {{url}}, Login: {{email}}, Passwort: {{password}}",
         "hint": "Falls das Mitglied noch nicht registriert ist — soll es zuerst über „Passwort vergessen“ ein Passwort setzen.",
         "passwordViaMagicLink": "über Magic-Link in der E-Mail",
-        "magicLinkSent": "Ein Erstanmeldelink wurde an {{email}} gesendet. Anklicken, um ein Passwort festzulegen."
+        "magicLinkSent": "Ein Erstanmeldelink wurde an {{email}} gesendet. Anklicken, um ein Passwort festzulegen.",
+        "passwordKeptExisting": "unverändert (Benutzer existierte bereits)",
+        "savePasswordWarning": "Speichere das Passwort jetzt — es wird nicht erneut angezeigt.",
+        "copyPassword": "Passwort",
+        "messageExisting": "Du wurdest dem Team hinzugefügt. Melde dich an unter {{url}}, Login: {{email}} (mit deinem vorhandenen Passwort)."
       },
       "roleOwner": "Inhaber · volle Kontrolle (außer Plattform)",
       "forbidden": "Nur Inhaber oder Superadmin können das Team verwalten.",
       "invitePending": "Einladung an {{email}} gesendet. Versuche in einer Minute erneut hinzuzufügen — sobald die E-Mail geöffnet wurde.",
-      "inviteFailed": "Einladung konnte nicht gesendet werden"
+      "inviteFailed": "Einladung konnte nicht gesendet werden",
+      "passwordPlaceholder": "Passwort (mind. 6 Zeichen)",
+      "generatePassword": "Zufälliges Passwort generieren",
+      "passwordTooShort": "Passwort muss mindestens 6 Zeichen haben",
+      "invalidEmail": "Ungültige E-Mail"
     },
     "logout": "Abmelden",
     "dashboardTab": "Start",
