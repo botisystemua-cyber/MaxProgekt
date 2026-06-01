@@ -29,73 +29,77 @@ export default function TeamPage() {
   }
 
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<Role>('waiter');
   const [adding, setAdding] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
-  const [invite, setInvite] = useState<{ email: string; role: Role; justInvited: boolean } | null>(null);
-  const [copied, setCopied] = useState<'url' | 'all' | null>(null);
+  const [invite, setInvite] = useState<{
+    email: string;
+    role: Role;
+    password: string;
+    wasNew: boolean;
+  } | null>(null);
+  const [copied, setCopied] = useState<'url' | 'password' | 'all' | null>(null);
 
   const adminUrl = `${window.location.origin}${import.meta.env.BASE_URL}admin`;
+
+  function generatePassword(): string {
+    // Простий генератор: 10 символів alpha+digits. crypto API завжди є у браузерах.
+    const chars = 'abcdefghijkmnpqrstuvwxyz23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const out: string[] = [];
+    const buf = new Uint32Array(10);
+    crypto.getRandomValues(buf);
+    for (let i = 0; i < buf.length; i++) {
+      out.push(chars[buf[i] % chars.length]);
+    }
+    return out.join('');
+  }
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
     setAdding(true);
     setActionError(null);
     const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
 
-    // 1. Спроба прямого додавання — спрацює якщо юзер уже зареєстрований.
-    let { error: err } = await supabase.rpc('add_team_member', {
+    if (cleanPassword.length < 6) {
+      setAdding(false);
+      setActionError(t('admin.team.passwordTooShort'));
+      return;
+    }
+
+    const { data, error: err } = await supabase.rpc('create_team_member', {
       p_email: cleanEmail,
+      p_password: cleanPassword,
       p_role: role,
     });
 
-    // 2. Якщо ще не зареєстрований — надсилаємо magic-link (створює auth.users
-    // рядок + лист), даємо ~1с на коміт і ретраїмо add_team_member.
-    let justInvited = false;
-    if (err && err.message.includes('not_registered')) {
-      const { error: otpErr } = await supabase.auth.signInWithOtp({
-        email: cleanEmail,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: adminUrl,
-        },
-      });
-      if (otpErr) {
-        setAdding(false);
-        setActionError(`${t('admin.team.inviteFailed')}: ${otpErr.message}`);
-        return;
-      }
-      justInvited = true;
-      // Чекаємо щоб INSERT в auth.users закомітився, потім ретрай.
-      await new Promise((r) => setTimeout(r, 1200));
-      const retry = await supabase.rpc('add_team_member', {
-        p_email: cleanEmail,
-        p_role: role,
-      });
-      err = retry.error ?? null;
-    }
-
     setAdding(false);
     if (err) {
-      if (err.message.includes('not_registered')) {
-        // Магік-лінк надіслано, але INSERT ще не побачили (race). Кажемо
-        // юзеру дочекатись підтвердження і додати знову.
-        setActionError(t('admin.team.invitePending', { email: cleanEmail }));
-      } else if (err.message.includes('forbidden')) {
+      if (err.message.includes('forbidden')) {
         setActionError(t('admin.team.forbidden'));
+      } else if (err.message.includes('invalid_email')) {
+        setActionError(t('admin.team.invalidEmail'));
+      } else if (err.message.includes('password_too_short')) {
+        setActionError(t('admin.team.passwordTooShort'));
       } else {
         setActionError(err.message);
       }
       return;
     }
 
-    setInvite({ email: cleanEmail, role, justInvited });
+    // RPC повертає {user_id, was_new}. Якщо was_new=false — юзер уже існував,
+    // ми лише перепризначили роль; пароль не оновлений → не світимо його в карті.
+    const wasNew = (data as { was_new?: boolean } | null)?.was_new ?? false;
+    setInvite({ email: cleanEmail, role, password: cleanPassword, wasNew });
     setEmail('');
+    setPassword('');
     setRole('waiter');
     await reload();
   }
 
-  function copy(text: string, kind: 'url' | 'all') {
+  function copy(text: string, kind: 'url' | 'password' | 'all') {
     void navigator.clipboard.writeText(text).then(() => {
       setCopied(kind);
       setTimeout(() => setCopied(null), 1800);
@@ -156,45 +160,58 @@ export default function TeamPage() {
               </div>
               <div className="flex justify-between gap-2">
                 <span className="text-slate-400">{t('admin.team.invite.password')}</span>
-                <span className="text-right text-slate-300">
-                  {invite.justInvited
-                    ? t('admin.team.invite.passwordViaMagicLink')
-                    : t('admin.team.invite.passwordValue')}
+                <span className="text-right font-mono text-slate-100">
+                  {invite.wasNew
+                    ? invite.password
+                    : t('admin.team.invite.passwordKeptExisting')}
                 </span>
               </div>
             </div>
 
-            {invite.justInvited ? (
+            {invite.wasNew ? (
               <div className="rounded-lg bg-amber-500/10 px-3 py-2 text-[11px] leading-relaxed text-amber-200 ring-1 ring-amber-500/20">
-                ✉️ {t('admin.team.invite.magicLinkSent', { email: invite.email })}
+                ⚠️ {t('admin.team.invite.savePasswordWarning')}
               </div>
             ) : null}
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => copy(adminUrl, 'url')}
-                className="rounded-lg bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-100 hover:bg-slate-700"
+                className="rounded-lg bg-slate-800 px-2 py-2 text-xs font-semibold text-slate-100 hover:bg-slate-700"
               >
                 {copied === 'url' ? '✓' : '🔗'} {t('admin.team.invite.copyUrl')}
               </button>
               <button
                 type="button"
+                onClick={() => copy(invite.password, 'password')}
+                disabled={!invite.wasNew}
+                className="rounded-lg bg-slate-800 px-2 py-2 text-xs font-semibold text-slate-100 hover:bg-slate-700 disabled:opacity-40"
+              >
+                {copied === 'password' ? '✓' : '🔑'} {t('admin.team.invite.copyPassword')}
+              </button>
+              <button
+                type="button"
                 onClick={() =>
                   copy(
-                    t('admin.team.invite.message', { url: adminUrl, email: invite.email }),
+                    invite.wasNew
+                      ? t('admin.team.invite.message', {
+                          url: adminUrl,
+                          email: invite.email,
+                          password: invite.password,
+                        })
+                      : t('admin.team.invite.messageExisting', {
+                          url: adminUrl,
+                          email: invite.email,
+                        }),
                     'all',
                   )
                 }
-                className="rounded-lg bg-brand-primary px-3 py-2 text-xs font-semibold text-white"
+                className="rounded-lg bg-brand-primary px-2 py-2 text-xs font-semibold text-white"
               >
                 {copied === 'all' ? '✓' : '📋'} {t('admin.team.invite.copyAll')}
               </button>
             </div>
-
-            <p className="text-[10px] leading-relaxed text-slate-500">
-              {t('admin.team.invite.hint')}
-            </p>
           </div>
         ) : null}
 
@@ -214,6 +231,37 @@ export default function TeamPage() {
               placeholder="worker@example.com"
               className="w-full rounded-lg bg-slate-800 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-brand-primary"
             />
+
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t('admin.team.passwordPlaceholder')}
+                className="w-full rounded-lg bg-slate-800 px-3 py-2 pr-20 text-sm outline-none focus:ring-2 focus:ring-brand-primary"
+              />
+              <div className="absolute right-1 top-1/2 flex -translate-y-1/2 gap-1">
+                <button
+                  type="button"
+                  onClick={() => setPassword(generatePassword())}
+                  title={t('admin.team.generatePassword')}
+                  className="rounded-md bg-slate-700/60 px-2 py-1 text-xs text-slate-200 hover:bg-slate-700"
+                >
+                  🎲
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  title={showPassword ? t('admin.hidePassword') : t('admin.showPassword')}
+                  className="rounded-md bg-slate-700/60 px-2 py-1 text-xs text-slate-200 hover:bg-slate-700"
+                >
+                  {showPassword ? '🙈' : '👁'}
+                </button>
+              </div>
+            </div>
+
             <select
               value={role}
               onChange={(e) => setRole(e.target.value as Role)}

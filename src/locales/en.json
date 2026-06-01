@@ -84,15 +84,23 @@
         "passwordValue": "the one they used to sign up",
         "copyUrl": "Copy link",
         "copyAll": "Copy all",
-        "message": "You have been added to the BotiLocal team. Sign in at {{url}}, login: {{email}}.",
+        "message": "Sign in at {{url}}, login: {{email}}, password: {{password}}",
         "hint": "If the member has not signed up yet — they should first set a password via “Forgot password” on the login page.",
         "passwordViaMagicLink": "via magic link in the email",
-        "magicLinkSent": "A first-login link was sent to {{email}}. They need to click it to set a password."
+        "magicLinkSent": "A first-login link was sent to {{email}}. They need to click it to set a password.",
+        "passwordKeptExisting": "unchanged (user already existed)",
+        "savePasswordWarning": "Save the password now — it will not be shown again.",
+        "copyPassword": "Password",
+        "messageExisting": "You have been added to the team. Sign in at {{url}}, login: {{email}} (use your existing password)."
       },
       "roleOwner": "Owner · full control (except platform)",
       "forbidden": "Only owner or superadmin can manage the team.",
       "invitePending": "Invitation sent to {{email}}. Try adding again in a minute — once they open the email.",
-      "inviteFailed": "Failed to send invitation"
+      "inviteFailed": "Failed to send invitation",
+      "passwordPlaceholder": "Password (min. 6 characters)",
+      "generatePassword": "Generate random password",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "invalidEmail": "Invalid email"
     },
     "logout": "Sign out",
     "dashboardTab": "Home",

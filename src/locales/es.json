@@ -84,15 +84,23 @@
         "passwordValue": "la que usó al registrarse",
         "copyUrl": "Copiar enlace",
         "copyAll": "Copiar todo",
-        "message": "Has sido añadido al equipo de BotiLocal. Inicia sesión en {{url}}, usuario: {{email}}.",
+        "message": "Inicia sesión en {{url}}, usuario: {{email}}, contraseña: {{password}}",
         "hint": "Si el miembro aún no se registró, primero debe crear una contraseña con “Olvidé mi contraseña” en la página de inicio de sesión.",
         "passwordViaMagicLink": "mediante enlace mágico en el correo",
-        "magicLinkSent": "Se envió un enlace de primer inicio a {{email}}. Debe hacer clic para establecer contraseña."
+        "magicLinkSent": "Se envió un enlace de primer inicio a {{email}}. Debe hacer clic para establecer contraseña.",
+        "passwordKeptExisting": "sin cambios (usuario ya existía)",
+        "savePasswordWarning": "Guarda la contraseña ahora — no se mostrará de nuevo.",
+        "copyPassword": "Contraseña",
+        "messageExisting": "Has sido añadido al equipo. Inicia sesión en {{url}}, usuario: {{email}} (usa tu contraseña existente)."
       },
       "roleOwner": "Propietario · control total (excepto plataforma)",
       "forbidden": "Solo el propietario o el superadmin puede gestionar el equipo.",
       "invitePending": "Invitación enviada a {{email}}. Intenta añadir de nuevo en un minuto — cuando abra el correo.",
-      "inviteFailed": "Error al enviar la invitación"
+      "inviteFailed": "Error al enviar la invitación",
+      "passwordPlaceholder": "Contraseña (mín. 6 caracteres)",
+      "generatePassword": "Generar contraseña aleatoria",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+      "invalidEmail": "Email no válido"
     },
     "logout": "Cerrar sesión",
     "dashboardTab": "Inicio",
