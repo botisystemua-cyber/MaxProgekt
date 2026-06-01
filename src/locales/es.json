@@ -85,10 +85,14 @@
         "copyUrl": "Copiar enlace",
         "copyAll": "Copiar todo",
         "message": "Has sido añadido al equipo de BotiLocal. Inicia sesión en {{url}}, usuario: {{email}}.",
-        "hint": "Si el miembro aún no se registró, primero debe crear una contraseña con “Olvidé mi contraseña” en la página de inicio de sesión."
+        "hint": "Si el miembro aún no se registró, primero debe crear una contraseña con “Olvidé mi contraseña” en la página de inicio de sesión.",
+        "passwordViaMagicLink": "mediante enlace mágico en el correo",
+        "magicLinkSent": "Se envió un enlace de primer inicio a {{email}}. Debe hacer clic para establecer contraseña."
       },
       "roleOwner": "Propietario · control total (excepto plataforma)",
-      "forbidden": "Solo el propietario o el superadmin puede gestionar el equipo."
+      "forbidden": "Solo el propietario o el superadmin puede gestionar el equipo.",
+      "invitePending": "Invitación enviada a {{email}}. Intenta añadir de nuevo en un minuto — cuando abra el correo.",
+      "inviteFailed": "Error al enviar la invitación"
     },
     "logout": "Cerrar sesión",
     "dashboardTab": "Inicio",

@@ -32,7 +32,7 @@ export default function TeamPage() {
   const [role, setRole] = useState<Role>('waiter');
   const [adding, setAdding] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
-  const [invite, setInvite] = useState<{ email: string; role: Role } | null>(null);
+  const [invite, setInvite] = useState<{ email: string; role: Role; justInvited: boolean } | null>(null);
   const [copied, setCopied] = useState<'url' | 'all' | null>(null);
 
   const adminUrl = `${window.location.origin}${import.meta.env.BASE_URL}admin`;
@@ -41,14 +41,46 @@ export default function TeamPage() {
     e.preventDefault();
     setAdding(true);
     setActionError(null);
-    const { error: err } = await supabase.rpc('add_team_member', {
-      p_email: email.trim().toLowerCase(),
+    const cleanEmail = email.trim().toLowerCase();
+
+    // 1. Спроба прямого додавання — спрацює якщо юзер уже зареєстрований.
+    let { error: err } = await supabase.rpc('add_team_member', {
+      p_email: cleanEmail,
       p_role: role,
     });
+
+    // 2. Якщо ще не зареєстрований — надсилаємо magic-link (створює auth.users
+    // рядок + лист), даємо ~1с на коміт і ретраїмо add_team_member.
+    let justInvited = false;
+    if (err && err.message.includes('not_registered')) {
+      const { error: otpErr } = await supabase.auth.signInWithOtp({
+        email: cleanEmail,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: adminUrl,
+        },
+      });
+      if (otpErr) {
+        setAdding(false);
+        setActionError(`${t('admin.team.inviteFailed')}: ${otpErr.message}`);
+        return;
+      }
+      justInvited = true;
+      // Чекаємо щоб INSERT в auth.users закомітився, потім ретрай.
+      await new Promise((r) => setTimeout(r, 1200));
+      const retry = await supabase.rpc('add_team_member', {
+        p_email: cleanEmail,
+        p_role: role,
+      });
+      err = retry.error ?? null;
+    }
+
     setAdding(false);
     if (err) {
       if (err.message.includes('not_registered')) {
-        setActionError(t('admin.team.notRegistered', { email }));
+        // Магік-лінк надіслано, але INSERT ще не побачили (race). Кажемо
+        // юзеру дочекатись підтвердження і додати знову.
+        setActionError(t('admin.team.invitePending', { email: cleanEmail }));
       } else if (err.message.includes('forbidden')) {
         setActionError(t('admin.team.forbidden'));
       } else {
@@ -56,8 +88,8 @@ export default function TeamPage() {
       }
       return;
     }
-    const addedEmail = email.trim().toLowerCase();
-    setInvite({ email: addedEmail, role });
+
+    setInvite({ email: cleanEmail, role, justInvited });
     setEmail('');
     setRole('waiter');
     await reload();
@@ -124,9 +156,19 @@ export default function TeamPage() {
               </div>
               <div className="flex justify-between gap-2">
                 <span className="text-slate-400">{t('admin.team.invite.password')}</span>
-                <span className="text-right text-slate-300">{t('admin.team.invite.passwordValue')}</span>
+                <span className="text-right text-slate-300">
+                  {invite.justInvited
+                    ? t('admin.team.invite.passwordViaMagicLink')
+                    : t('admin.team.invite.passwordValue')}
+                </span>
               </div>
             </div>
+
+            {invite.justInvited ? (
+              <div className="rounded-lg bg-amber-500/10 px-3 py-2 text-[11px] leading-relaxed text-amber-200 ring-1 ring-amber-500/20">
+                ✉️ {t('admin.team.invite.magicLinkSent', { email: invite.email })}
+              </div>
+            ) : null}
 
             <div className="grid grid-cols-2 gap-2">
               <button

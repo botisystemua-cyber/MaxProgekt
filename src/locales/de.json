@@ -85,10 +85,14 @@
         "copyUrl": "Link kopieren",
         "copyAll": "Alles kopieren",
         "message": "Du wurdest dem BotiLocal-Team hinzugefügt. Melde dich an unter {{url}}, Login: {{email}}.",
-        "hint": "Falls das Mitglied noch nicht registriert ist — soll es zuerst über „Passwort vergessen“ ein Passwort setzen."
+        "hint": "Falls das Mitglied noch nicht registriert ist — soll es zuerst über „Passwort vergessen“ ein Passwort setzen.",
+        "passwordViaMagicLink": "über Magic-Link in der E-Mail",
+        "magicLinkSent": "Ein Erstanmeldelink wurde an {{email}} gesendet. Anklicken, um ein Passwort festzulegen."
       },
       "roleOwner": "Inhaber · volle Kontrolle (außer Plattform)",
-      "forbidden": "Nur Inhaber oder Superadmin können das Team verwalten."
+      "forbidden": "Nur Inhaber oder Superadmin können das Team verwalten.",
+      "invitePending": "Einladung an {{email}} gesendet. Versuche in einer Minute erneut hinzuzufügen — sobald die E-Mail geöffnet wurde.",
+      "inviteFailed": "Einladung konnte nicht gesendet werden"
     },
     "logout": "Abmelden",
     "dashboardTab": "Start",
