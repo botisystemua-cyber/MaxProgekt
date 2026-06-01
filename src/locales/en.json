@@ -75,7 +75,18 @@
       "notRegistered": "{{email}} is not registered yet. They must sign in to /admin/login first, then add them again.",
       "hint": "The worker must first sign in to /admin/login with their email + password. Then you can add them here.",
       "removeConfirm": "Remove {{email}}?",
-      "you": "you"
+      "you": "you",
+      "invite": {
+        "added": "Member added",
+        "url": "URL",
+        "login": "Login",
+        "password": "Password",
+        "passwordValue": "the one they used to sign up",
+        "copyUrl": "Copy link",
+        "copyAll": "Copy all",
+        "message": "You have been added to the BotiLocal team. Sign in at {{url}}, login: {{email}}.",
+        "hint": "If the member has not signed up yet — they should first set a password via “Forgot password” on the login page."
+      }
     },
     "logout": "Sign out",
     "dashboardTab": "Home",
