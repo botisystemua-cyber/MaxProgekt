@@ -87,7 +87,9 @@
         "copyAll": "Skopiuj wszystko",
         "message": "Zostałeś dodany do zespołu BotiLocal. Zaloguj się na {{url}}, login: {{email}}.",
         "hint": "Jeśli członek jeszcze się nie zarejestrował — najpierw musi ustawić hasło przez „Zapomniałem hasła” na stronie logowania."
-      }
+      },
+      "roleOwner": "Właściciel · pełna kontrola (poza platformą)",
+      "forbidden": "Tylko właściciel lub superadmin może zarządzać zespołem."
     },
     "logout": "Wyloguj",
     "dashboardTab": "Główna",

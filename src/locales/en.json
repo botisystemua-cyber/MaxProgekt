@@ -86,7 +86,9 @@
         "copyAll": "Copy all",
         "message": "You have been added to the BotiLocal team. Sign in at {{url}}, login: {{email}}.",
         "hint": "If the member has not signed up yet — they should first set a password via “Forgot password” on the login page."
-      }
+      },
+      "roleOwner": "Owner · full control (except platform)",
+      "forbidden": "Only owner or superadmin can manage the team."
     },
     "logout": "Sign out",
     "dashboardTab": "Home",

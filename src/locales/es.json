@@ -86,7 +86,9 @@
         "copyAll": "Copiar todo",
         "message": "Has sido añadido al equipo de BotiLocal. Inicia sesión en {{url}}, usuario: {{email}}.",
         "hint": "Si el miembro aún no se registró, primero debe crear una contraseña con “Olvidé mi contraseña” en la página de inicio de sesión."
-      }
+      },
+      "roleOwner": "Propietario · control total (excepto plataforma)",
+      "forbidden": "Solo el propietario o el superadmin puede gestionar el equipo."
     },
     "logout": "Cerrar sesión",
     "dashboardTab": "Inicio",
