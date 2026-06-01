@@ -75,7 +75,18 @@
       "notRegistered": "Níl {{email}} cláraithe fós. Caithfidh sé logáil isteach ar /admin/login ar dtús.",
       "hint": "Caithfidh an t-oibrí logáil isteach ar /admin/login leis an ríomhphost agus pasfhocal ar dtús.",
       "removeConfirm": "Bain {{email}}?",
-      "you": "tusa"
+      "you": "tusa",
+      "invite": {
+        "added": "Comhalta curtha leis",
+        "url": "Nasc",
+        "login": "Logáil isteach",
+        "password": "Pasfhocal",
+        "passwordValue": "an ceann a chláraigh siad leis",
+        "copyUrl": "Cóipeáil nasc",
+        "copyAll": "Cóipeáil gach rud",
+        "message": "Tá tú curtha le foireann BotiLocal. Logáil isteach ag {{url}}, logáil: {{email}}.",
+        "hint": "Mura bhfuil an comhalta cláraithe go fóill — caithfidh sé pasfhocal a chruthú tríd „Athshocraigh pasfhocal“."
+      }
     },
     "logout": "Logáil amach",
     "dashboardTab": "Baile",

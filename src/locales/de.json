@@ -75,7 +75,18 @@
       "notRegistered": "{{email}} ist noch nicht registriert. Er muss sich zuerst auf /admin/login anmelden.",
       "hint": "Der Mitarbeiter muss sich zuerst auf /admin/login mit E-Mail und Passwort anmelden. Dann hier hinzufügen.",
       "removeConfirm": "{{email}} entfernen?",
-      "you": "Sie"
+      "you": "Sie",
+      "invite": {
+        "added": "Mitglied hinzugefügt",
+        "url": "Link",
+        "login": "Login",
+        "password": "Passwort",
+        "passwordValue": "das, mit dem es sich registriert hat",
+        "copyUrl": "Link kopieren",
+        "copyAll": "Alles kopieren",
+        "message": "Du wurdest dem BotiLocal-Team hinzugefügt. Melde dich an unter {{url}}, Login: {{email}}.",
+        "hint": "Falls das Mitglied noch nicht registriert ist — soll es zuerst über „Passwort vergessen“ ein Passwort setzen."
+      }
     },
     "logout": "Abmelden",
     "dashboardTab": "Start",

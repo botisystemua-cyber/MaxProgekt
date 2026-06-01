@@ -75,7 +75,18 @@
       "notRegistered": "{{email}} aún no está registrado. Que inicie sesión en /admin/login y vuelve a añadirlo.",
       "hint": "El trabajador debe iniciar sesión primero en /admin/login con su correo y contraseña. Luego añádelo aquí.",
       "removeConfirm": "¿Quitar {{email}}?",
-      "you": "tú"
+      "you": "tú",
+      "invite": {
+        "added": "Miembro añadido",
+        "url": "Enlace",
+        "login": "Usuario",
+        "password": "Contraseña",
+        "passwordValue": "la que usó al registrarse",
+        "copyUrl": "Copiar enlace",
+        "copyAll": "Copiar todo",
+        "message": "Has sido añadido al equipo de BotiLocal. Inicia sesión en {{url}}, usuario: {{email}}.",
+        "hint": "Si el miembro aún no se registró, primero debe crear una contraseña con “Olvidé mi contraseña” en la página de inicio de sesión."
+      }
     },
     "logout": "Cerrar sesión",
     "dashboardTab": "Inicio",

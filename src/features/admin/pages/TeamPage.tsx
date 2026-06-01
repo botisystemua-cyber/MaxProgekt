@@ -24,6 +24,10 @@ export default function TeamPage() {
   const [role, setRole] = useState<Role>('waiter');
   const [adding, setAdding] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [invite, setInvite] = useState<{ email: string; role: Role } | null>(null);
+  const [copied, setCopied] = useState<'url' | 'all' | null>(null);
+
+  const adminUrl = `${window.location.origin}${import.meta.env.BASE_URL}admin`;
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
@@ -42,9 +46,18 @@ export default function TeamPage() {
       }
       return;
     }
+    const addedEmail = email.trim().toLowerCase();
+    setInvite({ email: addedEmail, role });
     setEmail('');
     setRole('waiter');
     await reload();
+  }
+
+  function copy(text: string, kind: 'url' | 'all') {
+    void navigator.clipboard.writeText(text).then(() => {
+      setCopied(kind);
+      setTimeout(() => setCopied(null), 1800);
+    });
   }
 
   async function handleRemove(m: TeamMember) {
@@ -66,7 +79,72 @@ export default function TeamPage() {
   return (
     <AdminShell>
       <div className="mx-auto max-w-3xl space-y-5 p-4">
-        <h1 className="text-xl font-bold">{t('admin.team')}</h1>
+        <h1 className="text-xl font-bold">{t('admin.teamTab')}</h1>
+
+        {invite ? (
+          <div className="space-y-3 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-brand-primary/10 p-4 ring-1 ring-emerald-500/30">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest text-emerald-300">
+                  ✅ {t('admin.team.invite.added')}
+                </div>
+                <div className="mt-0.5 text-sm font-semibold text-white">
+                  {invite.email} ·{' '}
+                  <span className="text-[10px] uppercase text-amber-300">{invite.role}</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setInvite(null)}
+                aria-label={t('common.close', { defaultValue: 'Закрити' })}
+                className="rounded-md bg-slate-800/60 px-2 py-1 text-xs text-slate-300"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-1.5 rounded-xl bg-slate-900/70 p-3 text-xs">
+              <div className="flex justify-between gap-2">
+                <span className="text-slate-400">{t('admin.team.invite.url')}</span>
+                <span className="truncate font-mono text-slate-100">{adminUrl}</span>
+              </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-slate-400">{t('admin.team.invite.login')}</span>
+                <span className="truncate font-mono text-slate-100">{invite.email}</span>
+              </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-slate-400">{t('admin.team.invite.password')}</span>
+                <span className="text-right text-slate-300">{t('admin.team.invite.passwordValue')}</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => copy(adminUrl, 'url')}
+                className="rounded-lg bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-100 hover:bg-slate-700"
+              >
+                {copied === 'url' ? '✓' : '🔗'} {t('admin.team.invite.copyUrl')}
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  copy(
+                    t('admin.team.invite.message', { url: adminUrl, email: invite.email }),
+                    'all',
+                  )
+                }
+                className="rounded-lg bg-brand-primary px-3 py-2 text-xs font-semibold text-white"
+              >
+                {copied === 'all' ? '✓' : '📋'} {t('admin.team.invite.copyAll')}
+              </button>
+            </div>
+
+            <p className="text-[10px] leading-relaxed text-slate-500">
+              {t('admin.team.invite.hint')}
+            </p>
+          </div>
+        ) : null}
 
         {isOwner ? (
           <form
