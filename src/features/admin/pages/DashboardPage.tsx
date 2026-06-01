@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
@@ -5,6 +6,56 @@ import { MenuShareCard } from '../components/MenuShareCard';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { useAdminMenu } from '../hooks/useAdminMenu';
+
+/**
+ * Анімує число від 0 до target за `duration` мс із ease-out cubic.
+ * RAF-based — плавно, дешево. Скидається при зміні target.
+ */
+function useCountUp(target: number, duration = 2000): number {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (target <= 0) {
+      setValue(target);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      setValue(Math.round(target * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration]);
+  return value;
+}
+
+interface StatProps {
+  value: number;
+  label: string;
+  accent?: 'default' | 'emerald';
+}
+
+function StatPill({ value, label, accent = 'default' }: StatProps) {
+  const animated = useCountUp(value);
+  const valueColor = accent === 'emerald' ? 'text-emerald-400' : 'text-white';
+  return (
+    <div
+      className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-slate-800 to-slate-900 px-3 py-3 ring-1 ring-white/5 shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]"
+    >
+      <div
+        className={`text-3xl font-black tabular-nums ${valueColor} drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]`}
+      >
+        {animated}
+      </div>
+      <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+        {label}
+      </div>
+    </div>
+  );
+}
 
 interface ActionTileProps {
   to: string;
@@ -36,6 +87,7 @@ export default function DashboardPage() {
 
   const items = data?.items ?? [];
   const categories = data?.categories ?? [];
+  const availableCount = items.filter((i) => i.is_available).length;
   const isSuperadmin = currentUser?.role === 'superadmin';
 
   return (
@@ -43,17 +95,28 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-3xl space-y-4 p-4">
         {tenant ? <MenuShareCard tenant={tenant} variant="compact" /> : null}
 
+        {/* Animated stats — одразу після шапки. Числа об'ємні, count-up 0→ціль за 2с. */}
+        {!loading ? (
+          <div className="grid grid-cols-3 gap-2">
+            <StatPill value={items.length} label={t('admin.stats.items')} />
+            <StatPill value={categories.length} label={t('admin.stats.categories')} />
+            <StatPill value={availableCount} label={t('admin.stats.available')} accent="emerald" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="h-20 animate-pulse rounded-2xl bg-slate-900" />
+            ))}
+          </div>
+        )}
+
         {/* 4 (або 5 для superadmin) великі action-плитки */}
         <div className="grid grid-cols-2 gap-3">
           <ActionTile
             to="/admin/menu"
             icon="🍽️"
             title={t('admin.tile.menuTitle')}
-            hint={
-              loading
-                ? '…'
-                : t('admin.tile.menuHint', { count: items.length, defaultValue: '{{count}} страв' })
-            }
+            hint={t('admin.tile.menuHint')}
           />
           <ActionTile
             to="/admin/menu/item/new"
@@ -82,27 +145,6 @@ export default function DashboardPage() {
             />
           ) : null}
         </div>
-
-        {/* Компактний рядок статистики — без візуального шуму */}
-        {!loading && items.length > 0 ? (
-          <div className="flex items-center justify-around rounded-xl bg-slate-900/60 px-3 py-2 text-center text-[11px] text-slate-400 ring-1 ring-slate-800">
-            <div>
-              <span className="font-bold text-white">{items.length}</span> {t('admin.stats.items')}
-            </div>
-            <div className="h-4 w-px bg-slate-800" />
-            <div>
-              <span className="font-bold text-white">{categories.length}</span>{' '}
-              {t('admin.stats.categories')}
-            </div>
-            <div className="h-4 w-px bg-slate-800" />
-            <div>
-              <span className="font-bold text-emerald-400">
-                {items.filter((i) => i.is_available).length}
-              </span>{' '}
-              {t('admin.stats.available')}
-            </div>
-          </div>
-        ) : null}
       </div>
     </AdminShell>
   );
