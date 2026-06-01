@@ -159,7 +159,21 @@
       "teamTitle": "Foireann",
       "teamHint": "Comhaltaí, róil",
       "platformTitle": "Ardán",
-      "platformHint": "Tionóntaí uile (superadmin)"
+      "platformHint": "Tionóntaí uile (superadmin)",
+      "ordersTitle": "Orduithe",
+      "ordersHint": "Glacadh, stádas, stair",
+      "shareTitle": "Comhroinn",
+      "shareHint": "Cód QR, WhatsApp, Telegram"
+    },
+    "orders": {
+      "comingSoon": "Ag teacht go luath",
+      "heroTitle": "Orduithe ón mbiachlár QR",
+      "heroDesc": "Scanaíonn aoi an QR, cuireann sé míreanna sa chiseán agus seolann an t-ordú chuig do scáileán — gan freastalaí ná clic breise.",
+      "featureIntake": "Glacadh orduithe go díreach ón mbord",
+      "featureStatus": "Stádais: nua → á chócaráil → réidh → freastalta",
+      "featureAnalytics": "Anailís ar mhíreanna barr agus aimsir cócaireachta",
+      "featureHistory": "Stair na n-orduithe agus admhálacha boird",
+      "footer": "Gné á forbairt — beidh fáil uirthi i nuashonruithe amach anseo."
     }
   }
 }

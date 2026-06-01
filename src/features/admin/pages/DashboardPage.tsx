@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
-import { MenuShareCard } from '../components/MenuShareCard';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { useAdminMenu } from '../hooks/useAdminMenu';
@@ -93,8 +92,6 @@ export default function DashboardPage() {
   return (
     <AdminShell>
       <div className="mx-auto max-w-3xl space-y-4 p-4">
-        {tenant ? <MenuShareCard tenant={tenant} variant="compact" /> : null}
-
         {/* Animated stats — одразу після шапки. Числа об'ємні, count-up 0→ціль за 2с. */}
         {!loading ? (
           <div className="grid grid-cols-3 gap-2">
@@ -123,6 +120,18 @@ export default function DashboardPage() {
             icon="➕"
             title={t('admin.tile.newItemTitle')}
             hint={t('admin.tile.newItemHint')}
+          />
+          <ActionTile
+            to="/admin/orders"
+            icon="📋"
+            title={t('admin.tile.ordersTitle')}
+            hint={t('admin.tile.ordersHint')}
+          />
+          <ActionTile
+            to="/admin/share"
+            icon="🔗"
+            title={t('admin.tile.shareTitle')}
+            hint={t('admin.tile.shareHint')}
           />
           <ActionTile
             to="/admin/settings"

@@ -159,7 +159,21 @@
       "teamTitle": "Team",
       "teamHint": "Members, roles",
       "platformTitle": "Platform",
-      "platformHint": "All tenants (superadmin)"
+      "platformHint": "All tenants (superadmin)",
+      "ordersTitle": "Orders",
+      "ordersHint": "Intake, status, history",
+      "shareTitle": "Share",
+      "shareHint": "QR code, WhatsApp, Telegram"
+    },
+    "orders": {
+      "comingSoon": "Coming soon",
+      "heroTitle": "Orders from QR menu",
+      "heroDesc": "Guests scan the QR, add items to a cart, and send the order to your screen — no waiter, no extra clicks.",
+      "featureIntake": "Take orders straight from the table",
+      "featureStatus": "Statuses: new → cooking → ready → served",
+      "featureAnalytics": "Top items and cook-time analytics",
+      "featureHistory": "Order history and table receipts",
+      "footer": "Feature in progress — coming in future releases."
     }
   }
 }

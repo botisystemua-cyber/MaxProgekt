@@ -159,7 +159,21 @@
       "teamTitle": "Equipo",
       "teamHint": "Miembros, roles",
       "platformTitle": "Plataforma",
-      "platformHint": "Todos los tenants (superadmin)"
+      "platformHint": "Todos los tenants (superadmin)",
+      "ordersTitle": "Pedidos",
+      "ordersHint": "Recepción, estado, historial",
+      "shareTitle": "Compartir",
+      "shareHint": "Código QR, WhatsApp, Telegram"
+    },
+    "orders": {
+      "comingSoon": "Próximamente",
+      "heroTitle": "Pedidos desde el menú QR",
+      "heroDesc": "El comensal escanea el QR, añade platos al carrito y envía el pedido a tu pantalla — sin camarero, sin clics extra.",
+      "featureIntake": "Recepción de pedidos directo desde la mesa",
+      "featureStatus": "Estados: nuevo → cocinando → listo → servido",
+      "featureAnalytics": "Analítica de platos top y tiempo de cocción",
+      "featureHistory": "Historial de pedidos y cuenta por mesa",
+      "footer": "Función en desarrollo — disponible en próximas actualizaciones."
     }
   }
 }

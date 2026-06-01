@@ -161,7 +161,21 @@
       "teamTitle": "Команда",
       "teamHint": "Працівники, ролі",
       "platformTitle": "Платформа",
-      "platformHint": "Усі тенанти (superadmin)"
+      "platformHint": "Усі тенанти (superadmin)",
+      "ordersTitle": "Замовлення",
+      "ordersHint": "Прийом, статус, історія",
+      "shareTitle": "Поділитися",
+      "shareHint": "QR-код, WhatsApp, Telegram"
+    },
+    "orders": {
+      "comingSoon": "Скоро",
+      "heroTitle": "Замовлення з QR-меню",
+      "heroDesc": "Гість сканує QR, додає страви в кошик і надсилає замовлення на ваш екран — без офіціанта і без зайвих кліків.",
+      "featureIntake": "Прийом замовлень напряму зі столика",
+      "featureStatus": "Статуси: нове → готується → готово → видане",
+      "featureAnalytics": "Аналітика топ-страв і часу приготування",
+      "featureHistory": "Історія замовлень і чек по столику",
+      "footer": "Функціонал у розробці — буде доступний у наступних оновленнях."
     }
   }
 }

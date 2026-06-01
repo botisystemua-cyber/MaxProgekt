@@ -161,7 +161,21 @@
       "teamTitle": "Команда",
       "teamHint": "Сотрудники, роли",
       "platformTitle": "Платформа",
-      "platformHint": "Все тенанты (superadmin)"
+      "platformHint": "Все тенанты (superadmin)",
+      "ordersTitle": "Заказы",
+      "ordersHint": "Приём, статус, история",
+      "shareTitle": "Поделиться",
+      "shareHint": "QR-код, WhatsApp, Telegram"
+    },
+    "orders": {
+      "comingSoon": "Скоро",
+      "heroTitle": "Заказы из QR-меню",
+      "heroDesc": "Гость сканирует QR, добавляет блюда в корзину и отправляет заказ на ваш экран — без официанта и лишних кликов.",
+      "featureIntake": "Приём заказов прямо со столика",
+      "featureStatus": "Статусы: новый → готовится → готов → выдан",
+      "featureAnalytics": "Аналитика топ-блюд и времени приготовления",
+      "featureHistory": "История заказов и чек по столику",
+      "footer": "Функционал в разработке — будет доступен в следующих обновлениях."
     }
   }
 }
