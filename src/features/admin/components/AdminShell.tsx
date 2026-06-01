@@ -11,7 +11,7 @@ interface Tab {
 }
 
 const allTabs: Tab[] = [
-  { to: '/admin/dashboard', labelKey: 'admin.dashboardTab', icon: '📊' },
+  { to: '/admin/dashboard', labelKey: 'admin.dashboardTab', icon: '🏠' },
   { to: '/admin/menu', labelKey: 'admin.menuTab', icon: '🍽️' },
   { to: '/admin/team', labelKey: 'admin.teamTab', icon: '👥' },
   { to: '/admin/settings', labelKey: 'admin.settingsTab', icon: '⚙️' },
