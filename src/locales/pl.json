@@ -86,10 +86,14 @@
         "copyUrl": "Skopiuj link",
         "copyAll": "Skopiuj wszystko",
         "message": "Zostałeś dodany do zespołu BotiLocal. Zaloguj się na {{url}}, login: {{email}}.",
-        "hint": "Jeśli członek jeszcze się nie zarejestrował — najpierw musi ustawić hasło przez „Zapomniałem hasła” na stronie logowania."
+        "hint": "Jeśli członek jeszcze się nie zarejestrował — najpierw musi ustawić hasło przez „Zapomniałem hasła” na stronie logowania.",
+        "passwordViaMagicLink": "przez magic-link w wiadomości",
+        "magicLinkSent": "Wysłano link pierwszego logowania na {{email}}. Trzeba w niego kliknąć, aby ustawić hasło."
       },
       "roleOwner": "Właściciel · pełna kontrola (poza platformą)",
-      "forbidden": "Tylko właściciel lub superadmin może zarządzać zespołem."
+      "forbidden": "Tylko właściciel lub superadmin może zarządzać zespołem.",
+      "invitePending": "Zaproszenie wysłane na {{email}}. Spróbuj dodać ponownie za minutę — gdy uczestnik otworzy wiadomość.",
+      "inviteFailed": "Nie udało się wysłać zaproszenia"
     },
     "logout": "Wyloguj",
     "dashboardTab": "Główna",

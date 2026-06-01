@@ -85,10 +85,14 @@
         "copyUrl": "Cóipeáil nasc",
         "copyAll": "Cóipeáil gach rud",
         "message": "Tá tú curtha le foireann BotiLocal. Logáil isteach ag {{url}}, logáil: {{email}}.",
-        "hint": "Mura bhfuil an comhalta cláraithe go fóill — caithfidh sé pasfhocal a chruthú tríd „Athshocraigh pasfhocal“."
+        "hint": "Mura bhfuil an comhalta cláraithe go fóill — caithfidh sé pasfhocal a chruthú tríd „Athshocraigh pasfhocal“.",
+        "passwordViaMagicLink": "tríd an nasc draíochta sa ríomhphost",
+        "magicLinkSent": "Seoladh nasc don chéad logáil isteach chuig {{email}}. Caithfidh siad cliceáil air chun pasfhocal a shocrú."
       },
       "roleOwner": "Úinéir · smacht iomlán (seachas ardán)",
-      "forbidden": "Ní féidir ach leis an úinéir nó leis an ardriarthóir an fhoireann a bhainistiú."
+      "forbidden": "Ní féidir ach leis an úinéir nó leis an ardriarthóir an fhoireann a bhainistiú.",
+      "invitePending": "Cuireadh seolta chuig {{email}}. Bain triail eile as i gceann nóiméad — chomh luath agus a osclóidh siad an ríomhphost.",
+      "inviteFailed": "Theip ar an cuireadh a sheoladh"
     },
     "logout": "Logáil amach",
     "dashboardTab": "Baile",
