@@ -11,11 +11,11 @@ interface Tab {
 }
 
 const allTabs: Tab[] = [
-  { to: '/admin/dashboard', labelKey: 'admin.dashboard', icon: '📊' },
-  { to: '/admin/menu', labelKey: 'admin.menuManage', icon: '🍽️' },
-  { to: '/admin/team', labelKey: 'admin.team', icon: '👥' },
-  { to: '/admin/settings', labelKey: 'admin.settings', icon: '⚙️' },
-  { to: '/admin/platform', labelKey: 'admin.platform', icon: '🌐', superadminOnly: true },
+  { to: '/admin/dashboard', labelKey: 'admin.dashboardTab', icon: '📊' },
+  { to: '/admin/menu', labelKey: 'admin.menuTab', icon: '🍽️' },
+  { to: '/admin/team', labelKey: 'admin.teamTab', icon: '👥' },
+  { to: '/admin/settings', labelKey: 'admin.settingsTab', icon: '⚙️' },
+  { to: '/admin/platform', labelKey: 'admin.platformTab', icon: '🌐', superadminOnly: true },
 ];
 
 export function AdminShell({ children }: { children?: React.ReactNode }) {
