@@ -159,7 +159,21 @@
       "teamTitle": "Team",
       "teamHint": "Mitglieder, Rollen",
       "platformTitle": "Plattform",
-      "platformHint": "Alle Tenants (Superadmin)"
+      "platformHint": "Alle Tenants (Superadmin)",
+      "ordersTitle": "Bestellungen",
+      "ordersHint": "Annahme, Status, Verlauf",
+      "shareTitle": "Teilen",
+      "shareHint": "QR-Code, WhatsApp, Telegram"
+    },
+    "orders": {
+      "comingSoon": "Bald verfügbar",
+      "heroTitle": "Bestellungen aus dem QR-Menü",
+      "heroDesc": "Der Gast scannt den QR, legt Speisen in den Warenkorb und sendet die Bestellung an Ihren Bildschirm — ohne Kellner, ohne zusätzliche Klicks.",
+      "featureIntake": "Bestellannahme direkt vom Tisch",
+      "featureStatus": "Status: neu → in Arbeit → fertig → serviert",
+      "featureAnalytics": "Analyse der Top-Gerichte und Zubereitungszeiten",
+      "featureHistory": "Bestellverlauf und Tischrechnungen",
+      "footer": "Funktion in Entwicklung — kommt in zukünftigen Updates."
     }
   }
 }

@@ -161,7 +161,21 @@
       "teamTitle": "Zespół",
       "teamHint": "Członkowie, role",
       "platformTitle": "Platforma",
-      "platformHint": "Wszyscy tenanci (superadmin)"
+      "platformHint": "Wszyscy tenanci (superadmin)",
+      "ordersTitle": "Zamówienia",
+      "ordersHint": "Przyjmowanie, status, historia",
+      "shareTitle": "Udostępnij",
+      "shareHint": "QR, WhatsApp, Telegram"
+    },
+    "orders": {
+      "comingSoon": "Wkrótce",
+      "heroTitle": "Zamówienia z menu QR",
+      "heroDesc": "Gość skanuje QR, dodaje pozycje do koszyka i wysyła zamówienie na Twój ekran — bez kelnera i zbędnych kliknięć.",
+      "featureIntake": "Przyjmowanie zamówień prosto ze stolika",
+      "featureStatus": "Statusy: nowe → w przygotowaniu → gotowe → wydane",
+      "featureAnalytics": "Analityka top-dań i czasu przygotowania",
+      "featureHistory": "Historia zamówień i rachunki po stolikach",
+      "footer": "Funkcja w przygotowaniu — będzie dostępna w kolejnych wydaniach."
     }
   }
 }
