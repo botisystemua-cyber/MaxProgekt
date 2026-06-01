@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
+import { PhotoStyleModal } from '../components/PhotoStyleModal';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { useAdminMenu } from '../hooks/useAdminMenu';
 import { supabase } from '@/shared/lib/supabase';
-import { uploadMenuItemImage } from '../utils/imageUpload';
 import type { Language, MenuItem, MenuItemTranslation } from '@/shared/types/database';
 
 interface TranslationField {
@@ -50,7 +50,8 @@ export default function ItemEditPage() {
   const [translations, setTranslations] = useState<TranslationsState>({});
   const [trLang, setTrLang] = useState<Language>('es');
   const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const uploading = pendingFile !== null;
   const [error, setError] = useState<string | null>(null);
 
   const available = tenant?.available_languages ?? (['es'] as Language[]);
@@ -176,20 +177,12 @@ export default function ItemEditPage() {
     }
   }
 
-  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     e.target.value = ''; // reset щоб можна було вибрати той самий файл ще раз
     if (!file || !tenant) return;
-    setUploading(true);
     setError(null);
-    try {
-      const url = await uploadMenuItemImage(file, tenant.slug, id);
-      patch('image_url', url);
-    } catch (err) {
-      setError(`Upload failed: ${(err as Error).message}`);
-    } finally {
-      setUploading(false);
-    }
+    setPendingFile(file);
   }
 
   async function handleDelete() {
@@ -487,6 +480,19 @@ export default function ItemEditPage() {
           ) : null}
         </div>
       </form>
+
+      {pendingFile && tenant ? (
+        <PhotoStyleModal
+          file={pendingFile}
+          tenantSlug={tenant.slug}
+          itemId={id}
+          onClose={() => setPendingFile(null)}
+          onUploaded={(url) => {
+            patch('image_url', url);
+            setPendingFile(null);
+          }}
+        />
+      ) : null}
     </AdminShell>
   );
 }
