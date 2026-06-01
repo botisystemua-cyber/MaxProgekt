@@ -2,74 +2,107 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
 import { MenuShareCard } from '../components/MenuShareCard';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { useAdminMenu } from '../hooks/useAdminMenu';
 
-function StatCard({ icon, label, value }: { icon: string; label: string; value: number | string }) {
+interface ActionTileProps {
+  to: string;
+  icon: string;
+  title: string;
+  hint: string;
+}
+
+function ActionTile({ to, icon, title, hint }: ActionTileProps) {
   return (
-    <div className="rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800">
-      <div className="text-2xl">{icon}</div>
-      <div className="mt-2 text-2xl font-extrabold tabular-nums">{value}</div>
-      <div className="text-xs uppercase tracking-wider text-slate-400">{label}</div>
-    </div>
+    <Link
+      to={to}
+      className="flex aspect-square flex-col items-start justify-between rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800 transition active:scale-95 hover:bg-slate-800"
+    >
+      <span className="text-3xl">{icon}</span>
+      <div>
+        <div className="text-base font-bold text-white">{title}</div>
+        <div className="mt-0.5 text-[11px] text-slate-400">{hint}</div>
+      </div>
+    </Link>
   );
 }
 
 export default function DashboardPage() {
   const { t } = useTranslation();
+  const { currentUser } = useAuth();
   const { tenant } = useAdminTenant();
   const { data, loading } = useAdminMenu(tenant?.id);
 
   const items = data?.items ?? [];
   const categories = data?.categories ?? [];
-  const specials = data?.specials ?? [];
-  const activeSpecials = specials.filter((s) => s.is_active && (!s.ends_at || new Date(s.ends_at) > new Date()));
-  const availableCount = items.filter((i) => i.is_available).length;
-  const hiddenCount = items.length - availableCount;
+  const isSuperadmin = currentUser?.role === 'superadmin';
 
   return (
     <AdminShell>
       <div className="mx-auto max-w-3xl space-y-4 p-4">
         {tenant ? <MenuShareCard tenant={tenant} variant="compact" /> : null}
 
-        {loading ? (
-          <div className="grid grid-cols-2 gap-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-24 animate-pulse rounded-2xl bg-slate-900" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-3">
-            <StatCard icon="🍽️" label={t('admin.stats.items')} value={items.length} />
-            <StatCard icon="📂" label={t('admin.stats.categories')} value={categories.length} />
-            <StatCard icon="✅" label={t('admin.stats.available')} value={availableCount} />
-            <StatCard icon="🙈" label={t('admin.stats.hidden')} value={hiddenCount} />
-          </div>
-        )}
+        {/* 4 (або 5 для superadmin) великі action-плитки */}
+        <div className="grid grid-cols-2 gap-3">
+          <ActionTile
+            to="/admin/menu"
+            icon="🍽️"
+            title={t('admin.tile.menuTitle')}
+            hint={
+              loading
+                ? '…'
+                : t('admin.tile.menuHint', { count: items.length, defaultValue: '{{count}} страв' })
+            }
+          />
+          <ActionTile
+            to="/admin/menu/item/new"
+            icon="➕"
+            title={t('admin.tile.newItemTitle')}
+            hint={t('admin.tile.newItemHint')}
+          />
+          <ActionTile
+            to="/admin/settings"
+            icon="⚙️"
+            title={t('admin.tile.settingsTitle')}
+            hint={t('admin.tile.settingsHint')}
+          />
+          <ActionTile
+            to="/admin/team"
+            icon="👥"
+            title={t('admin.tile.teamTitle')}
+            hint={t('admin.tile.teamHint')}
+          />
+          {isSuperadmin ? (
+            <ActionTile
+              to="/admin/platform"
+              icon="🌐"
+              title={t('admin.tile.platformTitle')}
+              hint={t('admin.tile.platformHint')}
+            />
+          ) : null}
+        </div>
 
-        {activeSpecials.length > 0 ? (
-          <div className="rounded-2xl bg-gradient-to-r from-orange-600 to-rose-600 p-4 text-white">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-white/80">
-              🔥 {t('admin.stats.activePromotions')}
+        {/* Компактний рядок статистики — без візуального шуму */}
+        {!loading && items.length > 0 ? (
+          <div className="flex items-center justify-around rounded-xl bg-slate-900/60 px-3 py-2 text-center text-[11px] text-slate-400 ring-1 ring-slate-800">
+            <div>
+              <span className="font-bold text-white">{items.length}</span> {t('admin.stats.items')}
             </div>
-            <div className="mt-1 text-lg font-bold">{activeSpecials.length}</div>
+            <div className="h-4 w-px bg-slate-800" />
+            <div>
+              <span className="font-bold text-white">{categories.length}</span>{' '}
+              {t('admin.stats.categories')}
+            </div>
+            <div className="h-4 w-px bg-slate-800" />
+            <div>
+              <span className="font-bold text-emerald-400">
+                {items.filter((i) => i.is_available).length}
+              </span>{' '}
+              {t('admin.stats.available')}
+            </div>
           </div>
         ) : null}
-
-        <div className="grid grid-cols-2 gap-3">
-          <Link
-            to="/admin/menu/item/new"
-            className="rounded-2xl bg-brand-primary p-4 text-center text-sm font-semibold text-white shadow-raised"
-          >
-            ＋ {t('admin.newItem')}
-          </Link>
-          <Link
-            to="/admin/menu"
-            className="rounded-2xl bg-slate-800 p-4 text-center text-sm font-semibold"
-          >
-            {t('admin.menuManage')}
-          </Link>
-        </div>
       </div>
     </AdminShell>
   );
