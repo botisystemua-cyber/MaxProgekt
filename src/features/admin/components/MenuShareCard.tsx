@@ -96,13 +96,6 @@ export function MenuShareCard({ tenant, variant = 'full' }: Props) {
         </div>
 
         <div className="min-w-0 flex-1 space-y-3">
-          <div
-            className="rounded-lg bg-slate-800 p-2 text-center font-mono text-[11px] text-slate-300 break-all"
-            title={url}
-          >
-            {url}
-          </div>
-
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
