@@ -2,20 +2,24 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useAdminTenant } from '../hooks/useAdminTenant';
+import { canAccess, type Section } from '../lib/permissions';
 
 interface Tab {
   to: string;
   labelKey: string;
   icon: string;
-  superadminOnly?: boolean;
+  section: Section;
 }
 
+// Порядок табів. Видимість визначається `canAccess(role, section)` —
+// додав плитку Замовлення (waiter тільки її бачить) перед Меню.
 const allTabs: Tab[] = [
-  { to: '/admin/dashboard', labelKey: 'admin.dashboardTab', icon: '🏠' },
-  { to: '/admin/menu', labelKey: 'admin.menuTab', icon: '🍽️' },
-  { to: '/admin/team', labelKey: 'admin.teamTab', icon: '👥' },
-  { to: '/admin/settings', labelKey: 'admin.settingsTab', icon: '⚙️' },
-  { to: '/admin/platform', labelKey: 'admin.platformTab', icon: '🌐', superadminOnly: true },
+  { to: '/admin/dashboard', labelKey: 'admin.dashboardTab', icon: '🏠', section: 'dashboard' },
+  { to: '/admin/orders',    labelKey: 'admin.tile.ordersTitle', icon: '📋', section: 'orders' },
+  { to: '/admin/menu',      labelKey: 'admin.menuTab', icon: '🍽️', section: 'menu' },
+  { to: '/admin/team',      labelKey: 'admin.teamTab', icon: '👥', section: 'team' },
+  { to: '/admin/settings',  labelKey: 'admin.settingsTab', icon: '⚙️', section: 'settings' },
+  { to: '/admin/platform',  labelKey: 'admin.platformTab', icon: '🌐', section: 'platform' },
 ];
 
 export function AdminShell({ children }: { children?: React.ReactNode }) {
@@ -71,29 +75,37 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
       <main className="flex-1 overflow-y-auto pb-24">{children ?? <Outlet />}</main>
 
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-50 border-t border-slate-800 bg-slate-900/95 backdrop-blur">
-        <ul
-          className={`mx-auto grid max-w-3xl ${
-            currentUser?.role === 'superadmin' ? 'grid-cols-5' : 'grid-cols-4'
-          }`}
-        >
-          {allTabs
-            .filter((tab) => !tab.superadminOnly || currentUser?.role === 'superadmin')
-            .map((tab) => (
-            <li key={tab.to}>
-              <NavLink
-                to={tab.to}
-                className={({ isActive }) =>
-                  `flex flex-col items-center gap-1 py-3 text-xs transition-colors ${
-                    isActive ? 'text-brand-primary' : 'text-slate-400'
-                  }`
-                }
-              >
-                <span className="text-xl leading-none">{tab.icon}</span>
-                <span>{t(tab.labelKey)}</span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        {(() => {
+          const visibleTabs = allTabs.filter((tab) => canAccess(currentUser?.role, tab.section));
+          // Tailwind JIT не сканує динамічні class-стрічки, тому статичний map.
+          const colsCls: Record<number, string> = {
+            2: 'grid-cols-2',
+            3: 'grid-cols-3',
+            4: 'grid-cols-4',
+            5: 'grid-cols-5',
+            6: 'grid-cols-6',
+          };
+          const cols = colsCls[Math.min(Math.max(visibleTabs.length, 2), 6)] ?? 'grid-cols-6';
+          return (
+            <ul className={`mx-auto grid max-w-3xl ${cols}`}>
+              {visibleTabs.map((tab) => (
+                <li key={tab.to}>
+                  <NavLink
+                    to={tab.to}
+                    className={({ isActive }) =>
+                      `flex flex-col items-center gap-1 py-3 text-xs transition-colors ${
+                        isActive ? 'text-brand-primary' : 'text-slate-400'
+                      }`
+                    }
+                  >
+                    <span className="text-xl leading-none">{tab.icon}</span>
+                    <span>{t(tab.labelKey)}</span>
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          );
+        })()}
       </nav>
     </div>
   );

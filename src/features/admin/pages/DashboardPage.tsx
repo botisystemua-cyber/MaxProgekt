@@ -5,6 +5,7 @@ import { AdminShell } from '../components/AdminShell';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { useAdminMenu } from '../hooks/useAdminMenu';
+import { canAccess, type Section } from '../lib/permissions';
 
 /**
  * Анімує число від 0 до target за `duration` мс із ease-out cubic.
@@ -87,7 +88,18 @@ export default function DashboardPage() {
   const items = data?.items ?? [];
   const categories = data?.categories ?? [];
   const availableCount = items.filter((i) => i.is_available).length;
-  const isSuperadmin = currentUser?.role === 'superadmin';
+  const role = currentUser?.role;
+
+  const allTiles: Array<{ section: Section; to: string; icon: string; title: string; hint: string }> = [
+    { section: 'menu',     to: '/admin/menu',          icon: '🍽️', title: t('admin.tile.menuTitle'),     hint: t('admin.tile.menuHint') },
+    { section: 'newItem',  to: '/admin/menu/item/new', icon: '➕',  title: t('admin.tile.newItemTitle'),  hint: t('admin.tile.newItemHint') },
+    { section: 'orders',   to: '/admin/orders',        icon: '📋', title: t('admin.tile.ordersTitle'),   hint: t('admin.tile.ordersHint') },
+    { section: 'share',    to: '/admin/share',         icon: '🔗', title: t('admin.tile.shareTitle'),    hint: t('admin.tile.shareHint') },
+    { section: 'settings', to: '/admin/settings',      icon: '⚙️', title: t('admin.tile.settingsTitle'), hint: t('admin.tile.settingsHint') },
+    { section: 'team',     to: '/admin/team',          icon: '👥', title: t('admin.tile.teamTitle'),     hint: t('admin.tile.teamHint') },
+    { section: 'platform', to: '/admin/platform',      icon: '🌐', title: t('admin.tile.platformTitle'), hint: t('admin.tile.platformHint') },
+  ];
+  const tiles = allTiles.filter((tile) => canAccess(role, tile.section));
 
   return (
     <AdminShell>
@@ -107,52 +119,17 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* 4 (або 5 для superadmin) великі action-плитки */}
+        {/* Дозволені плитки залежать від ролі (див. permissions.ts) */}
         <div className="grid grid-cols-2 gap-3">
-          <ActionTile
-            to="/admin/menu"
-            icon="🍽️"
-            title={t('admin.tile.menuTitle')}
-            hint={t('admin.tile.menuHint')}
-          />
-          <ActionTile
-            to="/admin/menu/item/new"
-            icon="➕"
-            title={t('admin.tile.newItemTitle')}
-            hint={t('admin.tile.newItemHint')}
-          />
-          <ActionTile
-            to="/admin/orders"
-            icon="📋"
-            title={t('admin.tile.ordersTitle')}
-            hint={t('admin.tile.ordersHint')}
-          />
-          <ActionTile
-            to="/admin/share"
-            icon="🔗"
-            title={t('admin.tile.shareTitle')}
-            hint={t('admin.tile.shareHint')}
-          />
-          <ActionTile
-            to="/admin/settings"
-            icon="⚙️"
-            title={t('admin.tile.settingsTitle')}
-            hint={t('admin.tile.settingsHint')}
-          />
-          <ActionTile
-            to="/admin/team"
-            icon="👥"
-            title={t('admin.tile.teamTitle')}
-            hint={t('admin.tile.teamHint')}
-          />
-          {isSuperadmin ? (
+          {tiles.map((tile) => (
             <ActionTile
-              to="/admin/platform"
-              icon="🌐"
-              title={t('admin.tile.platformTitle')}
-              hint={t('admin.tile.platformHint')}
+              key={tile.to}
+              to={tile.to}
+              icon={tile.icon}
+              title={tile.title}
+              hint={tile.hint}
             />
-          ) : null}
+          ))}
         </div>
       </div>
     </AdminShell>

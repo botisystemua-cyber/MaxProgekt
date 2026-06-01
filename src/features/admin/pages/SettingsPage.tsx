@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
 import { useAdminTenant } from '../hooks/useAdminTenant';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { supabase } from '@/shared/lib/supabase';
+import { canAccess } from '../lib/permissions';
 import type { Language, Tenant } from '@/shared/types/database';
 
 const ALL_LANGS: Language[] = ['es', 'en', 'uk', 'ru', 'pl', 'ga', 'de'];
@@ -10,6 +13,7 @@ const ALL_LANGS: Language[] = ['es', 'en', 'uk', 'ru', 'pl', 'ga', 'de'];
 export default function SettingsPage() {
   const { t } = useTranslation();
   const { tenant } = useAdminTenant();
+  const { currentUser } = useAuth();
   const [form, setForm] = useState<Partial<Tenant>>({});
   const [hydratedFor, setHydratedFor] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -64,6 +68,11 @@ export default function SettingsPage() {
     setSaving(false);
     if (err) setError(err.message);
     else setSavedAt(new Date());
+  }
+
+  // Захист: waiter не повинен бачити налаштування навіть прямим лінком.
+  if (currentUser && !canAccess(currentUser.role, 'settings')) {
+    return <Navigate to="/admin/dashboard" replace />;
   }
 
   if (!tenant) {

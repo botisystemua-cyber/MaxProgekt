@@ -86,7 +86,9 @@
         "copyAll": "Alles kopieren",
         "message": "Du wurdest dem BotiLocal-Team hinzugefügt. Melde dich an unter {{url}}, Login: {{email}}.",
         "hint": "Falls das Mitglied noch nicht registriert ist — soll es zuerst über „Passwort vergessen“ ein Passwort setzen."
-      }
+      },
+      "roleOwner": "Inhaber · volle Kontrolle (außer Plattform)",
+      "forbidden": "Nur Inhaber oder Superadmin können das Team verwalten."
     },
     "logout": "Abmelden",
     "dashboardTab": "Start",

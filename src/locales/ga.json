@@ -86,7 +86,9 @@
         "copyAll": "Cóipeáil gach rud",
         "message": "Tá tú curtha le foireann BotiLocal. Logáil isteach ag {{url}}, logáil: {{email}}.",
         "hint": "Mura bhfuil an comhalta cláraithe go fóill — caithfidh sé pasfhocal a chruthú tríd „Athshocraigh pasfhocal“."
-      }
+      },
+      "roleOwner": "Úinéir · smacht iomlán (seachas ardán)",
+      "forbidden": "Ní féidir ach leis an úinéir nó leis an ardriarthóir an fhoireann a bhainistiú."
     },
     "logout": "Logáil amach",
     "dashboardTab": "Baile",

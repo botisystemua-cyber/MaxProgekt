@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
 import { useTeam, type TeamMember } from '../hooks/useTeam';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { supabase } from '@/shared/lib/supabase';
+import { canManageTeam } from '../lib/permissions';
 
-type Role = 'admin' | 'waiter';
+type Role = 'owner' | 'admin' | 'waiter';
 
 const roleBadge: Record<TeamMember['role'], { label: string; cls: string }> = {
   owner: { label: 'OWNER', cls: 'bg-brand-primary/20 text-brand-primary' },
@@ -18,7 +20,13 @@ export default function TeamPage() {
   const { t } = useTranslation();
   const { user, currentUser } = useAuth();
   const { members, loading, error, reload } = useTeam();
-  const isOwner = currentUser?.role === 'owner' || currentUser?.role === 'superadmin';
+  const isOwner = canManageTeam(currentUser?.role);
+
+  // Захист: admin/waiter не повинні бачити Team, навіть прямим лінком.
+  // currentUser може бути null під час завантаження — тоді нічого не редіректимо.
+  if (currentUser && !isOwner) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
 
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<Role>('waiter');
@@ -41,6 +49,8 @@ export default function TeamPage() {
     if (err) {
       if (err.message.includes('not_registered')) {
         setActionError(t('admin.team.notRegistered', { email }));
+      } else if (err.message.includes('forbidden')) {
+        setActionError(t('admin.team.forbidden'));
       } else {
         setActionError(err.message);
       }
@@ -169,6 +179,7 @@ export default function TeamPage() {
             >
               <option value="waiter">{t('admin.team.roleWaiter')}</option>
               <option value="admin">{t('admin.team.roleAdmin')}</option>
+              <option value="owner">{t('admin.team.roleOwner')}</option>
             </select>
             <button
               type="submit"
