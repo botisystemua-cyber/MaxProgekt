@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { useThemeStore } from '@/shared/stores/themeStore';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { canAccess, type Section } from '../lib/permissions';
 
@@ -26,6 +27,8 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
   const { t } = useTranslation();
   const { user, currentUser, currentUserLoading, signOut } = useAuth();
   const { tenant } = useAdminTenant();
+  const theme = useThemeStore((s) => s.theme);
+  const toggleTheme = useThemeStore((s) => s.toggle);
 
   // Юзер залогінений, але без public.users-запису → корисний state-екран
   // з інструкцією, а не порожній admin. currentUserLoading охороняє від
@@ -49,10 +52,10 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-full flex-col bg-slate-950 text-slate-100">
-      <header className="safe-top flex items-center justify-between gap-3 border-b border-slate-800 bg-slate-900/60 px-4 py-3 backdrop-blur">
+    <div className="flex min-h-full flex-col bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      <header className="safe-top flex items-center justify-between gap-3 border-b border-slate-200 bg-white/80 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
         <div className="min-w-0">
-          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
             {t('admin.shell.brand')}
           </div>
           <div className="truncate text-sm font-semibold">
@@ -64,17 +67,28 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
             ) : null}
           </div>
         </div>
-        <button
-          onClick={() => void signOut()}
-          className="shrink-0 rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-semibold hover:bg-slate-700"
-        >
-          {t('admin.logout')}
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? t('admin.shell.themeLight') : t('admin.shell.themeDark')}
+            title={theme === 'dark' ? t('admin.shell.themeLight') : t('admin.shell.themeDark')}
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-base hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+          <button
+            onClick={() => void signOut()}
+            className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+          >
+            {t('admin.logout')}
+          </button>
+        </div>
       </header>
 
       <main className="flex-1 overflow-y-auto pb-24">{children ?? <Outlet />}</main>
 
-      <nav className="safe-bottom fixed inset-x-0 bottom-0 z-50 border-t border-slate-800 bg-slate-900/95 backdrop-blur">
+      <nav className="safe-bottom fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
         {(() => {
           const visibleTabs = allTabs.filter((tab) => canAccess(currentUser?.role, tab.section));
           // Tailwind JIT не сканує динамічні class-стрічки, тому статичний map.
@@ -94,7 +108,7 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
                     to={tab.to}
                     className={({ isActive }) =>
                       `flex flex-col items-center gap-1 py-3 text-xs transition-colors ${
-                        isActive ? 'text-brand-primary' : 'text-slate-400'
+                        isActive ? 'text-brand-primary' : 'text-slate-500 dark:text-slate-400'
                       }`
                     }
                   >

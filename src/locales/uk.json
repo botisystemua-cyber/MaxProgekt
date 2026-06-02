@@ -38,7 +38,12 @@
     "serverInstructions": "Покажіть цей екран офіціанту",
     "items_one": "{{count}} страва",
     "items_few": "{{count}} страви",
-    "items_other": "{{count}} страв"
+    "items_other": "{{count}} страв",
+    "submitOrder": "Оформити",
+    "tablePlaceholder": "№ столика (опційно)",
+    "notePlaceholder": "Побажання (опційно)",
+    "orderPlaced": "Замовлення прийнято!",
+    "orderPlacedDesc": "Кухня вже бачить. Дочекайся коли офіціант принесе."
   },
   "admin": {
     "login": "Увійти",
@@ -174,7 +179,9 @@
     "shell": {
       "brand": "BotiLocal · Адмін",
       "notLinked": "Аккаунт не прив'язано",
-      "notLinkedDesc": "Ваш auth-аккаунт {{email}} ще не прив'язаний до жодного ресторану. Власник має додати вас у public.users з роллю/тенантом."
+      "notLinkedDesc": "Ваш auth-аккаунт {{email}} ще не прив'язаний до жодного ресторану. Власник має додати вас у public.users з роллю/тенантом.",
+      "themeLight": "Світла тема",
+      "themeDark": "Темна тема"
     },
     "tile": {
       "menuTitle": "Меню",
@@ -200,7 +207,17 @@
       "featureStatus": "Статуси: нове → готується → готово → видане",
       "featureAnalytics": "Аналітика топ-страв і часу приготування",
       "featureHistory": "Історія замовлень і чек по столику",
-      "footer": "Функціонал у розробці — буде доступний у наступних оновленнях."
+      "footer": "Функціонал у розробці — буде доступний у наступних оновленнях.",
+      "allTab": "Усі",
+      "empty": "Поки що замовлень нема",
+      "statusNew": "Нове",
+      "statusCooking": "Готується",
+      "statusReady": "Готове",
+      "statusServed": "Видане",
+      "statusCancelled": "Скасоване",
+      "justNow": "щойно",
+      "minutesAgo": "{{count}} хв тому",
+      "hoursAgo": "{{count}} год тому"
     }
   }
 }

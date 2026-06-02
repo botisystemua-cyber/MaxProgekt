@@ -37,7 +37,12 @@
     "showServer": "Kellner rufen",
     "serverInstructions": "Zeigen Sie diesen Bildschirm Ihrem Kellner",
     "items_one": "{{count}} Gericht",
-    "items_other": "{{count}} Gerichte"
+    "items_other": "{{count}} Gerichte",
+    "submitOrder": "Bestellen",
+    "tablePlaceholder": "Tisch-Nr. (optional)",
+    "notePlaceholder": "Anmerkungen (optional)",
+    "orderPlaced": "Bestellung aufgegeben!",
+    "orderPlacedDesc": "Die Küche hat es. Der Kellner kommt gleich."
   },
   "admin": {
     "login": "Anmelden",
@@ -172,7 +177,9 @@
     "shell": {
       "brand": "BotiLocal · Admin",
       "notLinked": "Konto nicht verknüpft",
-      "notLinkedDesc": "Ihr Auth-Konto {{email}} ist noch nicht mit einem Restaurant verknüpft. Der Inhaber muss Sie in public.users mit Rolle/Mandant hinzufügen."
+      "notLinkedDesc": "Ihr Auth-Konto {{email}} ist noch nicht mit einem Restaurant verknüpft. Der Inhaber muss Sie in public.users mit Rolle/Mandant hinzufügen.",
+      "themeLight": "Helles Thema",
+      "themeDark": "Dunkles Thema"
     },
     "tile": {
       "menuTitle": "Menü",
@@ -198,7 +205,17 @@
       "featureStatus": "Status: neu → in Arbeit → fertig → serviert",
       "featureAnalytics": "Analyse der Top-Gerichte und Zubereitungszeiten",
       "featureHistory": "Bestellverlauf und Tischrechnungen",
-      "footer": "Funktion in Entwicklung — kommt in zukünftigen Updates."
+      "footer": "Funktion in Entwicklung — kommt in zukünftigen Updates.",
+      "allTab": "Alle",
+      "empty": "Noch keine Bestellungen",
+      "statusNew": "Neu",
+      "statusCooking": "In Arbeit",
+      "statusReady": "Fertig",
+      "statusServed": "Serviert",
+      "statusCancelled": "Storniert",
+      "justNow": "jetzt",
+      "minutesAgo": "vor {{count}} Min",
+      "hoursAgo": "vor {{count}} Std"
     }
   }
 }

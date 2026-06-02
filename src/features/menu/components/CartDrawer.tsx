@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '@/shared/lib/supabase';
 import {
   selectCartCount,
   selectCartLines,
@@ -10,10 +11,11 @@ import {
 interface Props {
   open: boolean;
   currency: string;
+  tenantSlug: string;
   onClose: () => void;
 }
 
-export function CartDrawer({ open, currency, onClose }: Props) {
+export function CartDrawer({ open, currency, tenantSlug, onClose }: Props) {
   const { t } = useTranslation();
   const lines = useCartStore(selectCartLines);
   const count = useCartStore(selectCartCount);
@@ -23,6 +25,32 @@ export function CartDrawer({ open, currency, onClose }: Props) {
   const remove = useCartStore((s) => s.remove);
   const clear = useCartStore((s) => s.clear);
   const [showServer, setShowServer] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [tableLabel, setTableLabel] = useState('');
+  const [customerNote, setCustomerNote] = useState('');
+  const [submittedOrderId, setSubmittedOrderId] = useState<string | null>(null);
+
+  async function handleSubmit() {
+    if (!tenantSlug) return;
+    setSubmitting(true);
+    setSubmitError(null);
+    const items = lines.map((l) => ({ menu_item_id: l.id, qty: l.qty }));
+    const { data, error } = await supabase.rpc('create_order', {
+      p_tenant_slug: tenantSlug,
+      p_items: items,
+      p_table_label: tableLabel.trim() || null,
+      p_customer_note: customerNote.trim() || null,
+    });
+    setSubmitting(false);
+    if (error) {
+      setSubmitError(error.message);
+      return;
+    }
+    const orderId = (data as { order_id?: string } | null)?.order_id ?? null;
+    setSubmittedOrderId(orderId);
+    clear();
+  }
 
   // Lock body scroll while open + ESC.
   useEffect(() => {
@@ -37,9 +65,15 @@ export function CartDrawer({ open, currency, onClose }: Props) {
     };
   }, [open, onClose]);
 
-  // Закриваємо "show server" коли закриваємо drawer.
+  // Закриваємо "show server"/order confirm коли закриваємо drawer.
   useEffect(() => {
-    if (!open) setShowServer(false);
+    if (!open) {
+      setShowServer(false);
+      setSubmittedOrderId(null);
+      setSubmitError(null);
+      setTableLabel('');
+      setCustomerNote('');
+    }
   }, [open]);
 
   if (!open) return null;
@@ -73,7 +107,23 @@ export function CartDrawer({ open, currency, onClose }: Props) {
           </button>
         </header>
 
-        {showServer ? (
+        {submittedOrderId ? (
+          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-12 text-center">
+            <div className="text-6xl">✅</div>
+            <h3 className="text-lg font-bold text-slate-900">{t('cart.orderPlaced')}</h3>
+            <p className="text-sm text-slate-600">{t('cart.orderPlacedDesc')}</p>
+            <div className="rounded-xl bg-slate-100 px-4 py-2 font-mono text-xs text-slate-700">
+              #{submittedOrderId.slice(0, 8).toUpperCase()}
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="mt-3 rounded-2xl bg-brand-primary px-6 py-3 text-sm font-bold text-white"
+            >
+              {t('common.close', { defaultValue: 'OK' })}
+            </button>
+          </div>
+        ) : showServer ? (
           <ServerView lines={lines} total={total} currency={currency} onBack={() => setShowServer(false)} />
         ) : count === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
@@ -141,8 +191,27 @@ export function CartDrawer({ open, currency, onClose }: Props) {
           </ul>
         )}
 
-        {!showServer && count > 0 ? (
+        {!showServer && !submittedOrderId && count > 0 ? (
           <footer className="safe-bottom space-y-3 border-t border-slate-100 px-5 pt-4">
+            <div className="grid grid-cols-2 gap-2">
+              <input
+                type="text"
+                value={tableLabel}
+                onChange={(e) => setTableLabel(e.target.value)}
+                maxLength={20}
+                placeholder={t('cart.tablePlaceholder')}
+                className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-primary"
+              />
+              <input
+                type="text"
+                value={customerNote}
+                onChange={(e) => setCustomerNote(e.target.value)}
+                maxLength={200}
+                placeholder={t('cart.notePlaceholder')}
+                className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-primary"
+              />
+            </div>
+
             <div className="flex items-baseline justify-between">
               <span className="text-sm font-semibold text-slate-500">{t('cart.total')}</span>
               <span className="text-2xl font-extrabold tabular-nums text-slate-900">
@@ -150,20 +219,27 @@ export function CartDrawer({ open, currency, onClose }: Props) {
                 <span className="text-sm font-semibold text-slate-400">{currency}</span>
               </span>
             </div>
+
+            {submitError ? (
+              <div className="rounded-lg bg-rose-50 px-3 py-2 text-xs text-rose-700">{submitError}</div>
+            ) : null}
+
             <div className="flex gap-2 pb-2">
               <button
                 type="button"
                 onClick={clear}
-                className="flex-1 rounded-2xl bg-slate-100 py-3 text-sm font-semibold text-slate-700 shadow-soft transition-all active:scale-[0.98]"
+                disabled={submitting}
+                className="flex-1 rounded-2xl bg-slate-100 py-3 text-sm font-semibold text-slate-700 shadow-soft transition-all active:scale-[0.98] disabled:opacity-50"
               >
                 {t('cart.clear')}
               </button>
               <button
                 type="button"
-                onClick={() => setShowServer(true)}
-                className="flex-[2] rounded-2xl bg-brand-primary py-3 text-sm font-bold text-white shadow-raised transition-all active:scale-[0.98]"
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="flex-[2] rounded-2xl bg-brand-primary py-3 text-sm font-bold text-white shadow-raised transition-all active:scale-[0.98] disabled:opacity-60"
               >
-                {t('cart.showServer')}
+                {submitting ? t('common.loading') : `📤 ${t('cart.submitOrder')}`}
               </button>
             </div>
           </footer>
