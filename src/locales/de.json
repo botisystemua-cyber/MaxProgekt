@@ -146,7 +146,19 @@
     },
     "menuManagePage": {
       "noCategories": "Noch keine Kategorien",
-      "empty": "Leer"
+      "empty": "Leer",
+      "newCategory": "Neue Kategorie",
+      "editCategory": "Kategorie bearbeiten",
+      "itemsCount": "{{count}} Gerichte",
+      "tapHint": "Tippe auf eine Kategorie für ihre Gerichte",
+      "labelField": "Name",
+      "labelPlaceholder": "z.B. Frühstück",
+      "slugField": "URL-Slug",
+      "iconField": "Symbol",
+      "labelRequired": "Name eingeben",
+      "slugRequired": "Slug eingeben",
+      "deleteConfirm": "Kategorie \"{{name}}\" löschen?",
+      "deleteBlockedNonEmpty": "Kategorie nicht leer. Entferne/verschiebe zuerst ihre Gerichte."
     },
     "item": {
       "namesAndDescriptions": "Name & Beschreibung",

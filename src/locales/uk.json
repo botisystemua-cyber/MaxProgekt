@@ -148,7 +148,19 @@
     },
     "menuManagePage": {
       "noCategories": "Категорій ще немає",
-      "empty": "Порожньо"
+      "empty": "Порожньо",
+      "newCategory": "Нова категорія",
+      "editCategory": "Редагувати категорію",
+      "itemsCount": "{{count}} страв",
+      "tapHint": "Тапни категорію щоб побачити страви",
+      "labelField": "Назва",
+      "labelPlaceholder": "Напр. Сніданки",
+      "slugField": "URL-сегмент (slug)",
+      "iconField": "Іконка",
+      "labelRequired": "Введіть назву",
+      "slugRequired": "Введіть slug",
+      "deleteConfirm": "Видалити категорію \"{{name}}\"?",
+      "deleteBlockedNonEmpty": "Категорія не порожня. Спершу видали/перенеси всі страви."
     },
     "item": {
       "namesAndDescriptions": "Назва та опис",

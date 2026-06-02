@@ -146,7 +146,19 @@
     },
     "menuManagePage": {
       "noCategories": "Aún no hay categorías",
-      "empty": "Vacío"
+      "empty": "Vacío",
+      "newCategory": "Nueva categoría",
+      "editCategory": "Editar categoría",
+      "itemsCount": "{{count}} platos",
+      "tapHint": "Toca una categoría para ver sus platos",
+      "labelField": "Nombre",
+      "labelPlaceholder": "Ej. Desayunos",
+      "slugField": "URL slug",
+      "iconField": "Icono",
+      "labelRequired": "Introduce un nombre",
+      "slugRequired": "Introduce un slug",
+      "deleteConfirm": "¿Eliminar la categoría \"{{name}}\"?",
+      "deleteBlockedNonEmpty": "La categoría no está vacía. Elimina/mueve sus platos primero."
     },
     "item": {
       "namesAndDescriptions": "Nombre y descripción",

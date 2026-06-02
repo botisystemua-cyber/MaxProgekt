@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminShell } from '../components/AdminShell';
 import { PhotoStyleModal } from '../components/PhotoStyleModal';
@@ -40,6 +40,8 @@ function blankItem(): Partial<MenuItem> {
 
 export default function ItemEditPage() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const preselectedCategoryId = searchParams.get('categoryId');
   const isNew = !id;
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -56,6 +58,14 @@ export default function ItemEditPage() {
 
   const available = tenant?.available_languages ?? (['es'] as Language[]);
   const defaultLang = (tenant?.default_language ?? 'es') as Language;
+
+  // Передзаповнення категорії з ?categoryId — коли йдемо "+ Нова страва"
+  // з конкретної категорії, щоб не вибирати її вручну.
+  useEffect(() => {
+    if (isNew && preselectedCategoryId) {
+      setForm((f) => (f.category_id ? f : { ...f, category_id: preselectedCategoryId }));
+    }
+  }, [isNew, preselectedCategoryId]);
 
   // Завантажуємо item + його translations коли data приходить.
   useEffect(() => {
