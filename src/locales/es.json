@@ -37,7 +37,12 @@
     "showServer": "Llamar al camarero",
     "serverInstructions": "Muestra esta pantalla al camarero",
     "items_one": "{{count}} plato",
-    "items_other": "{{count}} platos"
+    "items_other": "{{count}} platos",
+    "submitOrder": "Hacer pedido",
+    "tablePlaceholder": "N° mesa (opc.)",
+    "notePlaceholder": "Comentarios (opc.)",
+    "orderPlaced": "¡Pedido realizado!",
+    "orderPlacedDesc": "La cocina ya lo ve. Tu camarero viene en seguida."
   },
   "admin": {
     "login": "Iniciar sesión",
@@ -172,7 +177,9 @@
     "shell": {
       "brand": "BotiLocal · Admin",
       "notLinked": "Cuenta no vinculada",
-      "notLinkedDesc": "Tu cuenta {{email}} aún no está vinculada a ningún restaurante. El owner debe añadirte en public.users con rol/tenant."
+      "notLinkedDesc": "Tu cuenta {{email}} aún no está vinculada a ningún restaurante. El owner debe añadirte en public.users con rol/tenant.",
+      "themeLight": "Tema claro",
+      "themeDark": "Tema oscuro"
     },
     "tile": {
       "menuTitle": "Menú",
@@ -198,7 +205,17 @@
       "featureStatus": "Estados: nuevo → cocinando → listo → servido",
       "featureAnalytics": "Analítica de platos top y tiempo de cocción",
       "featureHistory": "Historial de pedidos y cuenta por mesa",
-      "footer": "Función en desarrollo — disponible en próximas actualizaciones."
+      "footer": "Función en desarrollo — disponible en próximas actualizaciones.",
+      "allTab": "Todos",
+      "empty": "Aún no hay pedidos",
+      "statusNew": "Nuevo",
+      "statusCooking": "Cocinando",
+      "statusReady": "Listo",
+      "statusServed": "Servido",
+      "statusCancelled": "Cancelado",
+      "justNow": "ahora",
+      "minutesAgo": "hace {{count}}m",
+      "hoursAgo": "hace {{count}}h"
     }
   }
 }

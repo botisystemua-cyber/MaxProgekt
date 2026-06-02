@@ -211,7 +211,12 @@ export default function MenuPage() {
       </p>
 
       <CartFAB currency={currency} onClick={() => setCartOpen(true)} />
-      <CartDrawer open={cartOpen} currency={currency} onClose={() => setCartOpen(false)} />
+      <CartDrawer
+        open={cartOpen}
+        currency={currency}
+        tenantSlug={slug ?? ''}
+        onClose={() => setCartOpen(false)}
+      />
 
       {openItem ? (
         <MenuItemModal

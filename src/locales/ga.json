@@ -37,7 +37,12 @@
     "showServer": "Glaoigh ar an bhfreastalaí",
     "serverInstructions": "Taispeáin an scáileán seo don fhreastalaí",
     "items_one": "{{count}} mhias",
-    "items_other": "{{count}} miasa"
+    "items_other": "{{count}} miasa",
+    "submitOrder": "Cuir ordú",
+    "tablePlaceholder": "Uimh. boird (roghnach)",
+    "notePlaceholder": "Nótaí (roghnach)",
+    "orderPlaced": "Ordú curtha isteach!",
+    "orderPlacedDesc": "Tá an chistin á fheiceáil. Tá an freastalaí ar a bhealach."
   },
   "admin": {
     "login": "Logáil isteach",
@@ -172,7 +177,9 @@
     "shell": {
       "brand": "BotiLocal · Riarachán",
       "notLinked": "Cuntas gan nasc",
-      "notLinkedDesc": "Níl do chuntas auth {{email}} nasctha le bialann fós. Caithfidh an t-úinéir tú a chur le public.users."
+      "notLinkedDesc": "Níl do chuntas auth {{email}} nasctha le bialann fós. Caithfidh an t-úinéir tú a chur le public.users.",
+      "themeLight": "Téama geal",
+      "themeDark": "Téama dorcha"
     },
     "tile": {
       "menuTitle": "Biachlár",
@@ -198,7 +205,17 @@
       "featureStatus": "Stádais: nua → á chócaráil → réidh → freastalta",
       "featureAnalytics": "Anailís ar mhíreanna barr agus aimsir cócaireachta",
       "featureHistory": "Stair na n-orduithe agus admhálacha boird",
-      "footer": "Gné á forbairt — beidh fáil uirthi i nuashonruithe amach anseo."
+      "footer": "Gné á forbairt — beidh fáil uirthi i nuashonruithe amach anseo.",
+      "allTab": "Gach",
+      "empty": "Níl orduithe ann go fóill",
+      "statusNew": "Nua",
+      "statusCooking": "Á chócaráil",
+      "statusReady": "Réidh",
+      "statusServed": "Freastalta",
+      "statusCancelled": "Cealaithe",
+      "justNow": "anois",
+      "minutesAgo": "{{count}} nóim ó shin",
+      "hoursAgo": "{{count}} uair ó shin"
     }
   }
 }

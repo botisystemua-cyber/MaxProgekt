@@ -38,7 +38,12 @@
     "serverInstructions": "Pokaż ten ekran kelnerowi",
     "items_one": "{{count}} danie",
     "items_few": "{{count}} dania",
-    "items_other": "{{count}} dań"
+    "items_other": "{{count}} dań",
+    "submitOrder": "Złóż zamówienie",
+    "tablePlaceholder": "Nr stolika (opc.)",
+    "notePlaceholder": "Uwagi (opc.)",
+    "orderPlaced": "Zamówienie złożone!",
+    "orderPlacedDesc": "Kuchnia już widzi. Kelner zaraz przyjdzie."
   },
   "admin": {
     "login": "Zaloguj się",
@@ -174,7 +179,9 @@
     "shell": {
       "brand": "BotiLocal · Admin",
       "notLinked": "Konto nie powiązane",
-      "notLinkedDesc": "Twoje konto auth {{email}} nie jest jeszcze powiązane z żadną restauracją. Właściciel musi dodać Cię do public.users z rolą/tenantem."
+      "notLinkedDesc": "Twoje konto auth {{email}} nie jest jeszcze powiązane z żadną restauracją. Właściciel musi dodać Cię do public.users z rolą/tenantem.",
+      "themeLight": "Jasny motyw",
+      "themeDark": "Ciemny motyw"
     },
     "tile": {
       "menuTitle": "Menu",
@@ -200,7 +207,17 @@
       "featureStatus": "Statusy: nowe → w przygotowaniu → gotowe → wydane",
       "featureAnalytics": "Analityka top-dań i czasu przygotowania",
       "featureHistory": "Historia zamówień i rachunki po stolikach",
-      "footer": "Funkcja w przygotowaniu — będzie dostępna w kolejnych wydaniach."
+      "footer": "Funkcja w przygotowaniu — będzie dostępna w kolejnych wydaniach.",
+      "allTab": "Wszystkie",
+      "empty": "Brak zamówień",
+      "statusNew": "Nowe",
+      "statusCooking": "W przygotowaniu",
+      "statusReady": "Gotowe",
+      "statusServed": "Wydane",
+      "statusCancelled": "Anulowane",
+      "justNow": "teraz",
+      "minutesAgo": "{{count}} min temu",
+      "hoursAgo": "{{count}} godz temu"
     }
   }
 }

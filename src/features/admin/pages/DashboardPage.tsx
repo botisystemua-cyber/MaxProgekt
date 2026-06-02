@@ -40,17 +40,18 @@ interface StatProps {
 
 function StatPill({ value, label, accent = 'default' }: StatProps) {
   const animated = useCountUp(value);
-  const valueColor = accent === 'emerald' ? 'text-emerald-400' : 'text-white';
+  const valueColor =
+    accent === 'emerald'
+      ? 'text-emerald-600 dark:text-emerald-400'
+      : 'text-slate-900 dark:text-white';
   return (
-    <div
-      className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-slate-800 to-slate-900 px-3 py-3 ring-1 ring-white/5 shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]"
-    >
+    <div className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-slate-50 to-white px-3 py-3 ring-1 ring-slate-200 shadow-soft dark:from-slate-800 dark:to-slate-900 dark:ring-white/5 dark:shadow-[0_4px_16px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]">
       <div
-        className={`text-3xl font-black tabular-nums ${valueColor} drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]`}
+        className={`text-3xl font-black tabular-nums ${valueColor} dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]`}
       >
         {animated}
       </div>
-      <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+      <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
         {label}
       </div>
     </div>
@@ -68,12 +69,12 @@ function ActionTile({ to, icon, title, hint }: ActionTileProps) {
   return (
     <Link
       to={to}
-      className="flex aspect-square flex-col items-start justify-between rounded-2xl bg-slate-900 p-4 ring-1 ring-slate-800 transition active:scale-95 hover:bg-slate-800"
+      className="flex aspect-square flex-col items-start justify-between rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200 shadow-soft transition active:scale-95 hover:bg-slate-100 dark:bg-slate-900 dark:ring-slate-800 dark:shadow-none dark:hover:bg-slate-800"
     >
       <span className="text-3xl">{icon}</span>
       <div>
-        <div className="text-base font-bold text-white">{title}</div>
-        <div className="mt-0.5 text-[11px] text-slate-400">{hint}</div>
+        <div className="text-base font-bold text-slate-900 dark:text-white">{title}</div>
+        <div className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">{hint}</div>
       </div>
     </Link>
   );

@@ -38,7 +38,12 @@
     "serverInstructions": "Покажите этот экран официанту",
     "items_one": "{{count}} блюдо",
     "items_few": "{{count}} блюда",
-    "items_other": "{{count}} блюд"
+    "items_other": "{{count}} блюд",
+    "submitOrder": "Оформить",
+    "tablePlaceholder": "№ столика (опц.)",
+    "notePlaceholder": "Пожелания (опц.)",
+    "orderPlaced": "Заказ принят!",
+    "orderPlacedDesc": "Кухня уже видит. Дождись когда официант принесёт."
   },
   "admin": {
     "login": "Войти",
@@ -174,7 +179,9 @@
     "shell": {
       "brand": "BotiLocal · Админ",
       "notLinked": "Аккаунт не привязан",
-      "notLinkedDesc": "Ваш auth-аккаунт {{email}} ещё не привязан к ресторану. Владелец должен добавить вас в public.users с ролью/тенантом."
+      "notLinkedDesc": "Ваш auth-аккаунт {{email}} ещё не привязан к ресторану. Владелец должен добавить вас в public.users с ролью/тенантом.",
+      "themeLight": "Светлая тема",
+      "themeDark": "Тёмная тема"
     },
     "tile": {
       "menuTitle": "Меню",
@@ -200,7 +207,17 @@
       "featureStatus": "Статусы: новый → готовится → готов → выдан",
       "featureAnalytics": "Аналитика топ-блюд и времени приготовления",
       "featureHistory": "История заказов и чек по столику",
-      "footer": "Функционал в разработке — будет доступен в следующих обновлениях."
+      "footer": "Функционал в разработке — будет доступен в следующих обновлениях.",
+      "allTab": "Все",
+      "empty": "Пока заказов нет",
+      "statusNew": "Новый",
+      "statusCooking": "Готовится",
+      "statusReady": "Готов",
+      "statusServed": "Выдан",
+      "statusCancelled": "Отменён",
+      "justNow": "только что",
+      "minutesAgo": "{{count}} мин назад",
+      "hoursAgo": "{{count}} ч назад"
     }
   }
 }

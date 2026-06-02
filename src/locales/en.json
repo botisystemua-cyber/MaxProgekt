@@ -37,7 +37,12 @@
     "showServer": "Call server",
     "serverInstructions": "Show this screen to your server",
     "items_one": "{{count}} dish",
-    "items_other": "{{count}} dishes"
+    "items_other": "{{count}} dishes",
+    "submitOrder": "Place order",
+    "tablePlaceholder": "Table # (optional)",
+    "notePlaceholder": "Notes (optional)",
+    "orderPlaced": "Order placed!",
+    "orderPlacedDesc": "The kitchen has it. Sit tight, your server is on the way."
   },
   "admin": {
     "login": "Sign in",
@@ -172,7 +177,9 @@
     "shell": {
       "brand": "BotiLocal · Admin",
       "notLinked": "Account not linked",
-      "notLinkedDesc": "Your auth account {{email}} is not yet linked to any restaurant. Owner needs to add you to public.users with role/tenant."
+      "notLinkedDesc": "Your auth account {{email}} is not yet linked to any restaurant. Owner needs to add you to public.users with role/tenant.",
+      "themeLight": "Light theme",
+      "themeDark": "Dark theme"
     },
     "tile": {
       "menuTitle": "Menu",
@@ -198,7 +205,17 @@
       "featureStatus": "Statuses: new → cooking → ready → served",
       "featureAnalytics": "Top items and cook-time analytics",
       "featureHistory": "Order history and table receipts",
-      "footer": "Feature in progress — coming in future releases."
+      "footer": "Feature in progress — coming in future releases.",
+      "allTab": "All",
+      "empty": "No orders yet",
+      "statusNew": "New",
+      "statusCooking": "Cooking",
+      "statusReady": "Ready",
+      "statusServed": "Served",
+      "statusCancelled": "Cancelled",
+      "justNow": "just now",
+      "minutesAgo": "{{count}}m ago",
+      "hoursAgo": "{{count}}h ago"
     }
   }
 }
