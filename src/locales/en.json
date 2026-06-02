@@ -146,7 +146,19 @@
     },
     "menuManagePage": {
       "noCategories": "No categories yet",
-      "empty": "Empty"
+      "empty": "Empty",
+      "newCategory": "New category",
+      "editCategory": "Edit category",
+      "itemsCount": "{{count}} items",
+      "tapHint": "Tap a category to see its items",
+      "labelField": "Label",
+      "labelPlaceholder": "e.g. Breakfast",
+      "slugField": "URL slug",
+      "iconField": "Icon",
+      "labelRequired": "Enter a label",
+      "slugRequired": "Enter a slug",
+      "deleteConfirm": "Delete category \"{{name}}\"?",
+      "deleteBlockedNonEmpty": "Category is not empty. Remove/move its items first."
     },
     "item": {
       "namesAndDescriptions": "Name & description",

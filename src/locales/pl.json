@@ -148,7 +148,19 @@
     },
     "menuManagePage": {
       "noCategories": "Brak kategorii",
-      "empty": "Puste"
+      "empty": "Puste",
+      "newCategory": "Nowa kategoria",
+      "editCategory": "Edytuj kategorię",
+      "itemsCount": "{{count}} pozycji",
+      "tapHint": "Dotknij kategorii aby zobaczyć jej pozycje",
+      "labelField": "Nazwa",
+      "labelPlaceholder": "np. Śniadania",
+      "slugField": "URL slug",
+      "iconField": "Ikona",
+      "labelRequired": "Wprowadź nazwę",
+      "slugRequired": "Wprowadź slug",
+      "deleteConfirm": "Usunąć kategorię \"{{name}}\"?",
+      "deleteBlockedNonEmpty": "Kategoria nie jest pusta. Najpierw usuń/przenieś jej pozycje."
     },
     "item": {
       "namesAndDescriptions": "Nazwa i opis",

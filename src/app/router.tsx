@@ -6,6 +6,7 @@ import MenuPage from '@/features/menu/pages/MenuPage';
 import LoginPage from '@/features/admin/pages/LoginPage';
 import DashboardPage from '@/features/admin/pages/DashboardPage';
 import MenuManagePage from '@/features/admin/pages/MenuManagePage';
+import CategoryItemsPage from '@/features/admin/pages/CategoryItemsPage';
 import ItemEditPage from '@/features/admin/pages/ItemEditPage';
 import SpecialsPage from '@/features/admin/pages/SpecialsPage';
 import SettingsPage from '@/features/admin/pages/SettingsPage';
@@ -30,6 +31,7 @@ export default function AppRouter() {
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/admin/dashboard" element={<DashboardPage />} />
         <Route path="/admin/menu" element={<MenuManagePage />} />
+        <Route path="/admin/menu/category/:catId" element={<CategoryItemsPage />} />
         <Route path="/admin/menu/item/new" element={<ItemEditPage />} />
         <Route path="/admin/menu/item/:id" element={<ItemEditPage />} />
         <Route path="/admin/specials" element={<SpecialsPage />} />

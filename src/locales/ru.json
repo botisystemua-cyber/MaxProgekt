@@ -148,7 +148,19 @@
     },
     "menuManagePage": {
       "noCategories": "Категорий пока нет",
-      "empty": "Пусто"
+      "empty": "Пусто",
+      "newCategory": "Новая категория",
+      "editCategory": "Редактировать категорию",
+      "itemsCount": "{{count}} блюд",
+      "tapHint": "Тапни категорию чтобы увидеть блюда",
+      "labelField": "Название",
+      "labelPlaceholder": "Напр. Завтраки",
+      "slugField": "URL-сегмент (slug)",
+      "iconField": "Иконка",
+      "labelRequired": "Введите название",
+      "slugRequired": "Введите slug",
+      "deleteConfirm": "Удалить категорию \"{{name}}\"?",
+      "deleteBlockedNonEmpty": "Категория не пуста. Сначала удалите/перенесите все блюда."
     },
     "item": {
       "namesAndDescriptions": "Название и описание",

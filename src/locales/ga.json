@@ -146,7 +146,19 @@
     },
     "menuManagePage": {
       "noCategories": "Gan catagóirí fós",
-      "empty": "Folamh"
+      "empty": "Folamh",
+      "newCategory": "Catagóir nua",
+      "editCategory": "Cuir catagóir in eagar",
+      "itemsCount": "{{count}} mír",
+      "tapHint": "Tap ar catagóir chun na míreanna a fheiceáil",
+      "labelField": "Lipéad",
+      "labelPlaceholder": "m.sh. Bricfeasta",
+      "slugField": "Slug URL",
+      "iconField": "Deilbhín",
+      "labelRequired": "Cuir lipéad isteach",
+      "slugRequired": "Cuir slug isteach",
+      "deleteConfirm": "An scriosfaidh catagóir \"{{name}}\"?",
+      "deleteBlockedNonEmpty": "Níl an chatagóir folamh. Bain/aistrigh a míreanna ar dtús."
     },
     "item": {
       "namesAndDescriptions": "Ainm agus cur síos",
