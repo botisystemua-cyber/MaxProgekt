@@ -1,9 +1,21 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { useAppStore } from '@/shared/stores/appStore';
 import { useThemeStore } from '@/shared/stores/themeStore';
+import type { Language } from '@/shared/types/database';
 import { useAdminTenant } from '../hooks/useAdminTenant';
 import { canAccess, type Section } from '../lib/permissions';
+
+const ADMIN_LANGS: Array<{ code: Language; label: string }> = [
+  { code: 'es', label: 'ES' },
+  { code: 'en', label: 'EN' },
+  { code: 'uk', label: 'UK' },
+  { code: 'ru', label: 'RU' },
+  { code: 'de', label: 'DE' },
+  { code: 'pl', label: 'PL' },
+  { code: 'ga', label: 'GA' },
+];
 
 interface Tab {
   to: string;
@@ -24,11 +36,18 @@ const allTabs: Tab[] = [
 ];
 
 export function AdminShell({ children }: { children?: React.ReactNode }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user, currentUser, currentUserLoading, signOut } = useAuth();
   const { tenant } = useAdminTenant();
   const theme = useThemeStore((s) => s.theme);
   const toggleTheme = useThemeStore((s) => s.toggle);
+  const language = useAppStore((s) => s.language);
+  const setLanguage = useAppStore((s) => s.setLanguage);
+
+  function changeLanguage(lang: Language) {
+    setLanguage(lang);
+    void i18n.changeLanguage(lang);
+  }
 
   // Юзер залогінений, але без public.users-запису → корисний state-екран
   // з інструкцією, а не порожній admin. currentUserLoading охороняє від
@@ -68,6 +87,22 @@ export function AdminShell({ children }: { children?: React.ReactNode }) {
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-2">
+          <label className="sr-only" htmlFor="admin-lang-select">
+            {t('admin.shell.changeLanguage', { defaultValue: 'Change language' })}
+          </label>
+          <select
+            id="admin-lang-select"
+            value={language}
+            onChange={(e) => changeLanguage(e.target.value as Language)}
+            translate="no"
+            className="h-8 rounded-lg bg-slate-100 px-2 text-[11px] font-bold uppercase tracking-wider text-slate-700 outline-none focus:ring-2 focus:ring-brand-primary dark:bg-slate-800 dark:text-slate-200"
+          >
+            {ADMIN_LANGS.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.label}
+              </option>
+            ))}
+          </select>
           <button
             type="button"
             onClick={toggleTheme}
