@@ -29,8 +29,10 @@ export default function CategoryItemsPage() {
     [data, catId],
   );
 
-  // Якщо завантажили дані і категорії з таким id нема — назад на список.
-  if (data && !category && !loading) {
+  // Редірект тільки коли є дані з реальними категоріями, але серед них
+  // нема цієї. Інакше при першому рендері (tenant ще не завантажений,
+  // data повертається як empty placeholder) нас викидало назад одразу.
+  if (data && data.categories.length > 0 && !category) {
     return <Navigate to="/admin/menu" replace />;
   }
 
