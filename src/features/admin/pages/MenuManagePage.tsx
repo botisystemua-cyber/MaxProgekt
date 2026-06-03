@@ -56,17 +56,22 @@ export default function MenuManagePage() {
                 fallback,
               );
               return (
-                <div
-                  key={cat.id}
-                  className="group relative flex aspect-square flex-col items-start justify-between rounded-2xl bg-slate-50 p-4 shadow-soft ring-1 ring-slate-200 transition active:scale-95 hover:bg-slate-100 dark:bg-slate-900 dark:shadow-none dark:ring-slate-800 dark:hover:bg-slate-800"
-                >
+                <div key={cat.id} className="group relative aspect-square">
                   <Link
                     to={`/admin/menu/category/${cat.id}`}
-                    className="absolute inset-0 z-0 rounded-2xl"
                     aria-label={name}
-                  />
-
-                  <span className="relative z-10 text-3xl">{cat.icon}</span>
+                    className="flex h-full w-full flex-col items-start justify-between rounded-2xl bg-slate-50 p-4 shadow-soft ring-1 ring-slate-200 transition active:scale-95 hover:bg-slate-100 dark:bg-slate-900 dark:shadow-none dark:ring-slate-800 dark:hover:bg-slate-800"
+                  >
+                    <span className="text-3xl">{cat.icon}</span>
+                    <div>
+                      <div className="text-base font-bold text-slate-900 dark:text-white">
+                        {name}
+                      </div>
+                      <div className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+                        {t('admin.menuManagePage.itemsCount', { count })}
+                      </div>
+                    </div>
+                  </Link>
 
                   <button
                     type="button"
@@ -76,17 +81,10 @@ export default function MenuManagePage() {
                       setEditing(cat);
                     }}
                     aria-label={t('common.edit')}
-                    className="absolute right-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-lg bg-white/80 text-slate-600 opacity-0 ring-1 ring-slate-200 transition-opacity hover:bg-white group-hover:opacity-100 dark:bg-slate-800/80 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800"
+                    className="absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-lg bg-white/90 text-slate-600 ring-1 ring-slate-200 transition-opacity hover:bg-white sm:opacity-0 sm:group-hover:opacity-100 sm:focus:opacity-100 dark:bg-slate-800/90 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-800"
                   >
                     ✎
                   </button>
-
-                  <div className="relative z-10">
-                    <div className="text-base font-bold text-slate-900 dark:text-white">{name}</div>
-                    <div className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
-                      {t('admin.menuManagePage.itemsCount', { count })}
-                    </div>
-                  </div>
                 </div>
               );
             })}
