@@ -182,7 +182,7 @@ function CreateSpecialModal({ items, onClose, onCreate }: CreateModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-3 sm:items-center"
+      className="fixed inset-0 z-[60] flex items-end justify-center bg-black/70 p-3 sm:items-center"
       onClick={(e) => {
         if (e.target === e.currentTarget && !saving) onClose();
       }}
