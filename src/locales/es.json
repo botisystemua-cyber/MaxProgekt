@@ -228,6 +228,26 @@
       "justNow": "ahora",
       "minutesAgo": "hace {{count}}m",
       "hoursAgo": "hace {{count}}h"
+    },
+    "specialsPage": {
+      "title": "Promociones",
+      "create": "Crear",
+      "hint": "Gestiona los platos del día y promociones que aparecen en el ticker del menú.",
+      "empty": "Aún no hay promociones",
+      "typeDaily": "Plato del Día",
+      "typePromo": "Promo",
+      "typeHappyHour": "Happy Hour",
+      "expired": "Expirado",
+      "until": "hasta",
+      "dish": "Plato",
+      "type": "Tipo",
+      "specialPrice": "Precio especial (€)",
+      "duration": "Duración",
+      "durationUnlimited": "Sin límite",
+      "hours": "h",
+      "enable": "Activar",
+      "disable": "Desactivar",
+      "deleteConfirm": "¿Eliminar esta promoción?"
     }
   }
 }

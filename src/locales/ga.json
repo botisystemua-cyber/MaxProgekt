@@ -228,6 +228,26 @@
       "justNow": "anois",
       "minutesAgo": "{{count}} nóim ó shin",
       "hoursAgo": "{{count}} uair ó shin"
+    },
+    "specialsPage": {
+      "title": "Tairiscintí",
+      "create": "Cruthaigh",
+      "hint": "Bainistigh tairiscintí an lae a thaispeántar i dticear an bhiachláir.",
+      "empty": "Níl tairiscintí ann go fóill",
+      "typeDaily": "Mias an Lae",
+      "typePromo": "Tairiscint",
+      "typeHappyHour": "Happy Hour",
+      "expired": "As feidhm",
+      "until": "go dtí",
+      "dish": "Mias",
+      "type": "Cineál",
+      "specialPrice": "Praghas speisialta (€)",
+      "duration": "Fad",
+      "durationUnlimited": "Gan teorainn",
+      "hours": "u",
+      "enable": "Cumasaigh",
+      "disable": "Díchumasaigh",
+      "deleteConfirm": "An tairiscint seo a scriosadh?"
     }
   }
 }

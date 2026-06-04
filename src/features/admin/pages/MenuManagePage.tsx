@@ -27,13 +27,21 @@ export default function MenuManagePage() {
       <div className="mx-auto max-w-3xl space-y-4 p-4">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold">{t('admin.menuTab')}</h1>
-          <button
-            type="button"
-            onClick={() => setEditing('new')}
-            className="rounded-lg bg-brand-primary px-3 py-1.5 text-sm font-semibold text-white shadow-soft"
-          >
-            ＋ {t('admin.menuManagePage.newCategory')}
-          </button>
+          <div className="flex gap-2">
+            <Link
+              to="/admin/specials"
+              className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+            >
+              🔥 {t('admin.specialsPage.title')}
+            </Link>
+            <button
+              type="button"
+              onClick={() => setEditing('new')}
+              className="rounded-lg bg-brand-primary px-3 py-1.5 text-sm font-semibold text-white shadow-soft"
+            >
+              ＋ {t('admin.menuManagePage.newCategory')}
+            </button>
+          </div>
         </div>
 
         {loading && categoriesWithCount.length === 0 ? (
