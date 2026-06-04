@@ -230,6 +230,26 @@
       "justNow": "teraz",
       "minutesAgo": "{{count}} min temu",
       "hoursAgo": "{{count}} godz temu"
+    },
+    "specialsPage": {
+      "title": "Promocje",
+      "create": "Stwórz",
+      "hint": "Zarządzaj daniami dnia i promocjami pokazywanymi na pasku menu.",
+      "empty": "Brak promocji",
+      "typeDaily": "Danie dnia",
+      "typePromo": "Promocja",
+      "typeHappyHour": "Happy Hour",
+      "expired": "Wygasło",
+      "until": "do",
+      "dish": "Danie",
+      "type": "Typ",
+      "specialPrice": "Cena specjalna (€)",
+      "duration": "Czas trwania",
+      "durationUnlimited": "Bez limitu",
+      "hours": "godz",
+      "enable": "Włącz",
+      "disable": "Wyłącz",
+      "deleteConfirm": "Usunąć tę promocję?"
     }
   }
 }

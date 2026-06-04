@@ -230,6 +230,26 @@
       "justNow": "щойно",
       "minutesAgo": "{{count}} хв тому",
       "hoursAgo": "{{count}} год тому"
+    },
+    "specialsPage": {
+      "title": "Бігуча стрічка",
+      "create": "Створити",
+      "hint": "Тут керуєш блюдами дня та акціями що крутяться у стрічці на меню клієнта.",
+      "empty": "Поки що нема жодної акції",
+      "typeDaily": "Блюдо дня",
+      "typePromo": "Акція",
+      "typeHappyHour": "Happy Hour",
+      "expired": "Завершено",
+      "until": "до",
+      "dish": "Страва",
+      "type": "Тип",
+      "specialPrice": "Спец-ціна (€)",
+      "duration": "Тривалість",
+      "durationUnlimited": "Без обмеження",
+      "hours": "год",
+      "enable": "Увімкнути",
+      "disable": "Вимкнути",
+      "deleteConfirm": "Видалити цю акцію?"
     }
   }
 }

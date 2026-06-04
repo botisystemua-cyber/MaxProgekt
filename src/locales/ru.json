@@ -230,6 +230,26 @@
       "justNow": "только что",
       "minutesAgo": "{{count}} мин назад",
       "hoursAgo": "{{count}} ч назад"
+    },
+    "specialsPage": {
+      "title": "Бегущая строка",
+      "create": "Создать",
+      "hint": "Здесь управляешь блюдами дня и акциями в бегущей строке клиентского меню.",
+      "empty": "Пока нет ни одной акции",
+      "typeDaily": "Блюдо дня",
+      "typePromo": "Акция",
+      "typeHappyHour": "Happy Hour",
+      "expired": "Завершено",
+      "until": "до",
+      "dish": "Блюдо",
+      "type": "Тип",
+      "specialPrice": "Спец-цена (€)",
+      "duration": "Длительность",
+      "durationUnlimited": "Без ограничения",
+      "hours": "ч",
+      "enable": "Включить",
+      "disable": "Выключить",
+      "deleteConfirm": "Удалить эту акцию?"
     }
   }
 }

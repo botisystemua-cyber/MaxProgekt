@@ -228,6 +228,26 @@
       "justNow": "just now",
       "minutesAgo": "{{count}}m ago",
       "hoursAgo": "{{count}}h ago"
+    },
+    "specialsPage": {
+      "title": "Ticker / Specials",
+      "create": "Create",
+      "hint": "Manage daily specials and promotions shown in the customer menu ticker.",
+      "empty": "No specials yet",
+      "typeDaily": "Daily Special",
+      "typePromo": "Promo",
+      "typeHappyHour": "Happy Hour",
+      "expired": "Expired",
+      "until": "until",
+      "dish": "Dish",
+      "type": "Type",
+      "specialPrice": "Special price (€)",
+      "duration": "Duration",
+      "durationUnlimited": "No limit",
+      "hours": "h",
+      "enable": "Enable",
+      "disable": "Disable",
+      "deleteConfirm": "Delete this special?"
     }
   }
 }

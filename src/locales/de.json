@@ -228,6 +228,26 @@
       "justNow": "jetzt",
       "minutesAgo": "vor {{count}} Min",
       "hoursAgo": "vor {{count}} Std"
+    },
+    "specialsPage": {
+      "title": "Aktionen",
+      "create": "Erstellen",
+      "hint": "Verwalte Tagesgerichte und Aktionen für den Menü-Ticker.",
+      "empty": "Noch keine Aktionen",
+      "typeDaily": "Tagesgericht",
+      "typePromo": "Aktion",
+      "typeHappyHour": "Happy Hour",
+      "expired": "Abgelaufen",
+      "until": "bis",
+      "dish": "Gericht",
+      "type": "Typ",
+      "specialPrice": "Spezialpreis (€)",
+      "duration": "Dauer",
+      "durationUnlimited": "Unbegrenzt",
+      "hours": "Std",
+      "enable": "Aktivieren",
+      "disable": "Deaktivieren",
+      "deleteConfirm": "Diese Aktion löschen?"
     }
   }
 }
