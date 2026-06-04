@@ -211,7 +211,7 @@ export default function ItemEditPage() {
 
   return (
     <AdminShell>
-      <form onSubmit={handleSave} className="mx-auto max-w-3xl space-y-5 p-4">
+      <form onSubmit={handleSave} className="mx-auto max-w-3xl space-y-5 p-4 pb-32">
         <Link to="/admin/menu" className="text-sm text-brand-primary">
           ← {t('common.back')}
         </Link>
@@ -469,25 +469,27 @@ export default function ItemEditPage() {
           </label>
         </fieldset>
 
-        {/* ACTIONS */}
-        <div className="flex gap-3">
-          <button
-            type="submit"
-            disabled={saving}
-            className="flex-1 rounded-2xl bg-brand-primary py-3 font-bold text-white shadow-raised disabled:opacity-50"
-          >
-            {saving ? t('common.loading') : t('common.save')}
-          </button>
-          {!isNew ? (
+        {/* ACTIONS — sticky над bottom-nav, щоб Save завжди був видний */}
+        <div className="safe-bottom fixed inset-x-0 bottom-[64px] z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
+          <div className="mx-auto flex max-w-3xl gap-3">
             <button
-              type="button"
-              onClick={() => void handleDelete()}
+              type="submit"
               disabled={saving}
-              className="rounded-2xl bg-rose-900/40 px-5 font-semibold text-rose-200 ring-1 ring-rose-900 disabled:opacity-50"
+              className="flex-1 rounded-2xl bg-brand-primary py-3 font-bold text-white shadow-raised disabled:opacity-50"
             >
-              {t('common.delete')}
+              {saving ? t('common.loading') : t('common.save')}
             </button>
-          ) : null}
+            {!isNew ? (
+              <button
+                type="button"
+                onClick={() => void handleDelete()}
+                disabled={saving}
+                className="rounded-2xl bg-rose-100 px-5 font-semibold text-rose-700 ring-1 ring-rose-200 disabled:opacity-50 dark:bg-rose-900/40 dark:text-rose-200 dark:ring-rose-900"
+              >
+                {t('common.delete')}
+              </button>
+            ) : null}
+          </div>
         </div>
       </form>
 
