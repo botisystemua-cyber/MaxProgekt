@@ -25,7 +25,9 @@
     "search": "Buscar plato…",
     "noResults": "Sin resultados",
     "allergens": "Alérgenos",
-    "tenantNotFound": "Restaurante no encontrado"
+    "tenantNotFound": "Restaurante no encontrado",
+    "allCategories": "Todas las categorías",
+    "itemsCount": "{{count}} platos"
   },
   "cart": {
     "title": "Cesta",
