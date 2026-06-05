@@ -25,7 +25,9 @@
     "search": "Gericht suchen…",
     "noResults": "Keine Ergebnisse",
     "allergens": "Allergene",
-    "tenantNotFound": "Restaurant nicht gefunden"
+    "tenantNotFound": "Restaurant nicht gefunden",
+    "allCategories": "Alle Kategorien",
+    "itemsCount": "{{count}} Gerichte"
   },
   "cart": {
     "title": "Warenkorb",

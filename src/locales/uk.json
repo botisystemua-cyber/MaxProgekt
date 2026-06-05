@@ -25,7 +25,9 @@
     "search": "Знайти страву…",
     "noResults": "Нічого не знайдено",
     "allergens": "Алергени",
-    "tenantNotFound": "Заклад не знайдено"
+    "tenantNotFound": "Заклад не знайдено",
+    "allCategories": "Усі категорії",
+    "itemsCount": "{{count}} страв"
   },
   "cart": {
     "title": "Кошик",

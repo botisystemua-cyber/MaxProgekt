@@ -13,6 +13,7 @@ import { RestaurantHeader } from '../components/RestaurantHeader';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { SearchBar } from '../components/SearchBar';
 import { CategoryTabs } from '../components/CategoryTabs';
+import { CategoryList } from '../components/CategoryList';
 import { MenuItemCard } from '../components/MenuItemCard';
 import { MenuItemModal } from '../components/MenuItemModal';
 import { SpecialsTicker } from '../components/SpecialsTicker';
@@ -55,18 +56,19 @@ export default function MenuPage() {
     }
   }, [tenant, language, i18n, setLanguage]);
 
-  // Перший таб активний за замовчуванням.
-  useEffect(() => {
-    if (!activeCategoryId && data?.categories.length) {
-      setActiveCategoryId(data.categories[0].id);
-    }
-  }, [data, activeCategoryId]);
+  // НЕ автоселектимо першу категорію — null означає "категорійний лендінг".
+  // Користувач сам обирає категорію тапом, тоді показуємо страви.
 
   // Deep-link на конкретну страву через /menu/:slug/item/:itemId.
   useEffect(() => {
     if (!itemId || !data) return;
     const it = data.items.find((i) => i.id === itemId);
-    if (it) setOpenItem(it);
+    if (it) {
+      setOpenItem(it);
+      // Якщо deep-link веде у конкретну страву — переходимо у її категорію,
+      // щоб після закриття модалки користувач лишився серед "сусідніх" страв.
+      setActiveCategoryId(it.category_id);
+    }
   }, [itemId, data]);
 
   const fallbackLang = (tenant?.default_language ?? 'es') as Language;
@@ -162,49 +164,77 @@ export default function MenuPage() {
         />
       ) : null}
 
-      <div className="sticky top-0 z-30 bg-gradient-to-b from-slate-50 via-slate-50 to-slate-50/95 px-5 pb-3 pt-4 backdrop-blur-md">
-        <SearchBar value={search} onChange={setSearch} />
-        {!search ? (
-          <div className="mt-3.5">
-            <CategoryTabs
-              categories={data?.categories ?? []}
-              translations={data?.categoryTranslations ?? []}
-              language={language}
-              fallbackLanguage={fallbackLang}
-              activeId={activeCategoryId}
-              onSelect={setActiveCategoryId}
-            />
-          </div>
-        ) : null}
-      </div>
+      {/* showCategoryLanding=true → вертикальний список категорій.
+          showCategoryLanding=false → CategoryTabs + items (як було).
+          Пошук завжди вмикає items mode щоб шукати по всіх стравах. */}
+      {(() => {
+        const showCategoryLanding = !activeCategoryId && !search;
+        return (
+          <>
+            <div className="sticky top-0 z-30 bg-gradient-to-b from-slate-50 via-slate-50 to-slate-50/95 px-5 pb-3 pt-4 backdrop-blur-md">
+              <SearchBar value={search} onChange={setSearch} />
+              {!showCategoryLanding && !search ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setActiveCategoryId(null)}
+                    className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand-primary hover:underline"
+                  >
+                    ← {t('menu.allCategories', { defaultValue: 'Усі категорії' })}
+                  </button>
+                  <div className="mt-2.5">
+                    <CategoryTabs
+                      categories={data?.categories ?? []}
+                      translations={data?.categoryTranslations ?? []}
+                      language={language}
+                      fallbackLanguage={fallbackLang}
+                      activeId={activeCategoryId}
+                      onSelect={setActiveCategoryId}
+                    />
+                  </div>
+                </>
+              ) : null}
+            </div>
 
-      <section className="flex-1 px-5 pt-3">
-        {menuError ? (
-          <p className="rounded-xl bg-rose-50 p-4 text-sm text-rose-700">
-            {t('common.error')}: {menuError.message}
-          </p>
-        ) : filteredItems.length === 0 ? (
-          <p className="py-10 text-center text-slate-500">{t('menu.noResults')}</p>
-        ) : (
-          <ul className="space-y-3 pb-32">
-            {filteredItems.map((item) => (
-              <li key={item.id}>
-                <MenuItemCard
-                  item={item}
-                  translations={data?.itemTranslations ?? []}
+            <section className="flex-1 px-5 pt-3">
+              {menuError ? (
+                <p className="rounded-xl bg-rose-50 p-4 text-sm text-rose-700">
+                  {t('common.error')}: {menuError.message}
+                </p>
+              ) : showCategoryLanding ? (
+                <CategoryList
+                  categories={data?.categories ?? []}
+                  items={data?.items ?? []}
+                  translations={data?.categoryTranslations ?? []}
                   language={language}
                   fallbackLanguage={fallbackLang}
-                  currency={currency}
-                  special={
-                    activeSpecial?.menu_item_id === item.id ? activeSpecial : undefined
-                  }
-                  onClick={() => handleOpenItem(item)}
+                  onSelect={setActiveCategoryId}
                 />
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+              ) : filteredItems.length === 0 ? (
+                <p className="py-10 text-center text-slate-500">{t('menu.noResults')}</p>
+              ) : (
+                <ul className="space-y-3 pb-32">
+                  {filteredItems.map((item) => (
+                    <li key={item.id}>
+                      <MenuItemCard
+                        item={item}
+                        translations={data?.itemTranslations ?? []}
+                        language={language}
+                        fallbackLanguage={fallbackLang}
+                        currency={currency}
+                        special={
+                          activeSpecial?.menu_item_id === item.id ? activeSpecial : undefined
+                        }
+                        onClick={() => handleOpenItem(item)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          </>
+        );
+      })()}
 
       <p className="pb-4 pt-2 text-center text-[10px] font-medium text-slate-400">
         Powered by <span className="font-bold text-slate-600">BotiLocal</span>

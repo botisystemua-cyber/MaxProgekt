@@ -25,7 +25,9 @@
     "search": "Найти блюдо…",
     "noResults": "Ничего не найдено",
     "allergens": "Аллергены",
-    "tenantNotFound": "Заведение не найдено"
+    "tenantNotFound": "Заведение не найдено",
+    "allCategories": "Все категории",
+    "itemsCount": "{{count}} блюд"
   },
   "cart": {
     "title": "Корзина",

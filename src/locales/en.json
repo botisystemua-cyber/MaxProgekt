@@ -25,7 +25,9 @@
     "search": "Search dishes…",
     "noResults": "No results",
     "allergens": "Allergens",
-    "tenantNotFound": "Restaurant not found"
+    "tenantNotFound": "Restaurant not found",
+    "allCategories": "All categories",
+    "itemsCount": "{{count}} items"
   },
   "cart": {
     "title": "Cart",

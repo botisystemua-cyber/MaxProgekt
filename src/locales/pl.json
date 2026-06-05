@@ -25,7 +25,9 @@
     "search": "Szukaj dania…",
     "noResults": "Brak wyników",
     "allergens": "Alergeny",
-    "tenantNotFound": "Restauracja nie znaleziona"
+    "tenantNotFound": "Restauracja nie znaleziona",
+    "allCategories": "Wszystkie kategorie",
+    "itemsCount": "{{count}} pozycji"
   },
   "cart": {
     "title": "Koszyk",

@@ -25,7 +25,9 @@
     "search": "Cuardaigh mias…",
     "noResults": "Gan torthaí",
     "allergens": "Ailléirgíní",
-    "tenantNotFound": "Bialann gan aimsiú"
+    "tenantNotFound": "Bialann gan aimsiú",
+    "allCategories": "Gach catagóir",
+    "itemsCount": "{{count}} mír"
   },
   "cart": {
     "title": "Ciseán",
