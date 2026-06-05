@@ -2,6 +2,12 @@
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
+  // iOS Safari тригерить :hover при тапі і не знімає → попередня обрана
+  // картка "залипає" візуально. Цей опт-ін робить hover: класи активними
+  // лише на pointer:fine (миша). Тач-девайси не отримують hover-стилі.
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {
